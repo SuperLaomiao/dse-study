@@ -2,10 +2,8 @@
 
 import { useActionState } from "react";
 
-import {
-  idleProfileActionState,
-  saveLearnerProfileAction
-} from "@/app/actions/profile";
+import { saveLearnerProfileAction } from "@/app/actions/profile";
+import { idleProfileActionState } from "@/lib/action-states";
 import type { LearnerProfileRecord } from "@/lib/types";
 
 export default function OnboardingProfileForm({

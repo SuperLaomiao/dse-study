@@ -2,10 +2,8 @@
 
 import { useActionState } from "react";
 
-import {
-  idleAccountActionState,
-  signInWithEmailAction
-} from "@/app/actions/account";
+import { signInWithEmailAction } from "@/app/actions/account";
+import { idleAccountActionState } from "@/lib/action-states";
 
 export default function EmailSignInForm() {
   const [state, action, pending] = useActionState(

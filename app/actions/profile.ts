@@ -1,16 +1,7 @@
 "use server";
 
+import type { ProfileActionState } from "@/lib/action-states";
 import { validateLearnerProfileInput } from "@/lib/profile-flow";
-
-export interface ProfileActionState {
-  status: "idle" | "error" | "success";
-  message: string;
-}
-
-export const idleProfileActionState: ProfileActionState = {
-  status: "idle",
-  message: ""
-};
 
 export async function saveLearnerProfileAction(
   _previousState: ProfileActionState,

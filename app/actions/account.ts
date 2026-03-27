@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 
+import type { AccountActionState } from "@/lib/action-states";
 import {
   validateCreateFamilyInput,
   validateJoinFamilyInput,
@@ -9,16 +10,6 @@ import {
 } from "@/lib/auth/account-flow";
 import { findDemoUserByEmail, getPostSignInRedirect } from "@/lib/auth/session";
 import { setSessionCookie } from "@/lib/auth/server";
-
-export interface AccountActionState {
-  status: "idle" | "error" | "success";
-  message: string;
-}
-
-export const idleAccountActionState: AccountActionState = {
-  status: "idle",
-  message: ""
-};
 
 export async function signInWithEmailAction(
   _previousState: AccountActionState,
