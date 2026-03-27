@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum FamilyRole {
+  mom_admin
+  learner
+}
+
+enum MembershipStatus {
+  invited
+  active
+  inactive
+}
+
+enum LearnerTrack {
+  dse
+  foundation_to_dse
+  companion
+}
+
+enum SchoolStage {
+  p5
+  f3
+  adult
+  other
+}
+
+model User {
+  id                  String             @id @default(uuid())
+  email               String             @unique
+  displayName         String
+  preferredUiLanguage String             @default("en")
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  memberships         FamilyMembership[]
+  createdFamilies     Family[]           @relation("FamilyCreator")
+  learnerProfile      LearnerProfile?
+}
+
+model Family {
+  id              String             @id @default(uuid())
+  name            String
+  createdByUserId String
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  createdByUser   User               @relation("FamilyCreator", fields: [createdByUserId], references: [id])
+  memberships     FamilyMembership[]
+  invites         FamilyInvite[]
+  learnerProfiles LearnerProfile[]
+}
+
+model FamilyMembership {
+  id       String           @id @default(uuid())
+  familyId String
+  userId   String
+  role     FamilyRole
+  status   MembershipStatus @default(active)
+  joinedAt DateTime         @default(now())
+  family   Family           @relation(fields: [familyId], references: [id])
+  user     User             @relation(fields: [userId], references: [id])
+
+  @@unique([familyId, userId])
+}
+
+model FamilyInvite {
+  id          String    @id @default(uuid())
+  familyId    String
+  email       String
+  role        FamilyRole @default(learner)
+  inviteToken String    @unique
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  family      Family    @relation(fields: [familyId], references: [id])
+}
+
+model LearnerProfile {
+  id                 String       @id @default(uuid())
+  userId             String       @unique
+  familyId           String
+  profileName        String
+  track              LearnerTrack
+  schoolStage        SchoolStage
+  studyMinutesPerDay Int          @default(45)
+  studyDaysPerWeek   Int          @default(6)
+  targetReferenceLevel String
+  targetInternalBand String
+  isAdminViewOnly    Boolean      @default(false)
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  user               User         @relation(fields: [userId], references: [id])
+  family             Family       @relation(fields: [familyId], references: [id])
+}

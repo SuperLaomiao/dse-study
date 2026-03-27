@@ -1,0 +1,337 @@
+<h2>DSE_Study · Mobile Wireframes v3</h2>
+<p class="subtitle">A fuller page wall with student flows, family admin pages, and DSE-specific views.</p>
+
+<style>
+  .phone-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .phone {
+    max-width: 300px;
+    margin: 0 auto;
+    border: 1px solid #cfd7e3;
+    border-radius: 28px;
+    padding: 14px;
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(16, 37, 66, 0.08);
+  }
+  .phone-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #667085;
+  }
+  .hero {
+    background: linear-gradient(135deg, #102542 0%, #17365d 100%);
+    color: #fff;
+    border-radius: 18px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+  .soft {
+    background: #f4f7fb;
+    border-radius: 16px;
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+  .tile {
+    border: 1px solid #dfe5ee;
+    border-radius: 14px;
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+  .cta {
+    background: #102542;
+    color: #fff;
+    border-radius: 16px;
+    padding: 10px;
+    text-align: center;
+    font-weight: 700;
+    margin-top: 8px;
+  }
+  .nav {
+    display: flex;
+    justify-content: space-around;
+    font-size: 12px;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #e8ecf3;
+    color: #667085;
+  }
+  .bar {
+    height: 8px;
+    background: #e9eef5;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .bar > span {
+    display: block;
+    height: 100%;
+    background: #102542;
+  }
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .chip {
+    background: #eef3f9;
+    border-radius: 999px;
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  .section-title {
+    margin: 6px 0 14px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  @media (max-width: 1100px) {
+    .phone-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 760px) {
+    .phone-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="section">
+  <div class="label">Student Screens</div>
+  <div class="phone-grid">
+    <div class="phone">
+      <div class="phone-head"><strong>DSE_Study</strong><span>Choose profile</span></div>
+      <div class="section-title">Welcome back</div>
+      <div class="tile"><strong>You</strong><br>F3 · DSE Track<br>Reference Lv3 · 3B4</div>
+      <div class="tile"><strong>Sister</strong><br>P5 · Foundation-to-DSE<br>Reference Lv1 · 1B5</div>
+      <div class="tile"><strong>Mom</strong><br>Companion + Admin</div>
+      <div class="cta">Continue as You</div>
+      <div class="soft">Fast switch between accounts, but each learner sees only their own progress.</div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-head"><strong>Baseline Review</strong><span>Step 1 of 6</span></div>
+      <div class="hero">
+        <div style="font-size:12px;opacity:.85">30-40 minutes</div>
+        <div style="margin-top:6px;font-size:20px;font-weight:800">Let's map your English profile</div>
+      </div>
+      <div class="tile">Vocabulary check</div>
+      <div class="tile">Reading check</div>
+      <div class="tile">Listening check</div>
+      <div class="tile">Writing check</div>
+      <div class="tile">Speaking check</div>
+      <div class="cta">Start assessment</div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-head"><strong>Assessment Result</strong><span>Done</span></div>
+      <div class="hero">
+        <div style="font-size:12px;opacity:.85">Current profile</div>
+        <div style="font-size:24px;font-weight:800">Reference Lv3</div>
+        <div>Internal Band 3B4</div>
+      </div>
+      <div class="soft"><strong>Top weak areas</strong><br>Listening integration · Writing organization · Word production</div>
+      <div class="tile"><strong>Next 2 weeks</strong><br>Vocabulary Loop 4x / week<br>Paper 3 mini task 2x / week<br>Speaking Phrase Loop 3x / week</div>
+      <div class="cta">Start your first study plan</div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-head"><strong>Home</strong><span>7:45 PM</span></div>
+      <div class="hero">
+        <div style="font-size:12px;opacity:.85">Today</div>
+        <div><strong>Reference Level:</strong> Lv3</div>
+        <div><strong>Current Band:</strong> 3B4</div>
+        <div><strong>Goal:</strong> DSE 5* Track</div>
+      </div>
+      <div class="soft">
+        <strong>Today's Session · 46 min</strong>
+        <div class="bar"><span style="width:34%"></span></div>
+      </div>
+      <div class="tile">Vocabulary Loop · 12 min</div>
+      <div class="tile">Reading Inference Drill · 15 min</div>
+      <div class="tile">Speaking Phrase Loop · 8 min</div>
+      <div class="tile">Review 6 due words · 5 min</div>
+      <div class="nav"><div>Home</div><div>Learn</div><div>Practice</div><div>Progress</div><div>Profile</div></div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-head"><strong>Learn</strong><span>Recommended</span></div>
+      <div class="section-title">Your study flow for today</div>
+      <div class="tile"><strong>1. Warm Start</strong><br>1 min mindset cue + streak check</div>
+      <div class="tile"><strong>2. Vocabulary Loop</strong><br>Target words from school + DSE topic set</div>
+      <div class="tile"><strong>3. Skill Transfer</strong><br>Short listening-to-writing task</div>
+      <div class="tile"><strong>4. Speaking Phrase Loop</strong><br>Opinion + reason pattern</div>
+      <div class="tile"><strong>5. Review & Close</strong><br>2 mistakes to revisit</div>
+      <div class="cta">Start today's flow</div>
+      <div class="chip-row">
+        <div class="chip">Half-adaptive</div>
+        <div class="chip">Mobile-first</div>
+        <div class="chip">40-60 min</div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-head"><strong>Vocabulary Loop</strong><span>Word 4 of 10</span></div>
+      <div class="section-title">encourage</div>
+      <div class="soft">verb · /in'kʌridʒ/</div>
+      <div class="tile">Play pronunciation</div>
+      <div class="tile">Record your voice</div>
+      <div class="tile">Replay and compare</div>
+      <div class="tile">Meaning in context<br>A good teacher can encourage students to keep trying.</div>
+      <div class="tile">Active recall<br>What does it mean? How would you use it?</div>
+      <div class="cta">Use it in one sentence</div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-head"><strong>Speaking Phrase Loop</strong><span>Pattern 2 of 6</span></div>
+      <div class="section-title">I think this option would be better because...</div>
+      <div class="soft">Use for giving an opinion with a clear reason.</div>
+      <div class="tile">Listen to model voice</div>
+      <div class="tile">Shadow the phrase</div>
+      <div class="tile">Replay your recording</div>
+      <div class="tile">Substitute key words<br>school activity / campaign / weekend plan</div>
+      <div class="tile">Mini prompt<br>Which activity should the school choose for English Week?</div>
+      <div class="cta">Answer in 20 seconds</div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-head"><strong>Writing</strong><span>Article task</span></div>
+      <div class="section-title">Choose your writing mode</div>
+      <div class="tile"><strong>Plan</strong><br>Audience, purpose, tone, outline</div>
+      <div class="tile"><strong>Write</strong><br>Standard writing mode</div>
+      <div class="tile"><strong>Voice-to-Draft</strong><br>Speak ideas first, edit into formal writing later</div>
+      <div class="soft">DSE feedback focuses on task fulfilment, audience, organization, range, and accuracy.</div>
+      <div class="cta">Start with planning</div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-head"><strong>Progress</strong><span>Last 8 weeks</span></div>
+      <div class="hero">
+        <div style="font-size:12px;opacity:.85">Current standing</div>
+        <div style="font-size:24px;font-weight:800">Lv3 · 3B4</div>
+        <div>Trending upward</div>
+      </div>
+      <div class="tile">Reading<br><div class="bar"><span style="width:62%"></span></div></div>
+      <div class="tile">Writing<br><div class="bar"><span style="width:49%"></span></div></div>
+      <div class="tile">Listening & Integrated<br><div class="bar"><span style="width:41%"></span></div></div>
+      <div class="tile">Speaking<br><div class="bar"><span style="width:58%"></span></div></div>
+      <div class="soft">Weakest area: listening integration. Biggest gain: spoken confidence.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="label">Review & DSE Screens</div>
+  <div class="phone-grid">
+    <div class="phone">
+      <div class="phone-head"><strong>Bi-weekly Review</strong><span>Due now</span></div>
+      <div class="hero">
+        <div style="font-size:12px;opacity:.85">Every 14 days</div>
+        <div style="font-size:20px;font-weight:800">Check your real progress</div>
+      </div>
+      <div class="tile">Retention check</div>
+      <div class="tile">Reading key question types</div>
+      <div class="tile">Writing mini task</div>
+      <div class="tile">Speaking response</div>
+      <div class="tile">Listening capture task</div>
+      <div class="cta">Start review</div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-head"><strong>Review Result</strong><span>Updated</span></div>
+      <div class="hero">
+        <div style="font-size:12px;opacity:.85">Band update</div>
+        <div style="font-size:24px;font-weight:800">3B4 → 3B5</div>
+        <div>Reference Lv3 remains stable</div>
+      </div>
+      <div class="tile"><strong>Improved</strong><br>Vocabulary retention, spoken fluency</div>
+      <div class="tile"><strong>Still weak</strong><br>Listening integration, long writing structure</div>
+      <div class="cta">Load next 2-week plan</div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-head"><strong>DSE Dashboard</strong><span>Exam view</span></div>
+      <div class="section-title">Component readiness</div>
+      <div class="tile">Paper 1 Reading · 20%</div>
+      <div class="tile">Paper 2 Writing · 25%</div>
+      <div class="tile">Paper 3 Listening & Integrated · 30%</div>
+      <div class="tile">Paper 4 Speaking · 10%</div>
+      <div class="tile">SBA Readiness · 15%</div>
+      <div class="soft">Paper 3 should remain one of your highest-priority modules.</div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-head"><strong>B1/B2 Readiness</strong><span>Paper 1 & 3</span></div>
+      <div class="hero">
+        <div style="font-size:12px;opacity:.85">Current advice</div>
+        <div style="font-size:20px;font-weight:800">Stay on B1 for now</div>
+      </div>
+      <div class="tile">Reason 1<br>Inference accuracy is still unstable</div>
+      <div class="tile">Reason 2<br>Listening transfer errors remain high</div>
+      <div class="tile">To unlock B2<br>Raise 3 consecutive reviews above target band</div>
+      <div class="cta">See B2 preparation plan</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="label">Family Admin Screens</div>
+  <div class="phone-grid">
+    <div class="phone">
+      <div class="phone-head"><strong>Family Overview</strong><span>Mom</span></div>
+      <div class="hero">
+        <div style="font-size:12px;opacity:.85">This week</div>
+        <div style="font-size:20px;font-weight:800">2 alerts</div>
+        <div>1 overdue review · 1 skill drop</div>
+      </div>
+      <div class="tile"><strong>You</strong><br>Lv3 · 3B4<br>Listening weak, writing rising</div>
+      <div class="tile"><strong>Sister</strong><br>Lv1 · 1B5<br>Vocabulary growing well</div>
+      <div class="tile"><strong>Mom</strong><br>4 sessions completed</div>
+      <div class="cta">Open family details</div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-head"><strong>Learner Detail</strong><span>You</span></div>
+      <div class="soft"><strong>Current:</strong> Lv3 · 3B4</div>
+      <div class="tile">This week's completion<br><div class="bar"><span style="width:67%"></span></div></div>
+      <div class="tile">Bi-weekly trend<br>Up in vocabulary, flat in listening</div>
+      <div class="tile">Priority skills<br>Paper 3 · Writing structure · Word production</div>
+      <div class="tile">Suggested reminder<br>Encourage one extra listening block this week</div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-head"><strong>Alerts</strong><span>Family admin</span></div>
+      <div class="tile"><strong>High</strong><br>You: review overdue by 2 days</div>
+      <div class="tile"><strong>Medium</strong><br>Sister: reading practice below target this week</div>
+      <div class="tile"><strong>Low</strong><br>Mom: companion streak paused</div>
+      <div class="soft">Alerts should focus on useful action, not just raw study time.</div>
+      <div class="cta">Send a reminder</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="label">Choose The Next Design Pass</div>
+  <div class="cards">
+    <div class="card" data-choice="more-visual-polish" onclick="toggleSelect(this)">
+      <div class="card-body">
+        <h3>More Visual Polish</h3>
+        <p>Keep the structure but make the mockups feel closer to a real product.</p>
+      </div>
+    </div>
+    <div class="card" data-choice="assessment-deep-dive" onclick="toggleSelect(this)">
+      <div class="card-body">
+        <h3>Assessment Deep Dive</h3>
+        <p>Show the assessment questions, scoring flow, and result detail pages.</p>
+      </div>
+    </div>
+    <div class="card" data-choice="build-spec" onclick="toggleSelect(this)">
+      <div class="card-body">
+        <h3>Build Spec Next</h3>
+        <p>The page set is enough; move into technical planning and implementation scope.</p>
+      </div>
+    </div>
+  </div>
+</div>
