@@ -4,13 +4,17 @@ import { prisma } from "@/lib/prisma";
 
 export async function getLearnerProfileByUserId(userId: string) {
   if (getDataAccessMode() === "database") {
-    const profile = await prisma.learnerProfile.findUnique({
-      where: {
-        userId
-      }
-    });
+    try {
+      const profile = await prisma.learnerProfile.findUnique({
+        where: {
+          userId
+        }
+      });
 
-    return profile;
+      return profile;
+    } catch (error) {
+      console.error("profile repository falling back to demo mode", error);
+    }
   }
 
   return getDemoLearnerProfileByUserId(userId);
@@ -18,11 +22,15 @@ export async function getLearnerProfileByUserId(userId: string) {
 
 export async function listLearnerProfiles() {
   if (getDataAccessMode() === "database") {
-    return prisma.learnerProfile.findMany({
-      orderBy: {
-        profileName: "asc"
-      }
-    });
+    try {
+      return await prisma.learnerProfile.findMany({
+        orderBy: {
+          profileName: "asc"
+        }
+      });
+    } catch (error) {
+      console.error("profile list falling back to demo mode", error);
+    }
   }
 
   return getDemoLearnerProfiles();
