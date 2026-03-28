@@ -21,4 +21,15 @@ describe("data access mode", () => {
 
     expect(getDataAccessMode()).toBe("database");
   });
+
+  it("falls back to demo mode when DATABASE_URL uses an unsupported engine", async () => {
+    vi.stubEnv(
+      "DATABASE_URL",
+      "postgresql://user:pass@localhost:5432/legacy_db"
+    );
+
+    const { getDataAccessMode } = await import("@/lib/db");
+
+    expect(getDataAccessMode()).toBe("demo");
+  });
 });

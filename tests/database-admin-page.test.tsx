@@ -11,7 +11,8 @@ vi.mock("@/lib/database-admin", () => ({
     connectivity: "connected",
     schemaReady: true,
     seeded: true,
-    summary: "CloudBase MySQL is reachable and seeded."
+    summary: "CloudBase MySQL is reachable and seeded.",
+    nextStep: "Database is ready for the learner and admin flows."
   }))
 }));
 
@@ -23,6 +24,9 @@ describe("database admin page", () => {
 
     expect(screen.getByRole("heading", { name: "Database Ops" })).toBeInTheDocument();
     expect(screen.getByText("CloudBase MySQL is reachable and seeded.")).toBeInTheDocument();
+    expect(screen.getByText("Database is ready for the learner and admin flows.")).toBeInTheDocument();
+    expect(screen.getByText("Connectivity")).toBeInTheDocument();
+    expect(screen.getByText("Connected")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Bootstrap Schema" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Seed Demo Data" })).toBeInTheDocument();
   });

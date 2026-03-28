@@ -24,10 +24,21 @@ export default function DatabaseOpsCard({ status }: { status: DatabaseAdminStatu
       <div className="rounded-[24px] bg-[rgba(246,241,231,0.78)] p-4">
         <p className="text-xs uppercase tracking-[0.2em] text-[#7f6f52]">Current status</p>
         <p className="mt-2 text-base font-semibold text-[#1f2a1f]">{status.summary}</p>
-        <div className="mt-3 grid gap-2 text-sm text-[#435443] md:grid-cols-3">
-          <p>Mode: {status.mode}</p>
-          <p>Schema: {status.schemaReady ? "ready" : "missing"}</p>
-          <p>Seed: {status.seeded ? "present" : "missing"}</p>
+        <p className="mt-2 text-sm text-[#435443]">{status.nextStep}</p>
+        <div className="mt-4 grid gap-3 md:grid-cols-4">
+          <StatusBlock
+            label="Connectivity"
+            value={
+              status.connectivity === "connected"
+                ? "Connected"
+                : status.connectivity === "unreachable"
+                  ? "Unreachable"
+                  : "Demo"
+            }
+          />
+          <StatusBlock label="Mode" value={status.mode === "database" ? "Database" : "Demo"} />
+          <StatusBlock label="Schema" value={status.schemaReady ? "Ready" : "Missing"} />
+          <StatusBlock label="Seed" value={status.seeded ? "Present" : "Missing"} />
         </div>
       </div>
 
@@ -74,6 +85,15 @@ export default function DatabaseOpsCard({ status }: { status: DatabaseAdminStatu
           ) : null}
         </form>
       </div>
+    </div>
+  );
+}
+
+function StatusBlock({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-[20px] bg-[rgba(255,255,255,0.78)] px-4 py-3">
+      <p className="text-xs uppercase tracking-[0.18em] text-[#7f6f52]">{label}</p>
+      <p className="mt-2 text-sm font-semibold text-[#1f2a1f]">{value}</p>
     </div>
   );
 }

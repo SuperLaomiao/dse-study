@@ -17,6 +17,20 @@ describe("database admin helpers", () => {
     expect(status.summary).toContain("demo");
   });
 
+  it("reports an unsupported datasource url before trying Prisma", async () => {
+    vi.stubEnv(
+      "DATABASE_URL",
+      "postgresql://user:pass@localhost:5432/legacy_db"
+    );
+
+    const { getDatabaseAdminStatus } = await import("@/lib/database-admin");
+    const status = await getDatabaseAdminStatus();
+
+    expect(status.mode).toBe("demo");
+    expect(status.summary).toContain("unsupported");
+    expect(status.nextStep).toContain("mysql://");
+  });
+
   it("reports connected seeded mysql state when schema exists", async () => {
     vi.stubEnv("DATABASE_URL", "mysql://user:pass@localhost:3306/dse_study");
 
