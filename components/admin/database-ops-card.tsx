@@ -9,7 +9,7 @@ import {
 import { idleDatabaseActionState } from "@/lib/action-states";
 import type { DatabaseAdminStatus } from "@/lib/database-admin";
 
-export default function DatabaseOpsCard({ status }: { status: DatabaseAdminStatus }) {
+export default function DatabaseOpsCard({ status }: DatabaseOpsCardProps) {
   const [bootstrapState, bootstrapAction, bootstrapPending] = useActionState(
     bootstrapDatabaseAction,
     idleDatabaseActionState
@@ -25,7 +25,8 @@ export default function DatabaseOpsCard({ status }: { status: DatabaseAdminStatu
         <p className="text-xs uppercase tracking-[0.2em] text-[#7f6f52]">Current status</p>
         <p className="mt-2 text-base font-semibold text-[#1f2a1f]">{status.summary}</p>
         <p className="mt-2 text-sm text-[#435443]">{status.nextStep}</p>
-        <div className="mt-4 grid gap-3 md:grid-cols-4">
+        <p className="mt-2 text-xs leading-5 text-[#6c755e]">{status.detail}</p>
+        <div className="mt-4 grid gap-3 md:grid-cols-5">
           <StatusBlock
             label="Connectivity"
             value={
@@ -39,6 +40,7 @@ export default function DatabaseOpsCard({ status }: { status: DatabaseAdminStatu
           <StatusBlock label="Mode" value={status.mode === "database" ? "Database" : "Demo"} />
           <StatusBlock label="Schema" value={status.schemaReady ? "Ready" : "Missing"} />
           <StatusBlock label="Seed" value={status.seeded ? "Present" : "Missing"} />
+          <StatusBlock label="Issue" value={formatIssueCode(status.issueCode)} />
         </div>
       </div>
 
@@ -96,4 +98,27 @@ function StatusBlock({ label, value }: { label: string; value: string }) {
       <p className="mt-2 text-sm font-semibold text-[#1f2a1f]">{value}</p>
     </div>
   );
+}
+
+function formatIssueCode(issueCode: DatabaseOpsCardProps["status"]["issueCode"]) {
+  switch (issueCode) {
+    case "none":
+      return "None";
+    case "missing":
+      return "Missing URL";
+    case "unsupported":
+      return "Wrong Engine";
+    case "network":
+      return "Network";
+    case "auth":
+      return "Credentials";
+    case "database_missing":
+      return "DB Missing";
+    default:
+      return "Unknown";
+  }
+}
+
+interface DatabaseOpsCardProps {
+  status: DatabaseAdminStatus;
 }

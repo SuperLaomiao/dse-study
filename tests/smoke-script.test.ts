@@ -23,4 +23,39 @@ describe("smoke helpers", () => {
   it("includes a public health endpoint in the smoke targets", () => {
     expect(getCloudbaseSmokeTargets().some((target) => target.path === "/api/health")).toBe(true);
   });
+
+  it("surfaces health-route issue codes when the payload reports a failure", () => {
+    const failure = getSmokeFailure(
+      "/api/health",
+      JSON.stringify({
+        ok: false,
+        app: "dse-study",
+        database: {
+          issueCode: "network",
+          summary: "CloudBase MySQL is configured, but the runtime cannot reach the network path to the database yet."
+        }
+      }),
+      ['"app":"dse-study"', '"database"']
+    );
+
+    expect(failure).toContain("issueCode=network");
+    expect(failure).toContain("network path");
+  });
+
+  it("accepts health payloads that report the app as healthy", () => {
+    expect(
+      getSmokeFailure(
+        "/api/health",
+        JSON.stringify({
+          ok: true,
+          app: "dse-study",
+          database: {
+            issueCode: "none",
+            summary: "CloudBase MySQL is reachable and seeded."
+          }
+        }),
+        ['"app":"dse-study"', '"database"']
+      )
+    ).toBeNull();
+  });
 });

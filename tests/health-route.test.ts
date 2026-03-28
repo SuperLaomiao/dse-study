@@ -6,7 +6,10 @@ vi.mock("@/lib/database-admin", () => ({
     connectivity: "connected",
     schemaReady: true,
     seeded: true,
-    summary: "CloudBase MySQL is reachable and seeded."
+    summary: "CloudBase MySQL is reachable and seeded.",
+    nextStep: "Database is ready for the learner and admin flows.",
+    issueCode: "none",
+    detail: "CloudBase runtime can query the shared MySQL instance."
   }))
 }));
 
@@ -24,5 +27,6 @@ describe("health route", () => {
     expect(payload.app).toBe("dse-study");
     expect(payload.database.connectivity).toBe("connected");
     expect(payload.database.schemaReady).toBe(true);
+    expect(payload.database.issueCode).toBe("none");
   });
 });

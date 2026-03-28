@@ -14,6 +14,14 @@ export function getCloudbaseSmokeTargets(): SmokeTarget[] {
 }
 
 export function getSmokeFailure(path: string, body: string, expectAnyText: string[]) {
+  if (path === "/api/health") {
+    const healthFailure = getHealthFailure(body);
+
+    if (healthFailure) {
+      return healthFailure;
+    }
+  }
+
   const matched = expectAnyText.some((text) => body.includes(text));
 
   if (matched) {
@@ -21,4 +29,24 @@ export function getSmokeFailure(path: string, body: string, expectAnyText: strin
   }
 
   return `${path} did not include any expected text: ${expectAnyText.join(" | ")}`;
+}
+
+function getHealthFailure(body: string) {
+  try {
+    const payload = JSON.parse(body) as {
+      ok?: boolean;
+      database?: { issueCode?: string; summary?: string };
+    };
+
+    if (payload.ok !== false) {
+      return null;
+    }
+
+    const issueCode = payload.database?.issueCode ?? "unknown";
+    const summary = payload.database?.summary ?? "No database summary returned.";
+
+    return `/api/health reported ok=false (issueCode=${issueCode}): ${summary}`;
+  } catch {
+    return null;
+  }
 }
