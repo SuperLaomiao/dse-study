@@ -5,6 +5,7 @@ export interface SmokeTarget {
 
 export function getCloudbaseSmokeTargets(): SmokeTarget[] {
   return [
+    { path: "/api/health", expectAnyText: ['"app":"dse-study"', '"database"'] },
     { path: "/", expectAnyText: ["DSE Study"] },
     { path: "/sign-in", expectAnyText: ["Sign In"] },
     { path: "/admin/family", expectAnyText: ["Family Overview", "Sign In"] },

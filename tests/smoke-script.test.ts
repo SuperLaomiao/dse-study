@@ -19,4 +19,8 @@ describe("smoke helpers", () => {
       "/admin/system"
     );
   });
+
+  it("includes a public health endpoint in the smoke targets", () => {
+    expect(getCloudbaseSmokeTargets().some((target) => target.path === "/api/health")).toBe(true);
+  });
 });

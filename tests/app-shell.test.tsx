@@ -8,6 +8,7 @@ vi.mock("@/lib/auth/server", () => ({
 
 import AppShell from "@/components/app-shell";
 import AdminFamilyPage from "@/app/admin/family/page";
+import AdminAlertsPage from "@/app/admin/alerts/page";
 import HomePage from "@/app/home/page";
 import AdminLearnerDetailPage from "@/app/admin/learner/[id]/page";
 
@@ -31,23 +32,40 @@ describe("phase 0 app shell", () => {
     expect(container.firstChild).toHaveClass("md:px-6");
   });
 
-  it("shows the older brother daily plan on the learner home page", async () => {
+  it("shows a richer learner learning snapshot on the home page", async () => {
     render(await HomePage());
 
     expect(
       screen.getByRole("heading", { name: "Older Brother" })
     ).toBeInTheDocument();
-    expect(screen.getByText("Daily Plan")).toBeInTheDocument();
+    expect(screen.getByText("Learning snapshot")).toBeInTheDocument();
+    expect(screen.getByText("Today")).toBeInTheDocument();
+    expect(screen.getByText("Current focus")).toBeInTheDocument();
+    expect(screen.getByText("Inference")).toBeInTheDocument();
   });
 
-  it("shows the family summary on the admin family page", async () => {
+  it("shows a household overview with learner cards on the admin family page", async () => {
     const { container } = render(await AdminFamilyPage());
 
     expect(
       screen.getByRole("heading", { name: "Family Overview" })
     ).toBeInTheDocument();
+    expect(screen.getByText("Household snapshot")).toBeInTheDocument();
     expect(screen.getByText("Mom Admin")).toBeInTheDocument();
+    expect(screen.getByText("Older Brother")).toBeInTheDocument();
+    expect(screen.getByText("Younger Sister")).toBeInTheDocument();
+    expect(screen.getAllByText("Focus")).toHaveLength(2);
     expect(container.querySelector("section")).toHaveClass("md:p-6");
+  });
+
+  it("groups the admin alerts into more readable sections", async () => {
+    render(await AdminAlertsPage());
+
+    expect(screen.getByRole("heading", { name: "Alerts" })).toBeInTheDocument();
+    expect(screen.getByText("Needs attention now")).toBeInTheDocument();
+    expect(screen.getByText("Upcoming")).toBeInTheDocument();
+    expect(screen.getByText("Bi-weekly review due soon")).toBeInTheDocument();
+    expect(screen.getByText("Recovery plan ready")).toBeInTheDocument();
   });
 
   it("shows a safe fallback for an unknown learner detail route", async () => {
