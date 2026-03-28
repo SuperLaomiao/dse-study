@@ -10,11 +10,12 @@ import OnboardingProfilePage from "@/app/onboarding/profile/page";
 
 describe("onboarding profile page", () => {
   it("renders the interactive learner profile form", async () => {
-    render(await OnboardingProfilePage());
+    const { container } = render(await OnboardingProfilePage());
 
     expect(screen.getByLabelText("Profile name")).toBeInTheDocument();
     expect(screen.getByLabelText("Track")).toBeInTheDocument();
     expect(screen.getByLabelText("School stage")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Save Profile" })).toBeInTheDocument();
+    expect(container.querySelector("form")).toHaveClass("md:grid-cols-2");
   });
 });

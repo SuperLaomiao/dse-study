@@ -7,7 +7,7 @@ afterEach(() => {
 
 describe("database-backed repositories", () => {
   it("loads a learner profile through Prisma in database mode", async () => {
-    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/dse");
+    vi.stubEnv("DATABASE_URL", "mysql://user:pass@localhost:3306/dse_study");
 
     const findUnique = vi.fn(async () => ({
       id: "profile-older-brother",
@@ -42,7 +42,7 @@ describe("database-backed repositories", () => {
   });
 
   it("loads family dashboard data through Prisma in database mode", async () => {
-    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/dse");
+    vi.stubEnv("DATABASE_URL", "mysql://user:pass@localhost:3306/dse_study");
 
     const findFirst = vi.fn(async () => ({
       name: "Chan Family",

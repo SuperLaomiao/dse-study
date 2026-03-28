@@ -1,8 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
-
-async function main() {
+export async function seedDatabase(prisma: PrismaClient) {
   const mom = await prisma.user.upsert({
     where: { email: "mom@example.com" },
     update: { displayName: "Mom Admin" },
@@ -132,11 +130,17 @@ async function main() {
   });
 }
 
-main()
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+const isMainModule = process.argv[1]?.endsWith("prisma/seed.ts");
+
+if (isMainModule) {
+  const prisma = new PrismaClient();
+
+  seedDatabase(prisma)
+    .catch((error) => {
+      console.error(error);
+      process.exit(1);
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+}

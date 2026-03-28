@@ -44,12 +44,24 @@ npm run lint
 npm run prisma:generate
 ```
 
+For one-command repository verification:
+
+```bash
+npm run ci
+```
+
+For deployed CloudBase smoke checks:
+
+```bash
+SMOKE_BASE_URL="https://your-service.run.tcloudbase.com" npm run smoke:cloudbase
+```
+
 ## Database setup
 
-Database-backed repositories are now prepared, but they still fall back to demo mode until `DATABASE_URL` is set.
+Database-backed repositories are now prepared for CloudBase MySQL, but they still fall back to demo mode until `DATABASE_URL` is set and reachable.
 
 1. Copy `.env.example` to `.env.local`
-2. Set `DATABASE_URL` to your Postgres connection string
+2. Set `DATABASE_URL` to your CloudBase MySQL connection string, for example `mysql://root:password@host:3306/dse_study`
 3. Run `npm run prisma:generate`
 4. Run `npm run prisma:seed` after the database is reachable
 

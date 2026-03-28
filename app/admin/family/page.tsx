@@ -15,13 +15,21 @@ export default async function AdminFamilyPage() {
         {
           title: "Family summary",
           content: (
-            <div className="space-y-2">
-              <p>{snapshot.adminName}</p>
+            <div className="space-y-3 md:grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-6 md:space-y-0">
+              <div className="rounded-[24px] bg-[rgba(246,241,231,0.78)] p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-[#7f6f52]">Admin</p>
+                <p className="mt-2 text-lg font-semibold text-[#1f2a1f]">{snapshot.adminName}</p>
+              </div>
+              <div className="space-y-2">
               {learners.map((learner) => (
-                <p key={learner.id}>
+                <p
+                  key={learner.id}
+                  className="rounded-[22px] bg-[rgba(246,241,231,0.62)] px-4 py-3"
+                >
                   {learner.name} • {learner.referenceLevel} • {learner.internalBand}
                 </p>
               ))}
+              </div>
             </div>
           )
         }

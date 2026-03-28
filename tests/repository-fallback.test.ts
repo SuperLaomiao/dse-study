@@ -7,7 +7,7 @@ afterEach(() => {
 
 describe("repository fallback", () => {
   it("falls back to demo family data when Prisma cannot connect", async () => {
-    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/dse");
+    vi.stubEnv("DATABASE_URL", "mysql://user:pass@localhost:3306/dse_study");
 
     vi.doMock("@/lib/prisma", () => ({
       prisma: {
@@ -27,7 +27,7 @@ describe("repository fallback", () => {
   });
 
   it("falls back to demo profile data when Prisma profile lookup fails", async () => {
-    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/dse");
+    vi.stubEnv("DATABASE_URL", "mysql://user:pass@localhost:3306/dse_study");
 
     vi.doMock("@/lib/prisma", () => ({
       prisma: {

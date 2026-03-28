@@ -17,7 +17,11 @@ Do not use HTTP cloud functions for this project.
 
 - `DATABASE_URL`
 
-Use the Neon Postgres connection string already verified locally.
+Use the CloudBase MySQL connection string for the target environment.
+
+Example:
+
+`mysql://root:password@10.x.x.x:3306/dse_study`
 
 ## Build and start model
 
@@ -43,4 +47,4 @@ Container behavior:
 - demo sign-in works for `mom@example.com`
 - admin family page renders `Chan Family`
 - onboarding profile page loads for learner session
-- production server can read Neon without falling back to demo mode
+- production server can read CloudBase MySQL without falling back to demo mode

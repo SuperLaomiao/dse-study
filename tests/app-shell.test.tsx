@@ -13,7 +13,7 @@ import AdminLearnerDetailPage from "@/app/admin/learner/[id]/page";
 
 describe("phase 0 app shell", () => {
   it("renders learner navigation items in the shared shell", () => {
-    render(
+    const { container } = render(
       <AppShell
         role="learner"
         title="Home"
@@ -27,6 +27,8 @@ describe("phase 0 app shell", () => {
     expect(screen.getByRole("link", { name: "Learn" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Practice" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Progress" })).toBeInTheDocument();
+    expect(container.firstChild).toHaveClass("md:max-w-4xl");
+    expect(container.firstChild).toHaveClass("md:px-6");
   });
 
   it("shows the older brother daily plan on the learner home page", async () => {
@@ -39,12 +41,13 @@ describe("phase 0 app shell", () => {
   });
 
   it("shows the family summary on the admin family page", async () => {
-    render(await AdminFamilyPage());
+    const { container } = render(await AdminFamilyPage());
 
     expect(
       screen.getByRole("heading", { name: "Family Overview" })
     ).toBeInTheDocument();
     expect(screen.getByText("Mom Admin")).toBeInTheDocument();
+    expect(container.querySelector("section")).toHaveClass("md:p-6");
   });
 
   it("shows a safe fallback for an unknown learner detail route", async () => {

@@ -15,7 +15,7 @@ describe("data access mode", () => {
   });
 
   it("uses database mode when DATABASE_URL is present", async () => {
-    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/dse");
+    vi.stubEnv("DATABASE_URL", "mysql://user:pass@localhost:3306/dse_study");
 
     const { getDataAccessMode } = await import("@/lib/db");
 

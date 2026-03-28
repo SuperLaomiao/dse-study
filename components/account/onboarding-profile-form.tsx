@@ -17,8 +17,8 @@ export default function OnboardingProfileForm({
   );
 
   return (
-    <form action={action} className="space-y-4">
-      <label className="block space-y-2">
+    <form action={action} className="space-y-4 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
+      <label className="block space-y-2 md:col-span-2">
         <span className="text-sm font-medium text-[#1f2a1f]">Profile name</span>
         <input
           type="text"
@@ -104,13 +104,15 @@ export default function OnboardingProfileForm({
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-2xl bg-[#23402b] px-4 py-3 text-sm font-semibold text-[#f7f3ea] disabled:opacity-60"
+        className="w-full rounded-2xl bg-[#23402b] px-4 py-3 text-sm font-semibold text-[#f7f3ea] disabled:opacity-60 md:col-span-2 md:justify-self-start md:px-6"
       >
         {pending ? "Saving..." : "Save Profile"}
       </button>
 
       {state.status !== "idle" ? (
-        <p className={state.status === "error" ? "text-sm text-[#9f3a28]" : "text-sm text-[#2f5f3c]"}>
+        <p
+          className={`md:col-span-2 ${state.status === "error" ? "text-sm text-[#9f3a28]" : "text-sm text-[#2f5f3c]"}`}
+        >
           {state.message}
         </p>
       ) : null}
