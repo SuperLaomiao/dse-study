@@ -11,7 +11,7 @@ export default async function AdminSystemPage() {
     <PlaceholderPage
       role="admin"
       title="Database Ops"
-      description="Use this admin-only workspace to verify CloudBase MySQL and initialize the schema safely."
+      description="Use this admin-only workspace to verify Neon Postgres on Vercel and initialize the schema safely."
       sections={[
         {
           title: "Control room",
@@ -39,7 +39,7 @@ export default async function AdminSystemPage() {
           )
         },
         {
-          title: "CloudBase MySQL",
+          title: "Neon Postgres",
           content: <DatabaseOpsCard status={status} />
         }
       ]}

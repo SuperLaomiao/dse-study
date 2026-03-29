@@ -15,6 +15,14 @@ describe("data access mode", () => {
   });
 
   it("uses database mode when DATABASE_URL is present", async () => {
+    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/dse_study");
+
+    const { getDataAccessMode } = await import("@/lib/db");
+
+    expect(getDataAccessMode()).toBe("database");
+  });
+
+  it("keeps database mode for mysql urls while the repo still tolerates older envs", async () => {
     vi.stubEnv("DATABASE_URL", "mysql://user:pass@localhost:3306/dse_study");
 
     const { getDataAccessMode } = await import("@/lib/db");
@@ -25,7 +33,7 @@ describe("data access mode", () => {
   it("falls back to demo mode when DATABASE_URL uses an unsupported engine", async () => {
     vi.stubEnv(
       "DATABASE_URL",
-      "postgresql://user:pass@localhost:5432/legacy_db"
+      "sqlite:///tmp/dse-study.db"
     );
 
     const { getDataAccessMode } = await import("@/lib/db");

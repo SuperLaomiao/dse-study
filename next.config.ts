@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
-      allowedOrigins: ["*.run.tcloudbase.com", "*.tcloudbase.com"]
+      allowedOrigins: ["*.run.tcloudbase.com", "*.tcloudbase.com", "*.vercel.app"]
     }
   }
 };

@@ -11,7 +11,7 @@
     "test": "vitest",
     "prisma:generate": "prisma generate",
     "prisma:seed": "node --import tsx prisma/seed.ts",
-    "smoke:cloudbase": "node --import tsx scripts/smoke-cloudbase.ts"
+    "smoke:deployment": "node --import tsx scripts/smoke-deployment.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.18.0",

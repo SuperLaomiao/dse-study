@@ -6,10 +6,10 @@ vi.mock("@/lib/database-admin", () => ({
     connectivity: "connected",
     schemaReady: true,
     seeded: true,
-    summary: "CloudBase MySQL is reachable and seeded.",
+    summary: "Neon Postgres is reachable and seeded.",
     nextStep: "Database is ready for the learner and admin flows.",
     issueCode: "none",
-    detail: "CloudBase runtime can query the shared MySQL instance."
+    detail: "The runtime can query the shared Neon Postgres instance."
   }))
 }));
 

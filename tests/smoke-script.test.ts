@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  getCloudbaseSmokeTargets,
+  getDeploymentSmokeTargets,
   getSmokeFailure,
   summarizeSmokeFailures
 } from "@/lib/smoke";
 
 describe("smoke helpers", () => {
   it("treats protected admin routes as valid when they redirect to sign-in", () => {
-    const protectedRoute = getCloudbaseSmokeTargets().find(
+    const protectedRoute = getDeploymentSmokeTargets().find(
       (target) => target.path === "/admin/family"
     );
 
@@ -25,7 +25,7 @@ describe("smoke helpers", () => {
   });
 
   it("includes a public health endpoint in the smoke targets", () => {
-    expect(getCloudbaseSmokeTargets().some((target) => target.path === "/api/health")).toBe(true);
+    expect(getDeploymentSmokeTargets().some((target) => target.path === "/api/health")).toBe(true);
   });
 
   it("surfaces health-route issue codes when the payload reports a failure", () => {
@@ -36,14 +36,14 @@ describe("smoke helpers", () => {
         app: "dse-study",
         database: {
           issueCode: "network",
-          summary: "CloudBase MySQL is configured, but the runtime cannot reach the network path to the database yet."
+          summary: "Neon Postgres is configured, but the runtime cannot reach the database host yet."
         }
       }),
       ['"app":"dse-study"', '"database"']
     );
 
     expect(failure).toContain("issueCode=network");
-    expect(failure).toContain("network path");
+    expect(failure).toContain("database host");
   });
 
   it("accepts health payloads that report the app as healthy", () => {
@@ -55,7 +55,7 @@ describe("smoke helpers", () => {
           app: "dse-study",
           database: {
             issueCode: "none",
-            summary: "CloudBase MySQL is reachable and seeded."
+            summary: "Neon Postgres is reachable and seeded."
           }
         }),
         ['"app":"dse-study"', '"database"']
@@ -66,7 +66,7 @@ describe("smoke helpers", () => {
   it("adds a deployment hint when the new health and admin routes both 404", () => {
     expect(
       summarizeSmokeFailures(["/api/health returned 404", "/admin/system returned 404"]).some((line) =>
-        line.includes("CloudBase is still serving an older deployment")
+        line.includes("older build")
       )
     ).toBe(true);
   });

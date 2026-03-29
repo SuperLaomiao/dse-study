@@ -3,7 +3,7 @@ export interface SmokeTarget {
   expectAnyText: string[];
 }
 
-export function getCloudbaseSmokeTargets(): SmokeTarget[] {
+export function getDeploymentSmokeTargets(): SmokeTarget[] {
   return [
     { path: "/api/health", expectAnyText: ['"app":"dse-study"', '"database"'] },
     { path: "/", expectAnyText: ["DSE Study"] },
@@ -38,7 +38,7 @@ export function summarizeSmokeFailures(failures: string[]) {
   ) {
     return [
       ...failures,
-      "CloudBase is still serving an older deployment that does not include the new health and system routes yet."
+      "The hosted deployment is still serving an older build that does not include the new health and system routes yet."
     ];
   }
 

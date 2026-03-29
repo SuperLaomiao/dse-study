@@ -49,7 +49,7 @@ export default function DatabaseOpsCard({ status }: DatabaseOpsCardProps) {
           <div>
             <p className="font-medium text-[#1f2a1f]">Bootstrap schema</p>
             <p className="mt-1 text-sm text-[#435443]">
-              Run Prisma `db push` inside the CloudBase runtime.
+              Run Prisma `db push` against the configured Neon database.
             </p>
           </div>
           <button
@@ -70,7 +70,7 @@ export default function DatabaseOpsCard({ status }: DatabaseOpsCardProps) {
           <div>
             <p className="font-medium text-[#1f2a1f]">Seed demo data</p>
             <p className="mt-1 text-sm text-[#435443]">
-              Insert the family, admin, and learner demo records into MySQL.
+              Insert the family, admin, and learner demo records into Postgres.
             </p>
           </div>
           <button

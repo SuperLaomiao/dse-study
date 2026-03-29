@@ -11,10 +11,10 @@ vi.mock("@/lib/database-admin", () => ({
     connectivity: "connected",
     schemaReady: true,
     seeded: true,
-    summary: "CloudBase MySQL is reachable and seeded.",
+    summary: "Neon Postgres is reachable and seeded.",
     nextStep: "Database is ready for the learner and admin flows.",
     issueCode: "none",
-    detail: "CloudBase runtime can query the shared MySQL instance."
+    detail: "The runtime can query the shared Neon Postgres instance."
   }))
 }));
 
@@ -25,9 +25,9 @@ describe("database admin page", () => {
     render(await AdminSystemPage());
 
     expect(screen.getByRole("heading", { name: "Database Ops" })).toBeInTheDocument();
-    expect(screen.getByText("CloudBase MySQL is reachable and seeded.")).toBeInTheDocument();
+    expect(screen.getByText("Neon Postgres is reachable and seeded.")).toBeInTheDocument();
     expect(screen.getByText("Database is ready for the learner and admin flows.")).toBeInTheDocument();
-    expect(screen.getByText("CloudBase runtime can query the shared MySQL instance.")).toBeInTheDocument();
+    expect(screen.getByText("The runtime can query the shared Neon Postgres instance.")).toBeInTheDocument();
     expect(screen.getByText("Connectivity")).toBeInTheDocument();
     expect(screen.getByText("Connected")).toBeInTheDocument();
     expect(screen.getByText("Issue")).toBeInTheDocument();

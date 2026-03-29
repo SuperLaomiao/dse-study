@@ -20,7 +20,7 @@ describe("database admin helpers", () => {
   it("reports an unsupported datasource url before trying Prisma", async () => {
     vi.stubEnv(
       "DATABASE_URL",
-      "postgresql://user:pass@localhost:5432/legacy_db"
+      "sqlite:///tmp/dse-study.db"
     );
 
     const { getDatabaseAdminStatus } = await import("@/lib/database-admin");
@@ -28,19 +28,19 @@ describe("database admin helpers", () => {
 
     expect(status.mode).toBe("demo");
     expect(status.summary).toContain("unsupported");
-    expect(status.nextStep).toContain("mysql://");
+    expect(status.nextStep).toContain("PostgreSQL");
     expect(status.issueCode).toBe("unsupported");
   });
 
-  it("reports connected seeded mysql state when schema exists", async () => {
-    vi.stubEnv("DATABASE_URL", "mysql://user:pass@localhost:3306/dse_study");
+  it("reports connected seeded postgres state when schema exists", async () => {
+    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/dse_study");
 
     vi.doMock("@/lib/prisma", () => ({
       prisma: {
         $queryRawUnsafe: vi
           .fn()
           .mockResolvedValueOnce([{ ok: 1 }])
-          .mockResolvedValueOnce([{ Tables_in_testing: "Family" }]),
+          .mockResolvedValueOnce([{ tablename: "Family" }]),
         user: {
           count: vi.fn(async () => 3)
         }
@@ -57,13 +57,13 @@ describe("database admin helpers", () => {
     expect(status.issueCode).toBe("none");
   });
 
-  it("classifies unreachable mysql errors as a network issue", async () => {
-    vi.stubEnv("DATABASE_URL", "mysql://user:pass@localhost:3306/dse_study");
+  it("classifies unreachable postgres errors as a network issue", async () => {
+    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/dse_study");
 
     vi.doMock("@/lib/prisma", () => ({
       prisma: {
         $queryRawUnsafe: vi.fn(async () => {
-          throw new Error("Can't reach database server at `172.17.0.5:3306`");
+          throw new Error("Can't reach database server at `ep-wandering-resonance.neon.tech:5432`");
         })
       }
     }));
@@ -73,17 +73,17 @@ describe("database admin helpers", () => {
 
     expect(status.connectivity).toBe("unreachable");
     expect(status.issueCode).toBe("network");
-    expect(status.summary).toContain("network path");
-    expect(status.nextStep).toContain("network");
+    expect(status.summary).toContain("database host");
+    expect(status.nextStep).toContain("DATABASE_URL host");
   });
 
-  it("classifies mysql access denied errors as credentials issues", async () => {
-    vi.stubEnv("DATABASE_URL", "mysql://user:pass@localhost:3306/dse_study");
+  it("classifies postgres auth errors as credentials issues", async () => {
+    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/dse_study");
 
     vi.doMock("@/lib/prisma", () => ({
       prisma: {
         $queryRawUnsafe: vi.fn(async () => {
-          throw new Error("Access denied for user 'dse_app'@'%' to database 'testing'");
+          throw new Error('password authentication failed for user "neondb_owner"');
         })
       }
     }));
@@ -97,13 +97,13 @@ describe("database admin helpers", () => {
     expect(status.nextStep).toContain("username");
   });
 
-  it("classifies missing mysql database errors separately", async () => {
-    vi.stubEnv("DATABASE_URL", "mysql://user:pass@localhost:3306/dse_study");
+  it("classifies missing postgres database errors separately", async () => {
+    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/dse_study");
 
     vi.doMock("@/lib/prisma", () => ({
       prisma: {
         $queryRawUnsafe: vi.fn(async () => {
-          throw new Error("Unknown database 'testing-0gl3765x0fdfd178'");
+          throw new Error('database "wrong_db" does not exist');
         })
       }
     }));
@@ -118,7 +118,7 @@ describe("database admin helpers", () => {
   });
 
   it("runs prisma db push through the bundled cli", async () => {
-    vi.stubEnv("DATABASE_URL", "mysql://user:pass@localhost:3306/dse_study");
+    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/dse_study");
 
     const runPrismaDbPush = vi.fn(async () => ({ stdout: "", stderr: "" }));
 

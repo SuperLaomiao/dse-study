@@ -4,13 +4,18 @@ export function getDatabaseUrl() {
   return process.env.DATABASE_URL?.trim() ?? "";
 }
 
-export function hasSupportedMysqlUrl(url: string) {
-  return url.startsWith("mysql://") || url.startsWith("mysqls://");
+export function hasSupportedDatabaseUrl(url: string) {
+  return (
+    url.startsWith("postgresql://") ||
+    url.startsWith("postgres://") ||
+    url.startsWith("mysql://") ||
+    url.startsWith("mysqls://")
+  );
 }
 
 export function getDataAccessMode(): DataAccessMode {
   const databaseUrl = getDatabaseUrl();
-  return databaseUrl && hasSupportedMysqlUrl(databaseUrl) ? "database" : "demo";
+  return databaseUrl && hasSupportedDatabaseUrl(databaseUrl) ? "database" : "demo";
 }
 
 export function getDatabaseConfigIssue() {
@@ -20,7 +25,7 @@ export function getDatabaseConfigIssue() {
     return "missing";
   }
 
-  if (!hasSupportedMysqlUrl(databaseUrl)) {
+  if (!hasSupportedDatabaseUrl(databaseUrl)) {
     return "unsupported";
   }
 

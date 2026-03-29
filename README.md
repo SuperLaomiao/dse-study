@@ -50,20 +50,29 @@ For one-command repository verification:
 npm run ci
 ```
 
-For deployed CloudBase smoke checks:
+For deployed preview smoke checks:
 
 ```bash
-SMOKE_BASE_URL="https://your-service.run.tcloudbase.com" npm run smoke:cloudbase
+SMOKE_BASE_URL="https://your-preview-url.vercel.app" npm run smoke:deployment
 ```
 
 ## Database setup
 
-Database-backed repositories are now prepared for CloudBase MySQL, but they still fall back to demo mode until `DATABASE_URL` is set and reachable.
+Database-backed repositories are prepared for Neon Postgres, but they still fall back to demo mode until `DATABASE_URL` is set and reachable.
 
 1. Copy `.env.example` to `.env.local`
-2. Set `DATABASE_URL` to your CloudBase MySQL connection string, for example `mysql://root:password@host:3306/dse_study`
+2. Set `DATABASE_URL` to your Neon Postgres connection string, for example `postgresql://user:password@host:5432/neondb?sslmode=require&channel_binding=require`
 3. Run `npm run prisma:generate`
 4. Run `npm run prisma:seed` after the database is reachable
+
+## Vercel MVP deployment
+
+Recommended MVP hosting is now `Vercel + Neon`.
+
+1. Import the GitHub repo into Vercel
+2. Set `DATABASE_URL` in Vercel project environment variables
+3. Trigger a preview deployment
+4. Use `SMOKE_BASE_URL` in GitHub Actions to point at the Vercel preview or production URL
 
 ## Current scope
 
