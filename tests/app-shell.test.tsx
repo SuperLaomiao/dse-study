@@ -101,6 +101,13 @@ describe("phase 0 app shell", () => {
       "href",
       "/review/biweekly"
     );
+    expect(screen.getByText("Latest speaking AI signal")).toBeInTheDocument();
+    expect(screen.getByText("Pattern mode")).toBeInTheDocument();
+    expect(screen.getByText("Speaking still gets quieter once the answer leaves the prompt frame.")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Open speaking studio" })).toHaveAttribute(
+      "href",
+      "/practice/speaking"
+    );
   });
 
   it("shows a household overview with learner cards on the admin family page", async () => {
@@ -195,6 +202,12 @@ describe("phase 0 app shell", () => {
     expect(screen.getByText("Quick actions")).toBeInTheDocument();
     expect(screen.getByText("Switch learner")).toBeInTheDocument();
     expect(screen.getByText("Linked alerts")).toBeInTheDocument();
+    expect(screen.getByText("Speaking AI watch")).toBeInTheDocument();
+    expect(screen.getByText("Most recent drill")).toBeInTheDocument();
+    expect(screen.getByText("Parent readout")).toBeInTheDocument();
+    expect(
+      screen.getAllByText("Confidence drops when he has to extend beyond the memorised frame.").length
+    ).toBeGreaterThan(0);
     expect(screen.getAllByText("Bi-weekly review due soon").length).toBeGreaterThan(0);
     expect(screen.getByText("Today's queue")).toBeInTheDocument();
     expect(screen.getByText("Vocabulary Loop")).toBeInTheDocument();
@@ -217,6 +230,10 @@ describe("phase 0 app shell", () => {
     expect(screen.getByRole("link", { name: "Open alerts board" })).toHaveAttribute(
       "href",
       "/admin/alerts"
+    );
+    expect(screen.getByRole("link", { name: "Open speaking studio" })).toHaveAttribute(
+      "href",
+      "/practice/speaking"
     );
     expect(screen.getByRole("link", { name: "Next learner: Younger Sister" })).toHaveAttribute(
       "href",

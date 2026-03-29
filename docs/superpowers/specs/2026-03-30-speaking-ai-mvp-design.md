@@ -50,6 +50,11 @@ The summary should answer:
 - whether the learner should stay in pattern practice or move into freer speaking
 - what the next support action should be
 
+The first connected surfaces after the speaking page itself should be:
+
+- learner `/progress`, where the learner sees the latest speaking signal in the context of checkpoints
+- admin learner detail, where the family admin sees the same result translated into a compact watch item and next moves
+
 ## Technical Design
 
 ### Route
@@ -95,12 +100,14 @@ Included now:
 - transcript display
 - structured examiner and coach feedback
 - parent summary
+- learner progress summary tile for the latest speaking signal
+- admin learner detail summary tile for the same speaking signal
 
 Deferred:
 
 - browser-native recorder controls
 - attempt persistence
-- admin dashboard embedding of parent summaries
+- family-level dashboard aggregation of parent summaries
 - speaking history and trend lines
 - waveform UI or pronunciation segment highlight
 

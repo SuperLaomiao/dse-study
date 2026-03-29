@@ -23,7 +23,17 @@ export const demoLearners: LearnerSummary[] = [
         detail: "Inference mini set with timing support"
       }
     ],
-    focus: ["Inference", "Speaking confidence", "Review consistency"]
+    focus: ["Inference", "Speaking confidence", "Review consistency"],
+    speakingInsight: {
+      modeLabel: "Pattern mode",
+      taskLabel: "Photo retell with sentence frames",
+      examinerSignal: "Speaking still gets quieter once the answer leaves the prompt frame.",
+      coachFocus: [
+        "Hold one extra sentence after the memorised frame.",
+        "Keep connectors simple while stretching the answer."
+      ],
+      parentSummary: "Confidence drops when he has to extend beyond the memorised frame."
+    }
   },
   {
     id: "younger-sister",
@@ -42,7 +52,17 @@ export const demoLearners: LearnerSummary[] = [
         detail: "Daily routines shadow practice"
       }
     ],
-    focus: ["Phrase recall", "Basic reading fluency", "Listening transfer"]
+    focus: ["Phrase recall", "Basic reading fluency", "Listening transfer"],
+    speakingInsight: {
+      modeLabel: "Pattern mode",
+      taskLabel: "Daily routine shadow and replay",
+      examinerSignal: "Shadowing is clear, but recall breaks when the phrase order changes.",
+      coachFocus: [
+        "Replay two-keyword prompts before full sentence recall.",
+        "Keep pronunciation practice tied to one routine at a time."
+      ],
+      parentSummary: "She still needs a lighter pattern loop before free response becomes useful."
+    }
   }
 ];
 

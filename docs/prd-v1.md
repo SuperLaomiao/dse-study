@@ -308,6 +308,13 @@ The output should include:
 - coach moves
 - parent summary
 
+The first follow-on integration should surface the same speaking signal in:
+
+- learner `Progress`
+- admin learner detail
+
+This keeps the AI result inside the core learner-parent loop instead of trapping it on one isolated practice page.
+
 This is an MVP decision-support layer, not a final exam-grade prediction engine.
 
 ### 9.8 Writing Basics Module

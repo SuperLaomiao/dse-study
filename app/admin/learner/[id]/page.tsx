@@ -90,6 +90,57 @@ export default async function AdminLearnerDetailPage({
           )
         },
         {
+          title: "Speaking AI watch",
+          content: learner.speakingInsight ? (
+            <div className="space-y-4">
+              <div className="grid gap-3 md:grid-cols-[1.05fr_1.2fr]">
+                <article className="rounded-[24px] bg-[rgba(233,244,237,0.88)] p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[#46624d]">Most recent drill</p>
+                  <p className="mt-2 text-lg font-semibold text-[#1f2a1f]">{learner.speakingInsight.taskLabel}</p>
+                  <p className="mt-1 text-sm text-[#435443]">{learner.speakingInsight.modeLabel}</p>
+                </article>
+                <article className="rounded-[24px] bg-[rgba(246,241,231,0.76)] p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[#7f6f52]">Examiner signal</p>
+                  <p className="mt-2 text-lg font-semibold text-[#1f2a1f]">{learner.speakingInsight.examinerSignal}</p>
+                  <p className="mt-2 text-sm text-[#435443]">{learner.speakingInsight.parentSummary}</p>
+                </article>
+              </div>
+              <div className="grid gap-3 md:grid-cols-[1.1fr_0.9fr]">
+                <article className="rounded-[22px] border border-[rgba(31,42,31,0.08)] bg-[rgba(255,255,255,0.78)] p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[#7f6f52]">Coach next moves</p>
+                  <ul className="mt-3 space-y-2">
+                    {learner.speakingInsight.coachFocus.map((move) => (
+                      <li
+                        key={move}
+                        className="rounded-[18px] bg-[rgba(246,241,231,0.72)] px-4 py-3 text-sm font-medium text-[#314531]"
+                      >
+                        {move}
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+                <article className="rounded-[22px] border border-[rgba(31,42,31,0.08)] bg-[rgba(255,250,244,0.82)] p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[#7f6f52]">Parent readout</p>
+                  <p className="mt-2 text-sm leading-6 text-[#435443]">{learner.speakingInsight.parentSummary}</p>
+                  <a
+                    href="/practice/speaking"
+                    className="mt-4 inline-flex rounded-full bg-[#23402b] px-4 py-2 text-sm font-semibold text-[#f7f3ea]"
+                  >
+                    Open speaking studio
+                  </a>
+                </article>
+              </div>
+            </div>
+          ) : (
+            <article className="rounded-[22px] border border-[rgba(31,42,31,0.08)] bg-[rgba(246,241,231,0.72)] p-4">
+              <p className="font-semibold text-[#1f2a1f]">No speaking signal yet</p>
+              <p className="mt-1 text-sm text-[#435443]">
+                Run the speaking studio once to start the examiner-to-coach feedback loop.
+              </p>
+            </article>
+          )
+        },
+        {
           title: "Switch learner",
           content: (
             <div className="space-y-3">

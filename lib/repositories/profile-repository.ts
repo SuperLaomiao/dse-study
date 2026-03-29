@@ -2,7 +2,7 @@ import { getDataAccessMode } from "@/lib/db";
 import { getDemoLearnerById } from "@/lib/data/learner";
 import { getDemoLearnerProfileByUserId, getDemoLearnerProfiles } from "@/lib/data/profiles";
 import { prisma } from "@/lib/prisma";
-import type { LearnerProfileRecord } from "@/lib/types";
+import type { LearnerProfileRecord, SpeakingInsight } from "@/lib/types";
 
 export interface AdminLearnerDetail {
   id: string;
@@ -15,6 +15,7 @@ export interface AdminLearnerDetail {
   studyDaysPerWeek: number;
   focus: string[];
   dailyPlan: { title: string; detail: string }[];
+  speakingInsight?: SpeakingInsight;
 }
 
 export async function getLearnerProfileByUserId(userId: string) {
@@ -81,7 +82,8 @@ export async function getAdminLearnerDetailById(userId: string): Promise<AdminLe
           studyMinutesPerDay: profile.studyMinutesPerDay,
           studyDaysPerWeek: profile.studyDaysPerWeek,
           focus: demoLearner?.focus ?? [],
-          dailyPlan: demoLearner?.dailyPlan ?? []
+          dailyPlan: demoLearner?.dailyPlan ?? [],
+          speakingInsight: demoLearner?.speakingInsight
         };
       }
     } catch (error) {
@@ -105,7 +107,8 @@ export async function getAdminLearnerDetailById(userId: string): Promise<AdminLe
     studyMinutesPerDay: profile.studyMinutesPerDay,
     studyDaysPerWeek: profile.studyDaysPerWeek,
     focus: demoLearner.focus,
-    dailyPlan: demoLearner.dailyPlan
+    dailyPlan: demoLearner.dailyPlan,
+    speakingInsight: demoLearner.speakingInsight
   };
 }
 

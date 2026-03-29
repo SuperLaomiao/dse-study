@@ -7,6 +7,14 @@ export interface DailyTask {
   detail: string;
 }
 
+export interface SpeakingInsight {
+  modeLabel: string;
+  taskLabel: string;
+  examinerSignal: string;
+  coachFocus: string[];
+  parentSummary: string;
+}
+
 export interface LearnerSummary {
   id: LearnerId;
   name: string;
@@ -16,6 +24,7 @@ export interface LearnerSummary {
   referenceLevel: string;
   dailyPlan: DailyTask[];
   focus: string[];
+  speakingInsight?: SpeakingInsight;
 }
 
 export interface FamilySummary {
