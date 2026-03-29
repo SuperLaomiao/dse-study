@@ -21,7 +21,7 @@ export default async function SignInPage({
           title: "Start here",
           content: (
             <div className="space-y-4">
-              <p className="text-sm text-[#435443]">
+              <p className="text-sm text-[var(--text-muted)]">
                 Choose the fastest route into the demo or onboarding flow.
               </p>
               <div className="grid gap-3 md:grid-cols-3">
@@ -48,9 +48,9 @@ export default async function SignInPage({
           title: "Email sign-in",
           content: (
             <div className="grid gap-4 md:grid-cols-[minmax(0,1.4fr)_minmax(240px,0.9fr)]">
-              <div className="rounded-[24px] bg-[rgba(246,241,231,0.72)] p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-[#7f6f52]">Demo access</p>
-                <ul className="mt-3 space-y-2 text-sm leading-6 text-[#435443]">
+              <div className="rounded-[24px] border border-[rgba(114,95,63,0.08)] bg-[var(--surface-soft)] p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-[var(--text-soft)]">Demo access</p>
+                <ul className="mt-3 space-y-2 text-sm leading-6 text-[var(--text-muted)]">
                   <li>`mom@example.com` opens the admin dashboard and family controls.</li>
                   <li>`brother@example.com` lands in the older learner path and DSE practice flow.</li>
                   <li>`sister@example.com` lands in the younger learner path with lighter baseline pacing.</li>
@@ -96,10 +96,10 @@ function RouteCard({
   return (
     <a
       href={href}
-      className="rounded-[24px] border border-[rgba(31,42,31,0.08)] bg-white/80 p-4 transition hover:border-[rgba(35,64,43,0.18)] hover:bg-white"
+      className="rounded-[24px] border border-[rgba(114,95,63,0.08)] bg-[rgba(255,255,255,0.88)] p-4 shadow-[0_12px_30px_rgba(66,51,27,0.05)] transition hover:-translate-y-[1px] hover:border-[rgba(35,64,43,0.18)] hover:bg-white"
     >
-      <p className="text-base font-semibold text-[#1f2a1f]">{title}</p>
-      <p className="mt-2 text-sm leading-6 text-[#435443]">{description}</p>
+      <p className="text-base font-semibold text-[var(--foreground)]">{title}</p>
+      <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">{description}</p>
     </a>
   );
 }
@@ -112,9 +112,9 @@ function StatusHint({
   description: string;
 }) {
   return (
-    <div className="rounded-[22px] bg-[rgba(246,241,231,0.72)] p-4">
-      <p className="text-sm font-semibold text-[#1f2a1f]">{title}</p>
-      <p className="mt-2 text-sm leading-6 text-[#435443]">{description}</p>
+    <div className="rounded-[22px] border border-[rgba(114,95,63,0.08)] bg-[var(--surface-soft)] p-4">
+      <p className="text-sm font-semibold text-[var(--foreground)]">{title}</p>
+      <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">{description}</p>
     </div>
   );
 }

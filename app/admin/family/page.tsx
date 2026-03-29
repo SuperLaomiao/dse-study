@@ -18,21 +18,21 @@ export default async function AdminFamilyPage() {
         {
           title: "Action desk",
           content: (
-            <div className="rounded-[28px] border border-[rgba(35,64,43,0.08)] bg-[linear-gradient(145deg,rgba(248,243,234,0.96),rgba(233,244,237,0.92))] p-5">
-              <p className="max-w-2xl text-sm leading-6 text-[#435443]">
+            <div className="rounded-[28px] border border-[rgba(35,64,43,0.1)] bg-[linear-gradient(145deg,rgba(252,247,239,0.98),rgba(229,239,229,0.92))] p-5">
+              <p className="max-w-2xl text-sm leading-6 text-[var(--text-muted)]">
                 Stay on the family surface for learner-by-learner checks, then jump straight into
                 alerts or system status when something needs intervention.
               </p>
               <div className="mt-4 flex flex-wrap gap-3">
                 <a
                   href="/admin/alerts"
-                  className="inline-flex items-center justify-center rounded-full bg-[#23402b] px-4 py-2 text-sm font-semibold text-[#f7f3ea] transition hover:bg-[#1f3626]"
+                  className="inline-flex items-center justify-center rounded-full bg-[var(--brand)] px-5 py-3 text-sm font-semibold text-[var(--cream)] shadow-[0_14px_24px_rgba(35,64,43,0.18)] transition hover:bg-[var(--brand-strong)]"
                 >
                   Open Alerts Board
                 </a>
                 <a
                   href="/admin/system"
-                  className="inline-flex items-center justify-center rounded-full border border-[rgba(35,64,43,0.16)] bg-white/75 px-4 py-2 text-sm font-semibold text-[#23402b] transition hover:bg-white"
+                  className="inline-flex items-center justify-center rounded-full border border-[rgba(35,64,43,0.16)] bg-[var(--cream)] px-5 py-3 text-sm font-semibold text-[var(--brand)] transition hover:bg-white"
                 >
                   Open System Checks
                 </a>
@@ -44,34 +44,34 @@ export default async function AdminFamilyPage() {
           title: "Decision board",
           content: (
             <div className="grid gap-3 md:grid-cols-[minmax(0,1.2fr)_minmax(260px,0.8fr)]">
-              <div className="rounded-[24px] bg-[rgba(246,241,231,0.78)] p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-[#7f6f52]">
+              <div className="rounded-[24px] border border-[rgba(114,95,63,0.08)] bg-[var(--surface-soft)] p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-[var(--text-soft)]">
                   Active alerts
                 </p>
-                <p className="mt-2 text-3xl font-semibold text-[#1f2a1f]">{activeAlerts}</p>
-                <p className="mt-2 text-sm leading-6 text-[#435443]">
+                <p className="mt-2 text-3xl font-semibold text-[var(--foreground)]">{activeAlerts}</p>
+                <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">
                   Keep the family view as the decision surface, then jump into the learner that
                   needs attention first.
                 </p>
                 {nextLearner ? (
                   <a
                     href={`/admin/learner/${nextLearner.id}`}
-                    className="mt-4 inline-flex rounded-full bg-[#23402b] px-4 py-2 text-sm font-semibold text-[#f7f3ea]"
+                    className="mt-4 inline-flex rounded-full bg-[var(--brand)] px-5 py-3 text-sm font-semibold text-[var(--cream)] shadow-[0_14px_24px_rgba(35,64,43,0.18)] transition hover:bg-[var(--brand-strong)]"
                   >
                     {`Open ${nextLearner.name} first`}
                   </a>
                 ) : null}
               </div>
-              <div className="rounded-[24px] bg-[rgba(255,255,255,0.82)] p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-[#7f6f52]">Next checks</p>
-                <div className="mt-3 space-y-3 text-sm leading-6 text-[#435443]">
+              <div className="rounded-[24px] border border-[rgba(35,64,43,0.08)] bg-[rgba(255,255,255,0.9)] p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-[var(--text-soft)]">Next checks</p>
+                <div className="mt-3 space-y-3 text-sm leading-6 text-[var(--text-muted)]">
                   <p>1. Review the newest learner alert and check their queue.</p>
                   <p>2. Open system status only if the health signal or schema setup looks off.</p>
                   <p>3. Return to alerts when you need a family-wide reminder list.</p>
                 </div>
                 <a
                   href="/api/health"
-                  className="mt-4 inline-flex rounded-full border border-[rgba(35,64,43,0.16)] bg-[rgba(246,241,231,0.82)] px-4 py-2 text-sm font-semibold text-[#23402b]"
+                  className="mt-4 inline-flex rounded-full border border-[rgba(35,64,43,0.16)] bg-[var(--cream)] px-5 py-3 text-sm font-semibold text-[var(--brand)] transition hover:bg-white"
                 >
                   Open Health Check
                 </a>
@@ -83,21 +83,21 @@ export default async function AdminFamilyPage() {
           title: "Household snapshot",
           content: (
             <div className="grid gap-3 md:grid-cols-3">
-              <div className="rounded-[24px] bg-[rgba(246,241,231,0.78)] p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-[#7f6f52]">Family</p>
-                <p className="mt-2 text-lg font-semibold text-[#1f2a1f]">{family.familyName}</p>
-                <p className="mt-1 text-sm text-[#435443]">Managed by</p>
-                <p className="text-sm font-medium text-[#1f2a1f]">{snapshot.adminName}</p>
+              <div className="rounded-[24px] border border-[rgba(114,95,63,0.08)] bg-[var(--surface-soft)] p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-[var(--text-soft)]">Family</p>
+                <p className="mt-2 text-lg font-semibold text-[var(--foreground)]">{family.familyName}</p>
+                <p className="mt-1 text-sm text-[var(--text-muted)]">Managed by</p>
+                <p className="text-sm font-medium text-[var(--foreground)]">{snapshot.adminName}</p>
               </div>
-              <div className="rounded-[24px] bg-[rgba(246,241,231,0.78)] p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-[#7f6f52]">Learners</p>
-                <p className="mt-2 text-lg font-semibold text-[#1f2a1f]">{learners.length}</p>
-                <p className="mt-1 text-sm text-[#435443]">Active learner profiles in the family.</p>
+              <div className="rounded-[24px] border border-[rgba(114,95,63,0.08)] bg-[var(--surface-soft)] p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-[var(--text-soft)]">Learners</p>
+                <p className="mt-2 text-lg font-semibold text-[var(--foreground)]">{learners.length}</p>
+                <p className="mt-1 text-sm text-[var(--text-muted)]">Active learner profiles in the family.</p>
               </div>
-              <div className="rounded-[24px] bg-[rgba(246,241,231,0.78)] p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-[#7f6f52]">Plans</p>
-                <p className="mt-2 text-lg font-semibold text-[#1f2a1f]">{activePlans}</p>
-                <p className="mt-1 text-sm text-[#435443]">Daily tasks currently lined up.</p>
+              <div className="rounded-[24px] border border-[rgba(114,95,63,0.08)] bg-[var(--surface-soft)] p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-[var(--text-soft)]">Plans</p>
+                <p className="mt-2 text-lg font-semibold text-[var(--foreground)]">{activePlans}</p>
+                <p className="mt-1 text-sm text-[var(--text-muted)]">Daily tasks currently lined up.</p>
               </div>
             </div>
           )
@@ -109,20 +109,20 @@ export default async function AdminFamilyPage() {
               {learners.map((learner) => (
                 <article
                   key={learner.id}
-                  className="rounded-[24px] bg-[rgba(246,241,231,0.62)] p-4"
+                  className="rounded-[24px] border border-[rgba(114,95,63,0.08)] bg-[var(--surface-soft)] p-4"
                 >
-                  <p className="text-xs uppercase tracking-[0.2em] text-[#7f6f52]">{learner.stage}</p>
-                  <p className="mt-2 text-lg font-semibold text-[#1f2a1f]">{learner.name}</p>
-                  <p className="mt-1 text-sm text-[#435443]">
+                  <p className="text-xs uppercase tracking-[0.2em] text-[var(--text-soft)]">{learner.stage}</p>
+                  <p className="mt-2 text-lg font-semibold text-[var(--foreground)]">{learner.name}</p>
+                  <p className="mt-1 text-sm text-[var(--text-muted)]">
                     {learner.track} • {learner.referenceLevel} • {learner.internalBand}
                   </p>
                   <div className="mt-4">
-                    <p className="text-xs uppercase tracking-[0.2em] text-[#7f6f52]">Focus</p>
+                    <p className="text-xs uppercase tracking-[0.2em] text-[var(--text-soft)]">Focus</p>
                     <ul className="mt-2 flex flex-wrap gap-2">
                       {learner.focus.map((focusItem) => (
                         <li
                           key={focusItem}
-                          className="rounded-full bg-[rgba(255,255,255,0.82)] px-3 py-1 text-xs font-medium text-[#314531]"
+                          className="rounded-full border border-[rgba(35,64,43,0.08)] bg-[rgba(255,255,255,0.92)] px-3 py-1 text-xs font-medium text-[var(--brand)]"
                         >
                           {focusItem}
                         </li>
@@ -131,7 +131,7 @@ export default async function AdminFamilyPage() {
                   </div>
                   <a
                     href={`/admin/learner/${learner.id}`}
-                    className="mt-4 inline-flex rounded-full bg-[#23402b] px-4 py-2 text-sm font-semibold text-[#f7f3ea]"
+                    className="mt-4 inline-flex rounded-full bg-[var(--brand)] px-5 py-3 text-sm font-semibold text-[var(--cream)] shadow-[0_14px_24px_rgba(35,64,43,0.18)] transition hover:bg-[var(--brand-strong)]"
                   >
                     Open {learner.name}
                   </a>

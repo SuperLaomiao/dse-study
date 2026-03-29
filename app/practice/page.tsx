@@ -31,27 +31,27 @@ export default function PracticeHubPage() {
         {
           title: "Recommended next move",
           content: (
-            <div className="rounded-[28px] border border-[rgba(35,64,43,0.08)] bg-[linear-gradient(145deg,rgba(35,64,43,0.95),rgba(76,110,67,0.9))] p-5 text-[#f8f5ed]">
-              <p className="text-xs uppercase tracking-[0.22em] text-[rgba(248,245,237,0.72)]">
+            <div className="rounded-[28px] border border-[rgba(24,51,33,0.18)] bg-[linear-gradient(135deg,#23402b_0%,#4d6842_62%,#738b65_100%)] p-5 text-[var(--cream)] shadow-[0_24px_50px_rgba(27,53,34,0.24)]">
+              <p className="text-xs uppercase tracking-[0.22em] text-[rgba(255,250,243,0.72)]">
                 Continue from today&apos;s queue
               </p>
-              <p className="mt-3 text-2xl font-semibold tracking-[-0.02em]">
+              <p className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
                 {recommendedTask?.title ?? "Vocabulary Loop"}
               </p>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-[rgba(248,245,237,0.82)]">
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-[rgba(255,250,243,0.84)]">
                 {recommendedTask?.detail ??
                   "Stay inside one narrow practice loop so the next review can measure real lift."}
               </p>
               <div className="mt-4 flex flex-wrap gap-3">
                 <a
                   href={practiceLinks[recommendedTask?.title as keyof typeof practiceLinks] ?? "/practice/vocabulary"}
-                  className="inline-flex items-center justify-center rounded-full bg-[#f8f5ed] px-4 py-2 text-sm font-semibold text-[#1f2a1f] transition hover:bg-white"
+                  className="inline-flex items-center justify-center rounded-full bg-[var(--cream)] px-5 py-3 text-sm font-semibold text-[var(--brand-strong)] shadow-[0_14px_28px_rgba(18,34,22,0.18)] transition hover:bg-white"
                 >
                   Start recommended block
                 </a>
                 <a
                   href="/review/biweekly"
-                  className="inline-flex items-center justify-center rounded-full border border-[rgba(248,245,237,0.28)] px-4 py-2 text-sm font-semibold text-[#f8f5ed] transition hover:bg-[rgba(248,245,237,0.08)]"
+                  className="inline-flex items-center justify-center rounded-full border border-[rgba(255,250,243,0.3)] bg-[rgba(255,250,243,0.1)] px-5 py-3 text-sm font-semibold text-[var(--cream)] transition hover:bg-[rgba(255,250,243,0.18)]"
                 >
                   See review rhythm
                 </a>
@@ -66,14 +66,14 @@ export default function PracticeHubPage() {
               {learner.dailyPlan.map((task) => (
                 <article
                   key={task.title}
-                  className="rounded-[24px] bg-[rgba(246,241,231,0.72)] p-4"
+                  className="rounded-[24px] border border-[rgba(114,95,63,0.08)] bg-[var(--surface-soft)] p-4"
                 >
-                  <p className="text-xs uppercase tracking-[0.18em] text-[#7f6f52]">Today</p>
-                  <p className="mt-2 text-lg font-semibold text-[#1f2a1f]">{task.title}</p>
-                  <p className="mt-1 text-sm leading-6 text-[#435443]">{task.detail}</p>
+                  <p className="text-xs uppercase tracking-[0.18em] text-[var(--text-soft)]">Today</p>
+                  <p className="mt-2 text-lg font-semibold text-[var(--foreground)]">{task.title}</p>
+                  <p className="mt-1 text-sm leading-6 text-[var(--text-muted)]">{task.detail}</p>
                   <a
                     href={practiceLinks[task.title as keyof typeof practiceLinks] ?? "/practice"}
-                    className="mt-4 inline-flex items-center justify-center rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#23402b] shadow-[0_10px_24px_rgba(31,42,31,0.08)] transition hover:bg-[#fcfaf5]"
+                    className="mt-4 inline-flex items-center justify-center rounded-full bg-[var(--cream)] px-4 py-2 text-sm font-semibold text-[var(--brand)] shadow-[0_10px_24px_rgba(31,42,31,0.08)] transition hover:bg-white"
                   >
                     {`Open ${practiceLabels[task.title as keyof typeof practiceLabels] ?? "practice"} module`}
                   </a>
@@ -85,16 +85,16 @@ export default function PracticeHubPage() {
                 .map(([title, href]) => (
                   <article
                     key={title}
-                    className="rounded-[24px] border border-dashed border-[rgba(35,64,43,0.12)] bg-[rgba(255,255,255,0.6)] p-4"
+                    className="rounded-[24px] border border-dashed border-[rgba(35,64,43,0.14)] bg-[rgba(255,255,255,0.82)] p-4"
                   >
-                    <p className="text-xs uppercase tracking-[0.18em] text-[#7f6f52]">Explore</p>
-                    <p className="mt-2 text-lg font-semibold text-[#1f2a1f]">{title}</p>
-                    <p className="mt-1 text-sm leading-6 text-[#435443]">
+                    <p className="text-xs uppercase tracking-[0.18em] text-[var(--text-soft)]">Explore</p>
+                    <p className="mt-2 text-lg font-semibold text-[var(--foreground)]">{title}</p>
+                    <p className="mt-1 text-sm leading-6 text-[var(--text-muted)]">
                       Keep this module available when you want to rotate the practice mix.
                     </p>
                     <a
                       href={href}
-                      className="mt-4 inline-flex items-center justify-center rounded-full border border-[rgba(35,64,43,0.12)] bg-white/70 px-4 py-2 text-sm font-semibold text-[#23402b] transition hover:bg-white"
+                      className="mt-4 inline-flex items-center justify-center rounded-full border border-[rgba(35,64,43,0.12)] bg-[var(--cream)] px-4 py-2 text-sm font-semibold text-[var(--brand)] transition hover:bg-white"
                     >
                       {`Open ${practiceLabels[title as keyof typeof practiceLabels] ?? "practice"} module`}
                     </a>

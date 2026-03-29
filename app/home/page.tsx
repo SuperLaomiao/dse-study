@@ -21,16 +21,16 @@ export default async function HomePage() {
           title: "Learning snapshot",
           content: (
             <div className="space-y-4">
-              <div className="rounded-[28px] border border-[rgba(35,64,43,0.1)] bg-[linear-gradient(135deg,rgba(35,64,43,0.96),rgba(73,107,64,0.88))] p-5 text-[#f8f5ed]">
-                <p className="text-xs uppercase tracking-[0.24em] text-[rgba(248,245,237,0.72)]">
+              <div className="rounded-[28px] border border-[rgba(24,51,33,0.18)] bg-[linear-gradient(135deg,#23402b_0%,#4d6842_62%,#738b65_100%)] p-5 text-[var(--cream)] shadow-[0_24px_50px_rgba(27,53,34,0.24)]">
+                <p className="text-xs uppercase tracking-[0.24em] text-[rgba(255,250,243,0.72)]">
                   Today&apos;s lead block
                 </p>
                 <div className="mt-3 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                   <div className="max-w-xl">
-                    <p className="text-2xl font-semibold tracking-[-0.02em] md:text-3xl">
+                    <p className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
                       {nextTask?.title ?? "Stay in rhythm today"}
                     </p>
-                    <p className="mt-2 text-sm text-[rgba(248,245,237,0.8)] md:text-base">
+                    <p className="mt-2 text-sm text-[rgba(255,250,243,0.84)] md:text-base">
                       {nextTask?.detail ??
                         "Keep the cycle light, consistent, and focused on one measurable lift."}
                     </p>
@@ -38,13 +38,13 @@ export default async function HomePage() {
                   <div className="flex flex-wrap gap-3">
                     <a
                       href="/practice"
-                      className="inline-flex items-center justify-center rounded-full bg-[#f8f5ed] px-4 py-2 text-sm font-semibold text-[#1f2a1f] transition hover:bg-white"
+                      className="inline-flex items-center justify-center rounded-full bg-[var(--cream)] px-5 py-3 text-sm font-semibold text-[var(--brand-strong)] shadow-[0_14px_28px_rgba(18,34,22,0.18)] transition hover:bg-white"
                     >
                       Start practice
                     </a>
                     <a
                       href="/progress"
-                      className="inline-flex items-center justify-center rounded-full border border-[rgba(248,245,237,0.3)] px-4 py-2 text-sm font-semibold text-[#f8f5ed] transition hover:bg-[rgba(248,245,237,0.08)]"
+                      className="inline-flex items-center justify-center rounded-full border border-[rgba(255,250,243,0.3)] bg-[rgba(255,250,243,0.1)] px-5 py-3 text-sm font-semibold text-[var(--cream)] transition hover:bg-[rgba(255,250,243,0.18)]"
                     >
                       Review progress
                     </a>
@@ -53,20 +53,20 @@ export default async function HomePage() {
               </div>
 
               <div className="grid gap-3 md:grid-cols-3">
-                <div className="rounded-2xl bg-[rgba(246,241,231,0.72)] p-4">
-                  <p className="text-xs uppercase tracking-[0.18em] text-[#7f6f52]">Stage</p>
-                  <p className="mt-2 text-lg font-semibold text-[#1f2a1f]">{learner.stage}</p>
-                  <p className="mt-1 text-sm text-[#435443]">{learner.track}</p>
+                <div className="rounded-[24px] border border-[rgba(114,95,63,0.08)] bg-[var(--surface-soft)] p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[var(--text-soft)]">Stage</p>
+                  <p className="mt-2 text-lg font-semibold text-[var(--foreground)]">{learner.stage}</p>
+                  <p className="mt-1 text-sm text-[var(--text-muted)]">{learner.track}</p>
                 </div>
-                <div className="rounded-2xl bg-[rgba(246,241,231,0.72)] p-4">
-                  <p className="text-xs uppercase tracking-[0.18em] text-[#7f6f52]">Today</p>
-                  <p className="mt-2 text-lg font-semibold text-[#1f2a1f]">{todayTaskCount} tasks</p>
-                  <p className="mt-1 text-sm text-[#435443]">One warm-up and one timed set.</p>
+                <div className="rounded-[24px] border border-[rgba(114,95,63,0.08)] bg-[var(--surface-soft)] p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[var(--text-soft)]">Today</p>
+                  <p className="mt-2 text-lg font-semibold text-[var(--foreground)]">{todayTaskCount} tasks</p>
+                  <p className="mt-1 text-sm text-[var(--text-muted)]">One warm-up and one timed set.</p>
                 </div>
-                <div className="rounded-2xl bg-[rgba(246,241,231,0.72)] p-4">
-                  <p className="text-xs uppercase tracking-[0.18em] text-[#7f6f52]">Focus</p>
-                  <p className="mt-2 text-lg font-semibold text-[#1f2a1f]">{focusCount} priorities</p>
-                  <p className="mt-1 text-sm text-[#435443]">
+                <div className="rounded-[24px] border border-[rgba(114,95,63,0.08)] bg-[var(--surface-soft)] p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[var(--text-soft)]">Focus</p>
+                  <p className="mt-2 text-lg font-semibold text-[var(--foreground)]">{focusCount} priorities</p>
+                  <p className="mt-1 text-sm text-[var(--text-muted)]">
                     Keep the next cycle narrow and repeatable.
                   </p>
                 </div>
@@ -79,10 +79,10 @@ export default async function HomePage() {
           content: (
             <ul className="space-y-2 md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
               {learner.dailyPlan.map((task) => (
-                <li key={task.title} className="rounded-2xl bg-[rgba(246,241,231,0.72)] p-4">
-                  <p className="text-xs uppercase tracking-[0.18em] text-[#7f6f52]">Task</p>
-                  <p className="mt-2 font-medium text-[#1f2a1f]">{task.title}</p>
-                  <p className="mt-1 text-sm text-[#435443]">{task.detail}</p>
+                <li key={task.title} className="rounded-[24px] border border-[rgba(114,95,63,0.08)] bg-[var(--surface-soft)] p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[var(--text-soft)]">Task</p>
+                  <p className="mt-2 font-medium text-[var(--foreground)]">{task.title}</p>
+                  <p className="mt-1 text-sm text-[var(--text-muted)]">{task.detail}</p>
                 </li>
               ))}
             </ul>
