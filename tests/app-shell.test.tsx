@@ -187,6 +187,8 @@ describe("phase 0 app shell", () => {
     expect(screen.getByText("Target trajectory")).toBeInTheDocument();
     expect(screen.getByText("Band 5*")).toBeInTheDocument();
     expect(screen.getByText("Quick actions")).toBeInTheDocument();
+    expect(screen.getByText("Linked alerts")).toBeInTheDocument();
+    expect(screen.getAllByText("Bi-weekly review due soon").length).toBeGreaterThan(0);
     expect(screen.getByText("Today's queue")).toBeInTheDocument();
     expect(screen.getByText("Vocabulary Loop")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Back to Family Overview" })).toHaveAttribute(
@@ -204,6 +206,10 @@ describe("phase 0 app shell", () => {
     expect(screen.getByRole("link", { name: "Open progress" })).toHaveAttribute(
       "href",
       "/progress"
+    );
+    expect(screen.getByRole("link", { name: "Open alerts board" })).toHaveAttribute(
+      "href",
+      "/admin/alerts"
     );
     expect(screen.getByRole("link", { name: "Next learner: Younger Sister" })).toHaveAttribute(
       "href",

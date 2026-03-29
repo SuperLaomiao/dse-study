@@ -1,5 +1,6 @@
 import PlaceholderPage from "@/components/placeholder-page";
 import { requireServerRole } from "@/lib/auth/server";
+import { getDemoAdminSnapshot } from "@/lib/data/admin";
 import { getFamilyDashboardData } from "@/lib/repositories/family-repository";
 import { getAdminLearnerDetailById } from "@/lib/repositories/profile-repository";
 
@@ -12,6 +13,9 @@ export default async function AdminLearnerDetailPage({
   const { id } = await params;
   const { learners } = await getFamilyDashboardData();
   const learner = await getAdminLearnerDetailById(id);
+  const learnerAlerts = getDemoAdminSnapshot().alerts.filter((alert) =>
+    `${alert.title} ${alert.detail}`.toLowerCase().includes(id.replace("-", " "))
+  );
 
   if (!learner) {
     return (
@@ -84,6 +88,31 @@ export default async function AdminLearnerDetailPage({
           )
         },
         {
+          title: "Linked alerts",
+          content: (
+            <div className="space-y-3">
+              {learnerAlerts.length > 0 ? (
+                learnerAlerts.map((alert) => (
+                  <article
+                    key={`${learner.id}-${alert.title}`}
+                    className="rounded-[22px] border border-[rgba(31,42,31,0.08)] bg-[rgba(246,241,231,0.72)] p-4"
+                  >
+                    <p className="font-semibold text-[#1f2a1f]">{alert.title}</p>
+                    <p className="mt-1 text-sm text-[#435443]">{alert.detail}</p>
+                  </article>
+                ))
+              ) : (
+                <article className="rounded-[22px] border border-[rgba(31,42,31,0.08)] bg-[rgba(246,241,231,0.72)] p-4">
+                  <p className="font-semibold text-[#1f2a1f]">No active alerts</p>
+                  <p className="mt-1 text-sm text-[#435443]">
+                    Stay on the current plan and keep watching the next review cycle.
+                  </p>
+                </article>
+              )}
+            </div>
+          )
+        },
+        {
           title: "Today's queue",
           content: (
             <div className="space-y-3">
@@ -126,6 +155,12 @@ export default async function AdminLearnerDetailPage({
                 className="inline-flex rounded-full bg-[rgba(255,255,255,0.82)] px-4 py-2 text-sm font-semibold text-[#314531]"
               >
                 Open progress
+              </a>
+              <a
+                href="/admin/alerts"
+                className="inline-flex rounded-full bg-[rgba(255,255,255,0.82)] px-4 py-2 text-sm font-semibold text-[#314531]"
+              >
+                Open alerts board
               </a>
               {nextLearner ? (
                 <a
