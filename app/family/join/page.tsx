@@ -1,3 +1,4 @@
+import AccountFlowStage from "@/components/account/account-flow-stage";
 import FamilyJoinForm from "@/components/account/family-join-form";
 import PlaceholderPage from "@/components/placeholder-page";
 
@@ -8,6 +9,32 @@ export default function FamilyJoinPage() {
       title="Join Family"
       description="Use the learner email and invite code to attach into the family space without creating a duplicate account flow."
       sections={[
+        {
+          title: "Step 2 of 3",
+          content: (
+            <AccountFlowStage
+              step="Step 2 of 3"
+              title="Attach the learner to the existing family with one stable identity."
+              description="This step should feel like a clean handoff, not a second onboarding fork. Use the learner email that should own the study plan, join the household once, then move straight to learner profile calibration."
+              actions={
+                <>
+                  <a
+                    href="/onboarding/profile"
+                    className="inline-flex items-center justify-center rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-[var(--cream)] transition hover:bg-[var(--brand-strong)]"
+                  >
+                    Continue to learner profile
+                  </a>
+                  <a
+                    href="/sign-in"
+                    className="inline-flex items-center justify-center rounded-full border border-[rgba(35,64,43,0.16)] bg-white/80 px-4 py-2 text-sm font-semibold text-[var(--brand-strong)] transition hover:bg-white"
+                  >
+                    Back to sign-in
+                  </a>
+                </>
+              }
+            />
+          )
+        },
         {
           title: "What you need",
           content: (

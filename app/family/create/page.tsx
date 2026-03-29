@@ -1,3 +1,4 @@
+import AccountFlowStage from "@/components/account/account-flow-stage";
 import FamilyCreateForm from "@/components/account/family-create-form";
 import PlaceholderPage from "@/components/placeholder-page";
 
@@ -8,6 +9,32 @@ export default function FamilyCreatePage() {
       title="Create Family"
       description="Start the family workspace, define the parent seat, and prepare the learner join flow in one place."
       sections={[
+        {
+          title: "Step 1 of 3",
+          content: (
+            <AccountFlowStage
+              step="Step 1 of 3"
+              title="Create the family shell before inviting anyone else."
+              description="This is the admin-first step. Give the household a recognizable name, anchor the parent seat, then hand the learner off to the join route instead of creating parallel accounts."
+              actions={
+                <>
+                  <a
+                    href="/family/join"
+                    className="inline-flex items-center justify-center rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-[var(--cream)] transition hover:bg-[var(--brand-strong)]"
+                  >
+                    Go to learner join next
+                  </a>
+                  <a
+                    href="/sign-in"
+                    className="inline-flex items-center justify-center rounded-full border border-[rgba(35,64,43,0.16)] bg-white/80 px-4 py-2 text-sm font-semibold text-[var(--brand-strong)] transition hover:bg-white"
+                  >
+                    Back to sign-in
+                  </a>
+                </>
+              }
+            />
+          )
+        },
         {
           title: "What gets created",
           content: (

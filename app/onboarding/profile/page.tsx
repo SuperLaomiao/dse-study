@@ -1,3 +1,4 @@
+import AccountFlowStage from "@/components/account/account-flow-stage";
 import OnboardingProfileForm from "@/components/account/onboarding-profile-form";
 import PlaceholderPage from "@/components/placeholder-page";
 import { requireServerRole } from "@/lib/auth/server";
@@ -19,6 +20,32 @@ export default async function OnboardingProfilePage() {
       description="Lock in the learner identity, daily capacity, and target band so the study loop can stay narrow and believable."
       currentPath="/learn"
       sections={[
+        {
+          title: "Step 3 of 3",
+          content: (
+            <AccountFlowStage
+              step="Step 3 of 3"
+              title="Translate the learner into a believable weekly study shape."
+              description="This is the final handoff before the daily loop takes over. Lock in capacity, target direction, and track so the learner home, practice queue, and admin expectations all stay aligned."
+              actions={
+                <>
+                  <a
+                    href="/learn"
+                    className="inline-flex items-center justify-center rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-[var(--cream)] transition hover:bg-[var(--brand-strong)]"
+                  >
+                    Continue into learn
+                  </a>
+                  <a
+                    href="/sign-in"
+                    className="inline-flex items-center justify-center rounded-full border border-[rgba(35,64,43,0.16)] bg-white/80 px-4 py-2 text-sm font-semibold text-[var(--brand-strong)] transition hover:bg-white"
+                  >
+                    Open sign-in
+                  </a>
+                </>
+              }
+            />
+          )
+        },
         {
           title: "Profile settings",
           content: (
@@ -53,7 +80,7 @@ export default async function OnboardingProfilePage() {
           )
         },
         {
-          title: "Continue the loop",
+          title: "Finish the handoff",
           content: (
             <div className="rounded-[28px] border border-[rgba(35,64,43,0.08)] bg-[linear-gradient(145deg,rgba(248,243,234,0.96),rgba(233,244,237,0.92))] p-5">
               <p className="max-w-2xl text-sm leading-6 text-[#435443]">
