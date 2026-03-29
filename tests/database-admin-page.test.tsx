@@ -32,6 +32,14 @@ describe("database admin page", () => {
     expect(screen.getByText("Connected")).toBeInTheDocument();
     expect(screen.getByText("Issue")).toBeInTheDocument();
     expect(screen.getByText("None")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Open Family Dashboard" })).toHaveAttribute(
+      "href",
+      "/admin/family"
+    );
+    expect(screen.getByRole("link", { name: "Open Alerts Board" })).toHaveAttribute(
+      "href",
+      "/admin/alerts"
+    );
     expect(screen.getByRole("button", { name: "Bootstrap Schema" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Seed Demo Data" })).toBeInTheDocument();
   });

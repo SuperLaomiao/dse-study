@@ -18,6 +18,31 @@ export default async function AdminAlertsPage() {
       description="Summary-first reminders help Mom stay involved without overload."
       sections={[
         {
+          title: "Action desk",
+          content: (
+            <div className="rounded-[28px] border border-[rgba(35,64,43,0.08)] bg-[linear-gradient(135deg,rgba(248,243,234,0.96),rgba(234,244,231,0.9))] p-5">
+              <p className="max-w-2xl text-sm leading-6 text-[#435443]">
+                Start from the decision surface, then jump into the family dashboard or system
+                checks without hunting through the nav.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-3">
+                <a
+                  href="/admin/family"
+                  className="inline-flex items-center justify-center rounded-full bg-[#23402b] px-4 py-2 text-sm font-semibold text-[#f7f3ea] transition hover:bg-[#1f3626]"
+                >
+                  Open Family Dashboard
+                </a>
+                <a
+                  href="/admin/system"
+                  className="inline-flex items-center justify-center rounded-full border border-[rgba(35,64,43,0.16)] bg-white/70 px-4 py-2 text-sm font-semibold text-[#23402b] transition hover:bg-white"
+                >
+                  Open System Checks
+                </a>
+              </div>
+            </div>
+          )
+        },
+        {
           title: "Current alerts",
           content: (
             <div className="space-y-4">

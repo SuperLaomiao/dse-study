@@ -1,18 +1,20 @@
-import PlaceholderPage from "@/components/placeholder-page";
+import PracticeModulePage from "@/components/practice-module-page";
 
 export default function PracticeVocabularyPage() {
   return (
-    <PlaceholderPage
-      role="learner"
+    <PracticeModulePage
       title="Vocabulary Loop"
       description="Listen, recall, record, and review vocabulary here."
-      currentPath="/practice"
-      sections={[
-        {
-          title: "Session preview",
-          content: <p>Audio play, record, and spaced review will be attached in the next phase.</p>
-        }
+      leadLabel="Loop cadence"
+      leadValue="Recall drill"
+      leadDetail="Stay inside one repeatable phrase set, then check whether recall survives without prompts."
+      checkpoints={[
+        "Listen once, speak once, then do a no-audio recall pass.",
+        "Mark the phrases that still need another cycle before review day.",
+        "Keep the set narrow so the next repetition actually compounds."
       ]}
+      primaryLink={{ href: "/practice", label: "Back to practice hub" }}
+      secondaryLink={{ href: "/progress", label: "Open progress" }}
     />
   );
 }

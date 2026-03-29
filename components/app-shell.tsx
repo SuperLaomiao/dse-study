@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import BottomNav from "@/components/bottom-nav";
 import StatusPill from "@/components/status-pill";
+import { adminNavItems } from "@/lib/routes";
 import type { UserRole } from "@/lib/types";
 
 export default function AppShell({
@@ -30,11 +31,46 @@ export default function AppShell({
             </p>
             <h1 className="mt-2 text-3xl font-semibold md:text-4xl">{title}</h1>
           </div>
-          <StatusPill>{roleLabel}</StatusPill>
+          {role === "admin" ? (
+            <a href="/admin/family">
+              <StatusPill>{roleLabel}</StatusPill>
+            </a>
+          ) : (
+            <StatusPill>{roleLabel}</StatusPill>
+          )}
         </div>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-[#586857] md:mt-4 md:text-[15px]">
           {description}
         </p>
+        {role === "admin" ? (
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            {adminNavItems.map((item) => {
+              const active = item.href === currentPath;
+
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className={`inline-flex rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                    active
+                      ? "bg-[#23402b] text-[#f7f3ea]"
+                      : "bg-[rgba(255,255,255,0.78)] text-[#314531]"
+                  }`}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
+            <form action="/api/account/sign-out" method="post">
+              <button
+                type="submit"
+                className="inline-flex rounded-full border border-[rgba(31,42,31,0.12)] bg-transparent px-4 py-2 text-sm font-semibold text-[#314531]"
+              >
+                Sign out
+              </button>
+            </form>
+          </div>
+        ) : null}
       </header>
       <div className="mt-4 flex flex-1 flex-col gap-4 md:mt-5 md:gap-5">{children}</div>
       {role === "learner" ? <BottomNav currentPath={currentPath ?? "/home"} /> : null}

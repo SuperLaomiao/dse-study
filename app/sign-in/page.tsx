@@ -2,8 +2,14 @@ import EmailSignInForm from "@/components/account/email-sign-in-form";
 import PlaceholderPage from "@/components/placeholder-page";
 import { redirectIfSignedIn } from "@/lib/auth/server";
 
-export default async function SignInPage() {
+export default async function SignInPage({
+  searchParams
+}: {
+  searchParams?: Promise<{ error?: string }>;
+}) {
   await redirectIfSignedIn();
+  const resolvedSearchParams = await searchParams;
+  const error = resolvedSearchParams?.error;
 
   return (
     <PlaceholderPage
@@ -13,7 +19,7 @@ export default async function SignInPage() {
       sections={[
         {
           title: "Email sign-in",
-          content: <EmailSignInForm />
+          content: <EmailSignInForm error={error} />
         }
       ]}
     />

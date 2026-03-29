@@ -11,6 +11,8 @@ import AdminFamilyPage from "@/app/admin/family/page";
 import AdminAlertsPage from "@/app/admin/alerts/page";
 import HomePage from "@/app/home/page";
 import AdminLearnerDetailPage from "@/app/admin/learner/[id]/page";
+import PracticeHubPage from "@/app/practice/page";
+import ProgressPage from "@/app/progress/page";
 
 describe("phase 0 app shell", () => {
   it("renders learner navigation items in the shared shell", () => {
@@ -32,6 +34,28 @@ describe("phase 0 app shell", () => {
     expect(container.firstChild).toHaveClass("md:px-6");
   });
 
+  it("renders admin quick links and sign out controls in the shared shell", () => {
+    render(
+      <AppShell
+        role="admin"
+        title="Family Overview"
+        description="Admin dashboard"
+        currentPath="/admin/family"
+      >
+        <div>Shell content</div>
+      </AppShell>
+    );
+
+    expect(screen.getByRole("link", { name: "Family Admin" })).toHaveAttribute(
+      "href",
+      "/admin/family"
+    );
+    expect(screen.getByRole("link", { name: "Family" })).toHaveAttribute("href", "/admin/family");
+    expect(screen.getByRole("link", { name: "Alerts" })).toHaveAttribute("href", "/admin/alerts");
+    expect(screen.getByRole("link", { name: "System" })).toHaveAttribute("href", "/admin/system");
+    expect(screen.getByRole("button", { name: "Sign out" })).toBeInTheDocument();
+  });
+
   it("shows a richer learner learning snapshot on the home page", async () => {
     render(await HomePage());
 
@@ -42,6 +66,41 @@ describe("phase 0 app shell", () => {
     expect(screen.getByText("Today")).toBeInTheDocument();
     expect(screen.getByText("Current focus")).toBeInTheDocument();
     expect(screen.getByText("Inference")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Start practice" })).toHaveAttribute("href", "/practice");
+    expect(screen.getByRole("link", { name: "Review progress" })).toHaveAttribute("href", "/progress");
+  });
+
+  it("turns the practice hub into a real action surface", async () => {
+    render(await PracticeHubPage());
+
+    expect(screen.getByRole("heading", { name: "Practice" })).toBeInTheDocument();
+    expect(screen.getByText("Recommended next move")).toBeInTheDocument();
+    expect(screen.getAllByText("Vocabulary Loop").length).toBeGreaterThan(0);
+    expect(screen.getByRole("link", { name: "Open vocabulary module" })).toHaveAttribute(
+      "href",
+      "/practice/vocabulary"
+    );
+    expect(screen.getByRole("link", { name: "Open reading module" })).toHaveAttribute(
+      "href",
+      "/practice/reading"
+    );
+  });
+
+  it("shows a readable progress overview instead of a single line", async () => {
+    render(await ProgressPage());
+
+    expect(screen.getByRole("heading", { name: "Progress" })).toBeInTheDocument();
+    expect(screen.getByText("Reference level arc")).toBeInTheDocument();
+    expect(screen.getByText("B1+ now")).toBeInTheDocument();
+    expect(screen.getByText("Band 4.2 working band")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Open baseline assessment" })).toHaveAttribute(
+      "href",
+      "/assessment/baseline"
+    );
+    expect(screen.getByRole("link", { name: "See bi-weekly review" })).toHaveAttribute(
+      "href",
+      "/review/biweekly"
+    );
   });
 
   it("shows a household overview with learner cards on the admin family page", async () => {
@@ -59,6 +118,14 @@ describe("phase 0 app shell", () => {
       "href",
       "/admin/learner/older-brother"
     );
+    expect(screen.getByRole("link", { name: "Open Alerts Board" })).toHaveAttribute(
+      "href",
+      "/admin/alerts"
+    );
+    expect(screen.getByRole("link", { name: "Open System Checks" })).toHaveAttribute(
+      "href",
+      "/admin/system"
+    );
     expect(container.querySelector("section")).toHaveClass("md:p-6");
   });
 
@@ -70,6 +137,14 @@ describe("phase 0 app shell", () => {
     expect(screen.getByText("Upcoming")).toBeInTheDocument();
     expect(screen.getByText("Bi-weekly review due soon")).toBeInTheDocument();
     expect(screen.getByText("Recovery plan ready")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Open Family Dashboard" })).toHaveAttribute(
+      "href",
+      "/admin/family"
+    );
+    expect(screen.getByRole("link", { name: "Open System Checks" })).toHaveAttribute(
+      "href",
+      "/admin/system"
+    );
   });
 
   it("shows a safe fallback for an unknown learner detail route", async () => {
@@ -96,7 +171,28 @@ describe("phase 0 app shell", () => {
     expect(screen.getByText("6 days/week")).toBeInTheDocument();
     expect(screen.getByText("Target trajectory")).toBeInTheDocument();
     expect(screen.getByText("Band 5*")).toBeInTheDocument();
+    expect(screen.getByText("Quick actions")).toBeInTheDocument();
     expect(screen.getByText("Today's queue")).toBeInTheDocument();
     expect(screen.getByText("Vocabulary Loop")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Back to Family Overview" })).toHaveAttribute(
+      "href",
+      "/admin/family"
+    );
+    expect(screen.getByRole("link", { name: "Open System" })).toHaveAttribute(
+      "href",
+      "/admin/system"
+    );
+    expect(screen.getByRole("link", { name: "Open practice hub" })).toHaveAttribute(
+      "href",
+      "/practice"
+    );
+    expect(screen.getByRole("link", { name: "Open progress" })).toHaveAttribute(
+      "href",
+      "/progress"
+    );
+    expect(screen.getByRole("link", { name: "Next learner: Younger Sister" })).toHaveAttribute(
+      "href",
+      "/admin/learner/younger-sister"
+    );
   });
 });

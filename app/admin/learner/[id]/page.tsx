@@ -1,5 +1,6 @@
 import PlaceholderPage from "@/components/placeholder-page";
 import { requireServerRole } from "@/lib/auth/server";
+import { getFamilyDashboardData } from "@/lib/repositories/family-repository";
 import { getAdminLearnerDetailById } from "@/lib/repositories/profile-repository";
 
 export default async function AdminLearnerDetailPage({
@@ -9,6 +10,7 @@ export default async function AdminLearnerDetailPage({
 }) {
   await requireServerRole("admin");
   const { id } = await params;
+  const { learners } = await getFamilyDashboardData();
   const learner = await getAdminLearnerDetailById(id);
 
   if (!learner) {
@@ -26,6 +28,12 @@ export default async function AdminLearnerDetailPage({
       />
     );
   }
+
+  const currentLearnerIndex = learners.findIndex((member) => member.id === learner.id);
+  const nextLearner =
+    currentLearnerIndex >= 0 && currentLearnerIndex < learners.length - 1
+      ? learners[currentLearnerIndex + 1]
+      : null;
 
   return (
     <PlaceholderPage
@@ -88,6 +96,45 @@ export default async function AdminLearnerDetailPage({
                   <p className="mt-1 text-sm text-[#435443]">{task.detail}</p>
                 </article>
               ))}
+            </div>
+          )
+        },
+        {
+          title: "Quick actions",
+          content: (
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="/admin/family"
+                className="inline-flex rounded-full bg-[#23402b] px-4 py-2 text-sm font-semibold text-[#f7f3ea]"
+              >
+                Back to Family Overview
+              </a>
+              <a
+                href="/admin/system"
+                className="inline-flex rounded-full bg-[rgba(255,255,255,0.82)] px-4 py-2 text-sm font-semibold text-[#314531]"
+              >
+                Open System
+              </a>
+              <a
+                href="/practice"
+                className="inline-flex rounded-full bg-[rgba(255,255,255,0.82)] px-4 py-2 text-sm font-semibold text-[#314531]"
+              >
+                Open practice hub
+              </a>
+              <a
+                href="/progress"
+                className="inline-flex rounded-full bg-[rgba(255,255,255,0.82)] px-4 py-2 text-sm font-semibold text-[#314531]"
+              >
+                Open progress
+              </a>
+              {nextLearner ? (
+                <a
+                  href={`/admin/learner/${nextLearner.id}`}
+                  className="inline-flex rounded-full border border-[rgba(35,64,43,0.12)] bg-[rgba(246,241,231,0.82)] px-4 py-2 text-sm font-semibold text-[#23402b]"
+                >
+                  {`Next learner: ${nextLearner.name}`}
+                </a>
+              ) : null}
             </div>
           )
         }

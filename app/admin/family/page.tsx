@@ -14,6 +14,31 @@ export default async function AdminFamilyPage() {
       description={`${family.familyName} managed by ${snapshot.adminName}`}
       sections={[
         {
+          title: "Action desk",
+          content: (
+            <div className="rounded-[28px] border border-[rgba(35,64,43,0.08)] bg-[linear-gradient(145deg,rgba(248,243,234,0.96),rgba(233,244,237,0.92))] p-5">
+              <p className="max-w-2xl text-sm leading-6 text-[#435443]">
+                Stay on the family surface for learner-by-learner checks, then jump straight into
+                alerts or system status when something needs intervention.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-3">
+                <a
+                  href="/admin/alerts"
+                  className="inline-flex items-center justify-center rounded-full bg-[#23402b] px-4 py-2 text-sm font-semibold text-[#f7f3ea] transition hover:bg-[#1f3626]"
+                >
+                  Open Alerts Board
+                </a>
+                <a
+                  href="/admin/system"
+                  className="inline-flex items-center justify-center rounded-full border border-[rgba(35,64,43,0.16)] bg-white/75 px-4 py-2 text-sm font-semibold text-[#23402b] transition hover:bg-white"
+                >
+                  Open System Checks
+                </a>
+              </div>
+            </div>
+          )
+        },
+        {
           title: "Household snapshot",
           content: (
             <div className="grid gap-3 md:grid-cols-3">
