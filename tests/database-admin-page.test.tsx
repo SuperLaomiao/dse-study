@@ -42,5 +42,13 @@ describe("database admin page", () => {
     );
     expect(screen.getByRole("button", { name: "Bootstrap Schema" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Seed Demo Data" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Open Health Check" })).toHaveAttribute(
+      "href",
+      "/api/health"
+    );
+    expect(screen.getByText("Run order")).toBeInTheDocument();
+    expect(
+      screen.getByText("1. Confirm health and connectivity before changing schema.")
+    ).toBeInTheDocument();
   });
 });
