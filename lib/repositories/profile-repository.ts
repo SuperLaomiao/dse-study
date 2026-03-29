@@ -2,6 +2,7 @@ import { getDataAccessMode } from "@/lib/db";
 import { getDemoLearnerById } from "@/lib/data/learner";
 import { getDemoLearnerProfileByUserId, getDemoLearnerProfiles } from "@/lib/data/profiles";
 import { prisma } from "@/lib/prisma";
+import type { LearnerProfileRecord } from "@/lib/types";
 
 export interface AdminLearnerDetail {
   id: string;
@@ -106,4 +107,68 @@ export async function getAdminLearnerDetailById(userId: string): Promise<AdminLe
     focus: demoLearner.focus,
     dailyPlan: demoLearner.dailyPlan
   };
+}
+
+export async function saveLearnerProfile(input: {
+  userId: string;
+  profileName: string;
+  track: LearnerProfileRecord["track"];
+  schoolStage: LearnerProfileRecord["schoolStage"];
+  studyMinutesPerDay: number;
+  studyDaysPerWeek: number;
+  targetReferenceLevel: string;
+  targetInternalBand: string;
+}) {
+  return prisma.$transaction(async (tx) => {
+    const membership = await tx.familyMembership.findFirst({
+      where: {
+        userId: input.userId,
+        role: "learner",
+        status: "active"
+      },
+      orderBy: {
+        joinedAt: "desc"
+      }
+    });
+
+    if (!membership) {
+      return null;
+    }
+
+    await tx.user.update({
+      where: {
+        id: input.userId
+      },
+      data: {
+        displayName: input.profileName
+      }
+    });
+
+    return tx.learnerProfile.upsert({
+      where: {
+        userId: input.userId
+      },
+      update: {
+        familyId: membership.familyId,
+        profileName: input.profileName,
+        track: input.track,
+        schoolStage: input.schoolStage,
+        studyMinutesPerDay: input.studyMinutesPerDay,
+        studyDaysPerWeek: input.studyDaysPerWeek,
+        targetReferenceLevel: input.targetReferenceLevel,
+        targetInternalBand: input.targetInternalBand
+      },
+      create: {
+        userId: input.userId,
+        familyId: membership.familyId,
+        profileName: input.profileName,
+        track: input.track,
+        schoolStage: input.schoolStage,
+        studyMinutesPerDay: input.studyMinutesPerDay,
+        studyDaysPerWeek: input.studyDaysPerWeek,
+        targetReferenceLevel: input.targetReferenceLevel,
+        targetInternalBand: input.targetInternalBand
+      }
+    });
+  });
 }

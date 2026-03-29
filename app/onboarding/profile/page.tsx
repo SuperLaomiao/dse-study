@@ -1,12 +1,16 @@
 import OnboardingProfileForm from "@/components/account/onboarding-profile-form";
 import PlaceholderPage from "@/components/placeholder-page";
-import { getCurrentDemoUser, requireServerRole } from "@/lib/auth/server";
+import { requireServerRole } from "@/lib/auth/server";
 import { getLearnerProfileByUserId } from "@/lib/repositories/profile-repository";
 
 export default async function OnboardingProfilePage() {
-  await requireServerRole("learner");
-  const user = await getCurrentDemoUser();
-  const profile = user ? await getLearnerProfileByUserId(user.userId) : null;
+  const session = await requireServerRole("learner");
+
+  if (!session) {
+    return null;
+  }
+
+  const profile = await getLearnerProfileByUserId(session.userId);
 
   return (
     <PlaceholderPage

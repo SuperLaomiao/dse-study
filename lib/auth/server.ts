@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import {
   findDemoUserByEmail,
+  findDemoUserById,
   getPostSignInRedirect,
   parseSessionCookie,
   requireRole,
@@ -11,16 +12,6 @@ import {
 } from "@/lib/auth/session";
 
 export const SESSION_COOKIE_NAME = "dse-study-session";
-
-const demoAuthEmails = ["mom@example.com", "brother@example.com", "sister@example.com"];
-
-export function findDemoUserById(userId: string) {
-  const user = demoAuthEmails
-    .map((email) => findDemoUserByEmail(email))
-    .find((candidate) => candidate?.userId === userId);
-
-  return user ?? null;
-}
 
 export async function setSessionCookie(user: DemoAuthUser) {
   const cookieStore = await cookies();

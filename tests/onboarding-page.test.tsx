@@ -2,8 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 
 vi.mock("@/lib/auth/server", () => ({
-  requireServerRole: vi.fn(async () => ({ userId: "older-brother", role: "learner" })),
-  getCurrentDemoUser: vi.fn(async () => ({ userId: "older-brother", role: "learner" }))
+  requireServerRole: vi.fn(async () => ({ userId: "older-brother", role: "learner" }))
 }));
 
 import OnboardingProfilePage from "@/app/onboarding/profile/page";

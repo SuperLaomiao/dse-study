@@ -36,6 +36,10 @@ export function findDemoUserByEmail(email: string) {
   return demoUsers.find((user) => user.email === normalizedEmail) ?? null;
 }
 
+export function findDemoUserById(userId: string) {
+  return demoUsers.find((user) => user.userId === userId) ?? null;
+}
+
 export function parseSessionCookie(value: string | undefined | null): SessionUser | null {
   if (!value) {
     return null;
