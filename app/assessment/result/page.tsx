@@ -57,6 +57,30 @@ export default function AssessmentResultPage() {
               </div>
             </div>
           )
+        },
+        {
+          title: "Decision handoff",
+          content: (
+            <div className="grid gap-3 md:grid-cols-[minmax(0,1.1fr)_minmax(260px,0.9fr)]">
+              <div className="rounded-[24px] bg-[rgba(255,255,255,0.8)] p-4">
+                <p className="text-sm leading-6 text-[#435443]">
+                  The assessment says the next two-week block should stay narrow: inference first,
+                  review rhythm protected, and speaking kept warm as a confidence layer.
+                </p>
+              </div>
+              <div className="rounded-[24px] bg-[rgba(246,241,231,0.8)] p-4">
+                <p className="text-xs uppercase tracking-[0.18em] text-[#7f6f52]">Route</p>
+                <div className="mt-3 flex flex-wrap gap-3">
+                  <a
+                    href="/review/biweekly"
+                    className="inline-flex items-center justify-center rounded-full border border-[rgba(35,64,43,0.16)] bg-white/75 px-4 py-2 text-sm font-semibold text-[#23402b] transition hover:bg-white"
+                  >
+                    Open bi-weekly review
+                  </a>
+                </div>
+              </div>
+            </div>
+          )
         }
       ]}
     />

@@ -11,9 +11,14 @@ describe("learner result pages", () => {
     expect(screen.getByRole("heading", { name: "Assessment Result" })).toBeInTheDocument();
     expect(screen.getByText("Reference snapshot")).toBeInTheDocument();
     expect(screen.getByText("Next cycle focus")).toBeInTheDocument();
+    expect(screen.getByText("Decision handoff")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Open practice" })).toHaveAttribute(
       "href",
       "/practice"
+    );
+    expect(screen.getByRole("link", { name: "Open bi-weekly review" })).toHaveAttribute(
+      "href",
+      "/review/biweekly"
     );
   });
 
@@ -35,9 +40,14 @@ describe("learner result pages", () => {
     expect(screen.getByRole("heading", { name: "Review Result" })).toBeInTheDocument();
     expect(screen.getByText("Cycle verdict")).toBeInTheDocument();
     expect(screen.getByText("Reset for next sprint")).toBeInTheDocument();
+    expect(screen.getByText("Next sprint checklist")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Return to learn" })).toHaveAttribute(
       "href",
       "/learn"
+    );
+    expect(screen.getByRole("link", { name: "Open practice" })).toHaveAttribute(
+      "href",
+      "/practice"
     );
   });
 });
