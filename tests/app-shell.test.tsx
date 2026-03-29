@@ -55,6 +55,10 @@ describe("phase 0 app shell", () => {
     expect(screen.getByText("Older Brother")).toBeInTheDocument();
     expect(screen.getByText("Younger Sister")).toBeInTheDocument();
     expect(screen.getAllByText("Focus")).toHaveLength(2);
+    expect(screen.getByRole("link", { name: "Open Older Brother" })).toHaveAttribute(
+      "href",
+      "/admin/learner/older-brother"
+    );
     expect(container.querySelector("section")).toHaveClass("md:p-6");
   });
 
@@ -77,5 +81,22 @@ describe("phase 0 app shell", () => {
 
     expect(screen.getByText("Learner not found")).toBeInTheDocument();
     expect(screen.getByText("Back to Family Overview")).toBeInTheDocument();
+  });
+
+  it("renders a richer admin learner detail view for a known learner", async () => {
+    render(
+      await AdminLearnerDetailPage({
+        params: Promise.resolve({ id: "older-brother" })
+      })
+    );
+
+    expect(screen.getByRole("heading", { name: "Older Brother" })).toBeInTheDocument();
+    expect(screen.getByText("Study cadence")).toBeInTheDocument();
+    expect(screen.getByText("50 min/day")).toBeInTheDocument();
+    expect(screen.getByText("6 days/week")).toBeInTheDocument();
+    expect(screen.getByText("Target trajectory")).toBeInTheDocument();
+    expect(screen.getByText("Band 5*")).toBeInTheDocument();
+    expect(screen.getByText("Today's queue")).toBeInTheDocument();
+    expect(screen.getByText("Vocabulary Loop")).toBeInTheDocument();
   });
 });

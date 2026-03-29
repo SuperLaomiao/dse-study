@@ -63,6 +63,12 @@ export default async function AdminFamilyPage() {
                       ))}
                     </ul>
                   </div>
+                  <a
+                    href={`/admin/learner/${learner.id}`}
+                    className="mt-4 inline-flex rounded-full bg-[#23402b] px-4 py-2 text-sm font-semibold text-[#f7f3ea]"
+                  >
+                    Open {learner.name}
+                  </a>
                 </article>
               ))}
             </div>
