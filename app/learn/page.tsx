@@ -43,6 +43,36 @@ export default function LearnPage() {
           )
         },
         {
+          title: "Decision board",
+          content: (
+            <div className="grid gap-3 md:grid-cols-[minmax(0,1.1fr)_minmax(260px,0.9fr)]">
+              <div className="rounded-[24px] bg-[rgba(246,241,231,0.76)] p-4">
+                <p className="text-xs uppercase tracking-[0.18em] text-[#7f6f52]">Today’s call</p>
+                <p className="mt-2 text-lg font-semibold text-[#1f2a1f]">
+                  Stay narrow and protect momentum before adding anything new.
+                </p>
+                <p className="mt-2 text-sm leading-6 text-[#435443]">
+                  One focused practice block plus one review touchpoint is enough for this cycle.
+                </p>
+              </div>
+              <div className="rounded-[24px] bg-[rgba(255,255,255,0.82)] p-4">
+                <p className="text-xs uppercase tracking-[0.18em] text-[#7f6f52]">Next step</p>
+                <div className="mt-3 space-y-3 text-sm leading-6 text-[#435443]">
+                  <p>1. Run practice while the target skill is fresh.</p>
+                  <p>2. Check progress once the block is complete.</p>
+                  <p>3. Use the bi-weekly review to decide whether the loop should tighten or reset.</p>
+                </div>
+                <a
+                  href="/review/biweekly"
+                  className="mt-4 inline-flex rounded-full bg-[#23402b] px-4 py-2 text-sm font-semibold text-[#f7f3ea]"
+                >
+                  Open bi-weekly review
+                </a>
+              </div>
+            </div>
+          )
+        },
+        {
           title: "Reason stack",
           content: (
             <div className="grid gap-3 md:grid-cols-3">

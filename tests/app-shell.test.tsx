@@ -193,6 +193,7 @@ describe("phase 0 app shell", () => {
     expect(screen.getByText("Target trajectory")).toBeInTheDocument();
     expect(screen.getByText("Band 5*")).toBeInTheDocument();
     expect(screen.getByText("Quick actions")).toBeInTheDocument();
+    expect(screen.getByText("Switch learner")).toBeInTheDocument();
     expect(screen.getByText("Linked alerts")).toBeInTheDocument();
     expect(screen.getAllByText("Bi-weekly review due soon").length).toBeGreaterThan(0);
     expect(screen.getByText("Today's queue")).toBeInTheDocument();
@@ -220,6 +221,14 @@ describe("phase 0 app shell", () => {
     expect(screen.getByRole("link", { name: "Next learner: Younger Sister" })).toHaveAttribute(
       "href",
       "/admin/learner/younger-sister"
+    );
+    expect(screen.getByRole("link", { name: /Learner Younger Sister/ })).toHaveAttribute(
+      "href",
+      "/admin/learner/younger-sister"
+    );
+    expect(screen.getByRole("link", { name: /Learner Older Brother/ })).toHaveAttribute(
+      "href",
+      "/admin/learner/older-brother"
     );
   });
 });

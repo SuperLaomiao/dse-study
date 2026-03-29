@@ -34,6 +34,8 @@ export default async function AdminLearnerDetailPage({
   }
 
   const currentLearnerIndex = learners.findIndex((member) => member.id === learner.id);
+  const previousLearner =
+    currentLearnerIndex > 0 ? learners[currentLearnerIndex - 1] : null;
   const nextLearner =
     currentLearnerIndex >= 0 && currentLearnerIndex < learners.length - 1
       ? learners[currentLearnerIndex + 1]
@@ -85,6 +87,53 @@ export default async function AdminLearnerDetailPage({
                 </li>
               ))}
             </ul>
+          )
+        },
+        {
+          title: "Switch learner",
+          content: (
+            <div className="space-y-3">
+              <div className="flex flex-wrap gap-3">
+                {previousLearner ? (
+                  <a
+                    href={`/admin/learner/${previousLearner.id}`}
+                    className="inline-flex rounded-full border border-[rgba(35,64,43,0.12)] bg-[rgba(246,241,231,0.82)] px-4 py-2 text-sm font-semibold text-[#23402b]"
+                  >
+                    {`Previous learner: ${previousLearner.name}`}
+                  </a>
+                ) : null}
+                {nextLearner ? (
+                  <a
+                    href={`/admin/learner/${nextLearner.id}`}
+                    className="inline-flex rounded-full border border-[rgba(35,64,43,0.12)] bg-[rgba(246,241,231,0.82)] px-4 py-2 text-sm font-semibold text-[#23402b]"
+                  >
+                    {`Next learner: ${nextLearner.name}`}
+                  </a>
+                ) : null}
+              </div>
+              <div className="grid gap-3 md:grid-cols-2">
+                {learners.map((member) => {
+                  const isCurrent = member.id === learner.id;
+
+                  return (
+                    <a
+                      key={member.id}
+                      href={`/admin/learner/${member.id}`}
+                      aria-current={isCurrent ? "page" : undefined}
+                      className={`rounded-[22px] border p-4 transition ${
+                        isCurrent
+                          ? "border-[rgba(35,64,43,0.18)] bg-[rgba(35,64,43,0.92)] text-[#f7f3ea]"
+                          : "border-[rgba(35,64,43,0.08)] bg-[rgba(255,255,255,0.8)] text-[#1f2a1f] hover:bg-white"
+                      }`}
+                    >
+                      <p className="text-xs uppercase tracking-[0.18em] text-current/70">Learner</p>
+                      <p className="mt-2 text-base font-semibold">{member.name}</p>
+                      <p className="mt-1 text-sm text-current/80">{`${member.referenceLevel} • ${member.internalBand}`}</p>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
           )
         },
         {
@@ -162,14 +211,6 @@ export default async function AdminLearnerDetailPage({
               >
                 Open alerts board
               </a>
-              {nextLearner ? (
-                <a
-                  href={`/admin/learner/${nextLearner.id}`}
-                  className="inline-flex rounded-full border border-[rgba(35,64,43,0.12)] bg-[rgba(246,241,231,0.82)] px-4 py-2 text-sm font-semibold text-[#23402b]"
-                >
-                  {`Next learner: ${nextLearner.name}`}
-                </a>
-              ) : null}
             </div>
           )
         }

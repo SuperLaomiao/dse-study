@@ -10,6 +10,7 @@ describe("learner flow pages", () => {
 
     expect(screen.getByRole("heading", { name: "Learn" })).toBeInTheDocument();
     expect(screen.getByText("Today’s learning loop")).toBeInTheDocument();
+    expect(screen.getByText("Decision board")).toBeInTheDocument();
     expect(screen.getByText("Reason stack")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Open practice hub" })).toHaveAttribute(
       "href",
@@ -18,6 +19,10 @@ describe("learner flow pages", () => {
     expect(screen.getByRole("link", { name: "Review progress" })).toHaveAttribute(
       "href",
       "/progress"
+    );
+    expect(screen.getByRole("link", { name: "Open bi-weekly review" })).toHaveAttribute(
+      "href",
+      "/review/biweekly"
     );
   });
 
@@ -38,11 +43,16 @@ describe("learner flow pages", () => {
 
     expect(screen.getByRole("heading", { name: "Bi-weekly Review" })).toBeInTheDocument();
     expect(screen.getByText("Reset decisions")).toBeInTheDocument();
+    expect(screen.getByText("Review scoreboard")).toBeInTheDocument();
     expect(screen.getByText("Keep")).toBeInTheDocument();
     expect(screen.getByText("Tighten")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Open progress" })).toHaveAttribute(
       "href",
       "/progress"
+    );
+    expect(screen.getByRole("link", { name: "Open review result" })).toHaveAttribute(
+      "href",
+      "/review/result"
     );
   });
 });
