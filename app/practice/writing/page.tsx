@@ -8,6 +8,23 @@ export default function PracticeWritingPage() {
       leadLabel="Writing workspace"
       leadValue="Structure before draft"
       leadDetail="Keep planning visible so the learner improves organisation, not just sentence output."
+      boardCards={[
+        {
+          label: "Primary move",
+          value: "Plan first",
+          detail: "Outline the argument and body direction before expanding any sentence."
+        },
+        {
+          label: "Draft restraint",
+          value: "One target move",
+          detail: "Choose one linking or sentence pattern to improve instead of chasing everything."
+        },
+        {
+          label: "Review hook",
+          value: "Compare plan vs draft",
+          detail: "Judge whether the finished paragraph still matches the original outline shape."
+        }
+      ]}
       checkpoints={[
         "Draft the opening line and three body bullets before writing paragraphs.",
         "Keep one target structure or linking move for this session only.",

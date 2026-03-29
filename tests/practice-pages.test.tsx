@@ -2,6 +2,9 @@ import { render, screen } from "@testing-library/react";
 
 import PracticeVocabularyPage from "@/app/practice/vocabulary/page";
 import PracticeReadingPage from "@/app/practice/reading/page";
+import PracticeListeningPage from "@/app/practice/listening/page";
+import PracticeSpeakingPage from "@/app/practice/speaking/page";
+import PracticeWritingPage from "@/app/practice/writing/page";
 
 describe("practice module pages", () => {
   it("renders a richer vocabulary training page", () => {
@@ -25,6 +28,45 @@ describe("practice module pages", () => {
     expect(screen.getByRole("link", { name: "Open progress" })).toHaveAttribute(
       "href",
       "/progress"
+    );
+  });
+
+  it("renders a richer listening training page", () => {
+    render(<PracticeListeningPage />);
+
+    expect(screen.getByRole("heading", { name: "Listening" })).toBeInTheDocument();
+    expect(screen.getByText("Session board")).toBeInTheDocument();
+    expect(screen.getByText("Note capture")).toBeInTheDocument();
+    expect(screen.getByText("Replay discipline")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "See review rhythm" })).toHaveAttribute(
+      "href",
+      "/review/biweekly"
+    );
+  });
+
+  it("renders a richer speaking training page", () => {
+    render(<PracticeSpeakingPage />);
+
+    expect(screen.getByRole("heading", { name: "Speaking Phrase Loop" })).toBeInTheDocument();
+    expect(screen.getByText("Session board")).toBeInTheDocument();
+    expect(screen.getByText("Confidence loop")).toBeInTheDocument();
+    expect(screen.getByText("Fluency guardrail")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Open progress" })).toHaveAttribute(
+      "href",
+      "/progress"
+    );
+  });
+
+  it("renders a richer writing training page", () => {
+    render(<PracticeWritingPage />);
+
+    expect(screen.getByRole("heading", { name: "Writing" })).toBeInTheDocument();
+    expect(screen.getByText("Session board")).toBeInTheDocument();
+    expect(screen.getByText("Structure before draft")).toBeInTheDocument();
+    expect(screen.getByText("Draft restraint")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "See review rhythm" })).toHaveAttribute(
+      "href",
+      "/review/biweekly"
     );
   });
 });

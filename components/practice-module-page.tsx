@@ -6,6 +6,11 @@ interface PracticeModulePageProps {
   leadLabel: string;
   leadValue: string;
   leadDetail: string;
+  boardCards?: Array<{
+    label: string;
+    value: string;
+    detail: string;
+  }>;
   checkpoints: string[];
   primaryLink: { href: string; label: string };
   secondaryLink: { href: string; label: string };
@@ -17,6 +22,7 @@ export default function PracticeModulePage({
   leadLabel,
   leadValue,
   leadDetail,
+  boardCards = [],
   checkpoints,
   primaryLink,
   secondaryLink
@@ -53,6 +59,31 @@ export default function PracticeModulePage({
                   {secondaryLink.label}
                 </a>
               </div>
+            </div>
+          )
+        },
+        {
+          title: "Session board",
+          content: (
+            <div className="grid gap-3 md:grid-cols-3">
+              {boardCards.length > 0 ? (
+                boardCards.map((card) => (
+                  <article
+                    key={`${card.label}-${card.value}`}
+                    className="rounded-[24px] bg-[rgba(246,241,231,0.76)] p-4"
+                  >
+                    <p className="text-xs uppercase tracking-[0.18em] text-[#7f6f52]">{card.label}</p>
+                    <p className="mt-2 text-lg font-semibold text-[#1f2a1f]">{card.value}</p>
+                    <p className="mt-1 text-sm leading-6 text-[#435443]">{card.detail}</p>
+                  </article>
+                ))
+              ) : (
+                <article className="rounded-[24px] bg-[rgba(246,241,231,0.76)] p-4 md:col-span-3">
+                  <p className="text-sm leading-6 text-[#435443]">
+                    This module will surface its active board cards once the training slice is wired through.
+                  </p>
+                </article>
+              )}
             </div>
           )
         },
