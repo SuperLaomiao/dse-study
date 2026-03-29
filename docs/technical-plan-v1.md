@@ -187,6 +187,8 @@ Responsibilities:
 - Store recordings
 - Support prompt-based mini speaking tasks
 - Track phrase usability and speaking confidence
+- Run AI evaluation for uploaded short speaking responses
+- Generate learner-facing coach moves and parent-facing summary from one analysis
 
 Key entities:
 
@@ -194,6 +196,7 @@ Key entities:
 - SpeakingPrompt
 - SpeakingAttempt
 - AudioRecording
+- SpeakingEvaluation
 
 ### 9. Writing Module
 

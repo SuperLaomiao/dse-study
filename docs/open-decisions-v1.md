@@ -348,7 +348,8 @@ These are not blockers for starting development:
 - exact visual tone refinement
 - long-term content release cadence
 - future push notification behavior
-- richer speaking and writing AI feedback
+- richer writing AI feedback
+- deeper speaking history, persistence, and trend analysis beyond the first AI MVP
 
 ## 12. Conclusion
 

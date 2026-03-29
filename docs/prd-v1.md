@@ -284,6 +284,32 @@ It focuses on practical DSE-relevant speaking functions such as:
 - comparing options
 - giving reasons
 
+### 9.7.1 Speaking AI MVP
+
+The first AI-assisted MVP should land inside speaking before writing or listening.
+
+The speaking AI experience serves both the learner and the family:
+
+- learner gets immediate examiner-style judgement
+- learner gets coach-style next moves
+- parent gets a short plain-language summary from the same evaluation
+
+The first release supports two modes:
+
+- `Pattern mode` for shadowing, retelling, and sentence-frame control
+- `Exam mode` for freer DSE-style prompt response
+
+The output should include:
+
+- transcript
+- overall speaking signal
+- rubric-level scores
+- examiner notes
+- coach moves
+- parent summary
+
+This is an MVP decision-support layer, not a final exam-grade prediction engine.
+
 ### 9.8 Writing Basics Module
 
 The writing module supports:

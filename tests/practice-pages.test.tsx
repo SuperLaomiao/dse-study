@@ -47,14 +47,11 @@ describe("practice module pages", () => {
   it("renders a richer speaking training page", () => {
     render(<PracticeSpeakingPage />);
 
-    expect(screen.getByRole("heading", { name: "Speaking Phrase Loop" })).toBeInTheDocument();
-    expect(screen.getByText("Session board")).toBeInTheDocument();
-    expect(screen.getByText("Confidence loop")).toBeInTheDocument();
-    expect(screen.getByText("Fluency guardrail")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Open progress" })).toHaveAttribute(
-      "href",
-      "/progress"
-    );
+    expect(screen.getByRole("heading", { name: "Speaking AI Studio" })).toBeInTheDocument();
+    expect(screen.getAllByText("AI feedback studio")).toHaveLength(2);
+    expect(screen.getByRole("radio", { name: "Pattern mode" })).toBeInTheDocument();
+    expect(screen.getByRole("radio", { name: "Exam mode" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Upload speaking audio")).toBeInTheDocument();
   });
 
   it("renders a richer writing training page", () => {

@@ -145,6 +145,9 @@ Tasks:
 - support mini prompt submission
 - store audio attempts
 - show simple speaking feedback
+- support AI speaking studio with `Pattern` and `Exam` modes
+- upload one short audio file and return transcript plus structured feedback
+- generate parent-facing summary from the same AI run
 
 ### Module J: Writing Basics
 
