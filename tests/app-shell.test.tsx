@@ -135,8 +135,9 @@ describe("phase 0 app shell", () => {
     expect(screen.getByRole("heading", { name: "Alerts" })).toBeInTheDocument();
     expect(screen.getByText("Needs attention now")).toBeInTheDocument();
     expect(screen.getByText("Upcoming")).toBeInTheDocument();
-    expect(screen.getByText("Bi-weekly review due soon")).toBeInTheDocument();
-    expect(screen.getByText("Recovery plan ready")).toBeInTheDocument();
+    expect(screen.getByText("Decision lanes")).toBeInTheDocument();
+    expect(screen.getAllByText("Bi-weekly review due soon").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Recovery plan ready").length).toBeGreaterThan(0);
     expect(screen.getByRole("link", { name: "Open Family Dashboard" })).toHaveAttribute(
       "href",
       "/admin/family"
@@ -144,6 +145,20 @@ describe("phase 0 app shell", () => {
     expect(screen.getByRole("link", { name: "Open System Checks" })).toHaveAttribute(
       "href",
       "/admin/system"
+    );
+    expect(screen.getByRole("link", { name: "Open Health Check" })).toHaveAttribute(
+      "href",
+      "/api/health"
+    );
+    expect(screen.getByText("Older Brother")).toBeInTheDocument();
+    expect(screen.getByText("Younger Sister")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Open learner detail: Older Brother" })).toHaveAttribute(
+      "href",
+      "/admin/learner/older-brother"
+    );
+    expect(screen.getByRole("link", { name: "Open learner detail: Younger Sister" })).toHaveAttribute(
+      "href",
+      "/admin/learner/younger-sister"
     );
   });
 
