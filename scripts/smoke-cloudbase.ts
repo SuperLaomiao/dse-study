@@ -1,4 +1,8 @@
-import { getCloudbaseSmokeTargets, getSmokeFailure } from "@/lib/smoke";
+import {
+  getCloudbaseSmokeTargets,
+  getSmokeFailure,
+  summarizeSmokeFailures
+} from "@/lib/smoke";
 
 const baseUrl = process.env.SMOKE_BASE_URL?.trim();
 
@@ -38,8 +42,10 @@ async function main() {
   }
 
   if (failures.length > 0) {
+    const summarizedFailures = summarizeSmokeFailures(failures);
+
     console.error("CloudBase smoke check failed:");
-    for (const failure of failures) {
+    for (const failure of summarizedFailures) {
       console.error(`- ${failure}`);
     }
     process.exit(1);

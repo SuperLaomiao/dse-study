@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { getCloudbaseSmokeTargets, getSmokeFailure } from "@/lib/smoke";
+import {
+  getCloudbaseSmokeTargets,
+  getSmokeFailure,
+  summarizeSmokeFailures
+} from "@/lib/smoke";
 
 describe("smoke helpers", () => {
   it("treats protected admin routes as valid when they redirect to sign-in", () => {
@@ -57,5 +61,13 @@ describe("smoke helpers", () => {
         ['"app":"dse-study"', '"database"']
       )
     ).toBeNull();
+  });
+
+  it("adds a deployment hint when the new health and admin routes both 404", () => {
+    expect(
+      summarizeSmokeFailures(["/api/health returned 404", "/admin/system returned 404"]).some((line) =>
+        line.includes("CloudBase is still serving an older deployment")
+      )
+    ).toBe(true);
   });
 });

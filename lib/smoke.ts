@@ -31,6 +31,20 @@ export function getSmokeFailure(path: string, body: string, expectAnyText: strin
   return `${path} did not include any expected text: ${expectAnyText.join(" | ")}`;
 }
 
+export function summarizeSmokeFailures(failures: string[]) {
+  if (
+    failures.includes("/api/health returned 404") &&
+    failures.includes("/admin/system returned 404")
+  ) {
+    return [
+      ...failures,
+      "CloudBase is still serving an older deployment that does not include the new health and system routes yet."
+    ];
+  }
+
+  return failures;
+}
+
 function getHealthFailure(body: string) {
   try {
     const payload = JSON.parse(body) as {
