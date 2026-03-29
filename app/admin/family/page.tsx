@@ -6,6 +6,8 @@ export default async function AdminFamilyPage() {
   await requireServerRole("admin");
   const { snapshot, family, learners } = await getFamilyDashboardData();
   const activePlans = learners.reduce((total, learner) => total + learner.dailyPlan.length, 0);
+  const activeAlerts = snapshot.alerts.length;
+  const nextLearner = learners[0];
 
   return (
     <PlaceholderPage
@@ -33,6 +35,45 @@ export default async function AdminFamilyPage() {
                   className="inline-flex items-center justify-center rounded-full border border-[rgba(35,64,43,0.16)] bg-white/75 px-4 py-2 text-sm font-semibold text-[#23402b] transition hover:bg-white"
                 >
                   Open System Checks
+                </a>
+              </div>
+            </div>
+          )
+        },
+        {
+          title: "Decision board",
+          content: (
+            <div className="grid gap-3 md:grid-cols-[minmax(0,1.2fr)_minmax(260px,0.8fr)]">
+              <div className="rounded-[24px] bg-[rgba(246,241,231,0.78)] p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-[#7f6f52]">
+                  Active alerts
+                </p>
+                <p className="mt-2 text-3xl font-semibold text-[#1f2a1f]">{activeAlerts}</p>
+                <p className="mt-2 text-sm leading-6 text-[#435443]">
+                  Keep the family view as the decision surface, then jump into the learner that
+                  needs attention first.
+                </p>
+                {nextLearner ? (
+                  <a
+                    href={`/admin/learner/${nextLearner.id}`}
+                    className="mt-4 inline-flex rounded-full bg-[#23402b] px-4 py-2 text-sm font-semibold text-[#f7f3ea]"
+                  >
+                    {`Open ${nextLearner.name} first`}
+                  </a>
+                ) : null}
+              </div>
+              <div className="rounded-[24px] bg-[rgba(255,255,255,0.82)] p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-[#7f6f52]">Next checks</p>
+                <div className="mt-3 space-y-3 text-sm leading-6 text-[#435443]">
+                  <p>1. Review the newest learner alert and check their queue.</p>
+                  <p>2. Open system status only if the health signal or schema setup looks off.</p>
+                  <p>3. Return to alerts when you need a family-wide reminder list.</p>
+                </div>
+                <a
+                  href="/api/health"
+                  className="mt-4 inline-flex rounded-full border border-[rgba(35,64,43,0.16)] bg-[rgba(246,241,231,0.82)] px-4 py-2 text-sm font-semibold text-[#23402b]"
+                >
+                  Open Health Check
                 </a>
               </div>
             </div>

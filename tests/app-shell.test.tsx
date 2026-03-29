@@ -109,6 +109,8 @@ describe("phase 0 app shell", () => {
     expect(
       screen.getByRole("heading", { name: "Family Overview" })
     ).toBeInTheDocument();
+    expect(screen.getByText("Decision board")).toBeInTheDocument();
+    expect(screen.getByText("Active alerts")).toBeInTheDocument();
     expect(screen.getByText("Household snapshot")).toBeInTheDocument();
     expect(screen.getByText("Mom Admin")).toBeInTheDocument();
     expect(screen.getByText("Older Brother")).toBeInTheDocument();
@@ -125,6 +127,10 @@ describe("phase 0 app shell", () => {
     expect(screen.getByRole("link", { name: "Open System Checks" })).toHaveAttribute(
       "href",
       "/admin/system"
+    );
+    expect(screen.getByRole("link", { name: "Open Health Check" })).toHaveAttribute(
+      "href",
+      "/api/health"
     );
     expect(container.querySelector("section")).toHaveClass("md:p-6");
   });
