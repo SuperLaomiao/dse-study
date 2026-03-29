@@ -23,13 +23,13 @@ export default function AppShell({
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-md flex-col px-4 py-6 text-[#1f2a1f] md:max-w-4xl md:px-6 md:py-8">
-      <header className="rounded-[32px] bg-[rgba(255,248,239,0.86)] p-5 shadow-[0_20px_40px_rgba(73,56,27,0.08)] md:rounded-[36px] md:p-7">
+      <header className="rounded-[32px] border border-[var(--stroke-soft)] bg-[linear-gradient(180deg,rgba(255,251,245,0.96),rgba(248,241,230,0.88))] p-5 shadow-[var(--shadow-soft)] backdrop-blur-[6px] md:rounded-[36px] md:p-7">
         <div className="flex items-start justify-between gap-3 md:items-center">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-[#7f6f52]">
+            <p className="text-xs uppercase tracking-[0.22em] text-[var(--text-soft)]">
               DSE Study
             </p>
-            <h1 className="mt-2 text-3xl font-semibold md:text-4xl">{title}</h1>
+            <h1 className="mt-2 text-3xl font-semibold tracking-[-0.02em] md:text-4xl">{title}</h1>
           </div>
           {role === "admin" ? (
             <a href="/admin/family">
@@ -39,7 +39,7 @@ export default function AppShell({
             <StatusPill>{roleLabel}</StatusPill>
           )}
         </div>
-        <p className="mt-3 max-w-2xl text-sm leading-6 text-[#586857] md:mt-4 md:text-[15px]">
+        <p className="mt-3 max-w-2xl text-sm leading-6 text-[var(--text-muted)] md:mt-4 md:text-[15px]">
           {description}
         </p>
         {role === "admin" ? (
@@ -53,8 +53,8 @@ export default function AppShell({
                   href={item.href}
                   className={`inline-flex rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
                     active
-                      ? "bg-[#23402b] text-[#f7f3ea]"
-                      : "bg-[rgba(255,255,255,0.78)] text-[#314531]"
+                      ? "bg-[var(--brand)] text-[var(--cream)] shadow-[0_12px_24px_rgba(35,64,43,0.2)]"
+                      : "border border-[var(--stroke-soft)] bg-[rgba(255,255,255,0.84)] text-[var(--brand)] hover:bg-[var(--cream)]"
                   }`}
                 >
                   {item.label}
@@ -64,7 +64,7 @@ export default function AppShell({
             <form action="/api/account/sign-out" method="post">
               <button
                 type="submit"
-                className="inline-flex rounded-full border border-[rgba(31,42,31,0.12)] bg-transparent px-4 py-2 text-sm font-semibold text-[#314531]"
+                className="inline-flex rounded-full border border-[var(--stroke-soft)] bg-transparent px-4 py-2 text-sm font-semibold text-[var(--brand)] hover:bg-[rgba(255,255,255,0.5)]"
               >
                 Sign out
               </button>

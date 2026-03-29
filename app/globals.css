@@ -3,6 +3,18 @@
 :root {
   --background: #f6f1e7;
   --foreground: #1f2a1f;
+  --surface: rgba(255, 252, 247, 0.82);
+  --surface-strong: rgba(255, 248, 239, 0.92);
+  --surface-soft: rgba(246, 239, 226, 0.72);
+  --stroke-soft: rgba(62, 78, 50, 0.1);
+  --text-muted: #586857;
+  --text-soft: #7b6c4f;
+  --brand: #23402b;
+  --brand-strong: #173321;
+  --brand-soft: #5d7753;
+  --brand-tint: #e3efe4;
+  --cream: #fffaf3;
+  --shadow-soft: 0 24px 60px rgba(66, 51, 27, 0.09);
 }
 
 * {
@@ -19,12 +31,16 @@ body {
   min-height: 100vh;
   font-family: Georgia, "Times New Roman", serif;
   background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.8), transparent 36%),
-    linear-gradient(180deg, #f7f3ea 0%, #efe3cf 100%);
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.92), transparent 34%),
+    linear-gradient(180deg, #fcf8f0 0%, #f1e6d4 100%);
   color: var(--foreground);
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+::selection {
+  background: rgba(35, 64, 43, 0.16);
 }
