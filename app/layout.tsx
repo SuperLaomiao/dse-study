@@ -7,7 +7,20 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "DSE Study",
-  description: "Mobile-first family English learning app scaffold"
+  description: "Family-guided English learning for DSE students with daily loops, review checkpoints, and parent visibility.",
+  metadataBase: new URL("https://dsestudy.online"),
+  openGraph: {
+    title: "DSE Study",
+    description:
+      "Family-guided English learning for DSE students with daily loops, review checkpoints, and parent visibility.",
+    url: "https://dsestudy.online",
+    siteName: "DSE Study",
+    locale: "en_HK",
+    type: "website"
+  },
+  alternates: {
+    canonical: "https://dsestudy.online"
+  }
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
