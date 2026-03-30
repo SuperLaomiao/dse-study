@@ -172,12 +172,20 @@ export function AdminFamilyPageContent({
                       ))}
                     </ul>
                   </div>
-                  <a
-                    href={`/admin/learner/${learner.id}`}
-                    className="mt-4 inline-flex rounded-full bg-[var(--brand)] px-5 py-3 text-sm font-semibold text-[var(--cream)] shadow-[0_14px_24px_rgba(35,64,43,0.18)] transition hover:bg-[var(--brand-strong)]"
-                  >
-                    {locale === "zh" ? `打开 ${learner.name}` : `Open ${learner.name}`}
-                  </a>
+                  <div className="mt-4 flex gap-2">
+                    <a
+                      href={`/admin/learner/${learner.id}`}
+                      className="inline-flex rounded-full bg-[var(--brand)] px-5 py-3 text-sm font-semibold text-[var(--cream)] shadow-[0_14px_24px_rgba(35,64,43,0.18)] transition hover:bg-[var(--brand-strong)]"
+                    >
+                      {locale === "zh" ? `打开 ${learner.name}` : `Open ${learner.name}`}
+                    </a>
+                    <a
+                      href={`/admin/learner/${learner.id}/progress`}
+                      className="inline-flex rounded-full border border-[rgba(35,64,43,0.16)] bg-[var(--cream)] px-5 py-3 text-sm font-semibold text-[var(--brand)] transition hover:bg-white"
+                    >
+                      {locale === "zh" ? "查看进度" : "View Progress"}
+                    </a>
+                  </div>
                 </article>
               ))}
             </div>

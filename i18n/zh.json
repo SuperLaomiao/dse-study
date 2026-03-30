@@ -214,5 +214,36 @@
     "noPhrasesYet": "短语列表中还没有短语，开始练习来添加短语吧。",
     "microphoneNotSupported": "你的浏览器不支持录音功能。",
     "permissionDenied": "麦克风权限被拒绝，请允许访问以继续。"
+  },
+  "progress": {
+    "learningProgress": "学习进度",
+    "progressDetails": "进度详情",
+    "viewProgress": "查看进度",
+    "learningStatistics": "学习统计",
+    "vocabulary": "词汇",
+    "totalLearned": "已学习总数",
+    "totalMastered": "已掌握",
+    "todaysPractice": "今日练习",
+    "currentStreak": "连续学习天数",
+    "speaking": "口语",
+    "totalPracticed": "已练习总数",
+    "averageScore": "平均分数",
+    "masteryRate": "掌握率",
+    "recentActivities": "最近活动",
+    "noActivitiesYet": "暂无练习记录",
+    "progressSummary": "进度总结",
+    "overallMastery": "总体掌握率",
+    "mastered": "已掌握",
+    "backToLearner": "返回学习者主页",
+    "activity": {
+      "vocabulary": "词汇",
+      "speaking": "口语"
+    },
+    "recommendations": {
+      "excellentStreak": "太棒了！连续学习很棒，请继续保持这个好习惯。",
+      "goodProgress": "进度不错，继续保持每天练习来巩固已学内容。",
+      "solidFoundation": "已经打下了良好的基础，建议增加每日练习量来加快进度。",
+      "gettingStarted": "刚开始起步，建议每天坚持练习，养成良好的学习习惯。"
+    }
   }
 }

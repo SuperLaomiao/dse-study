@@ -214,5 +214,36 @@
     "noPhrasesYet": "No phrases in your list yet. Start practicing to add phrases.",
     "microphoneNotSupported": "Microphone recording is not supported in your browser.",
     "permissionDenied": "Microphone permission was denied. Please allow access to continue."
+  },
+  "progress": {
+    "learningProgress": "Learning Progress",
+    "progressDetails": "Progress Details",
+    "viewProgress": "View Progress",
+    "learningStatistics": "Learning Statistics",
+    "vocabulary": "Vocabulary",
+    "totalLearned": "Total Learned",
+    "totalMastered": "Mastered",
+    "todaysPractice": "Today's Practice",
+    "currentStreak": "Current Streak",
+    "speaking": "Speaking",
+    "totalPracticed": "Total Practiced",
+    "averageScore": "Average Score",
+    "masteryRate": "Mastery Rate",
+    "recentActivities": "Recent Activities",
+    "noActivitiesYet": "No practice activities yet",
+    "progressSummary": "Progress Summary",
+    "overallMastery": "Overall Mastery",
+    "mastered": "mastered",
+    "backToLearner": "Back to Learner Profile",
+    "activity": {
+      "vocabulary": "Vocabulary",
+      "speaking": "Speaking"
+    },
+    "recommendations": {
+      "excellentStreak": "Excellent! Great consistency with your daily learning. Keep it up!",
+      "goodProgress": "Good progress! Keep practicing daily to reinforce what you've learned.",
+      "solidFoundation": "You've built a solid foundation. Consider increasing daily practice to speed up progress.",
+      "gettingStarted": "You're just getting started. Keep practicing daily to build good learning habits."
+    }
   }
 }
