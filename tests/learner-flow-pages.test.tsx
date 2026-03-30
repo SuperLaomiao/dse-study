@@ -30,9 +30,9 @@ describe("learner flow pages", () => {
     render(await BaselineAssessmentPage());
 
     expect(screen.getByRole("heading", { name: "基线评估" })).toBeInTheDocument();
-    expect(screen.getByText("Diagnostic mix")).toBeInTheDocument();
-    expect(screen.getByText("Vocabulary snapshot")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Continue to practice" })).toHaveAttribute(
+    expect(screen.getByText("诊断组合")).toBeInTheDocument();
+    expect(screen.getByText("词汇快照")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "继续进入练习" })).toHaveAttribute(
       "href",
       "/practice"
     );

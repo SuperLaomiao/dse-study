@@ -45,7 +45,7 @@ export default function EmailSignInForm({
       </div>
       <p className="mt-3 text-xs leading-5 text-[var(--text-muted)]">
         {pickLocale(locale, {
-          zh: "演示账号：`mom@example.com / demo-admin-pass`、`brother@example.com / demo-brother-pass`、`sister@example.com / demo-sister-pass`",
+          zh: "可直接使用这些演示账号登录：`mom@example.com / demo-admin-pass`、`brother@example.com / demo-brother-pass`、`sister@example.com / demo-sister-pass`",
           en: "Demo credentials: `mom@example.com / demo-admin-pass`, `brother@example.com / demo-brother-pass`, `sister@example.com / demo-sister-pass`"
         })}
       </p>

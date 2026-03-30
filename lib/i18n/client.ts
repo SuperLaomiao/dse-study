@@ -3,7 +3,7 @@
 import { use } from "react";
 import en from "../../i18n/en.json";
 import zh from "../../i18n/zh.json";
-import type { Locale } from "./config";
+import { resolveLocale, type Locale } from "./config";
 
 const translations = {
   en,
@@ -25,18 +25,9 @@ function getNestedTranslation(obj: any, path: string): string {
 }
 
 export function useI18n(namespace?: string) {
-  // Get locale from document (set by server)
-  const getLocale = () => {
-    if (typeof document !== "undefined") {
-      const htmlLang = document.documentElement.lang;
-      return (htmlLang === "zh" ? "zh" : "en") as Locale;
-    }
-    return "en" as Locale;
-  };
-
-  const locale = getLocale();
+  const locale = getDocumentLocale();
   const t = (key: string): string => {
-    const fullKey = namespace ? `${namespace}.${key}` : key;
+    const fullKey = namespace && !key.includes(".") ? `${namespace}.${key}` : key;
     return getNestedTranslation(translations[locale], fullKey);
   };
 
@@ -45,4 +36,12 @@ export function useI18n(namespace?: string) {
 
 export function t(locale: Locale, key: string): string {
   return getNestedTranslation(translations[locale], key);
+}
+
+export function getDocumentLocale(): Locale {
+  if (typeof document === "undefined") {
+    return "en";
+  }
+
+  return resolveLocale(document.documentElement.lang.split("-")[0]);
 }

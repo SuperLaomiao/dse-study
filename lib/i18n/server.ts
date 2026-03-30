@@ -10,3 +10,14 @@ export async function getRequestLocale(): Promise<Locale> {
     return DEFAULT_LOCALE;
   }
 }
+
+export function getRequestLocaleFromRequest(request: Request): Locale {
+  const cookieHeader = request.headers.get("cookie") ?? "";
+  const rawLocale = cookieHeader
+    .split(";")
+    .map((item) => item.trim())
+    .find((item) => item.startsWith(`${LOCALE_COOKIE_NAME}=`))
+    ?.slice(LOCALE_COOKIE_NAME.length + 1);
+
+  return resolveLocale(rawLocale);
+}

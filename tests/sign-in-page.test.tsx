@@ -12,19 +12,19 @@ describe("sign-in page", () => {
     render(
       await SignInPage({
         searchParams: Promise.resolve({
-          error: "Email is required."
+          error: "请先填写邮箱。"
         })
       })
     );
 
-    expect(screen.getByText("Email is required.")).toBeInTheDocument();
+    expect(screen.getByText("请先填写邮箱。")).toBeInTheDocument();
   });
 
   it("renders clear next-step links for new families and invited learners", async () => {
     render(await SignInPage({ searchParams: Promise.resolve({}) }));
 
     expect(
-      screen.getByText("选择进入演示或 onboarding 流程的最快路径。")
+      screen.getByText("选择进入演示体验或完整接入流程的最快路径。")
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /创建家庭/i })).toHaveAttribute(
       "href",

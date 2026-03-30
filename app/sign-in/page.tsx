@@ -30,7 +30,7 @@ export default async function SignInPage({
             <div className="space-y-4">
               <p className="text-sm text-[var(--text-muted)]">
                 {pickLocale(locale, {
-                  zh: "选择进入演示或 onboarding 流程的最快路径。",
+                  zh: "选择进入演示体验或完整接入流程的最快路径。",
                   en: "Choose the fastest route into the demo or onboarding flow."
                 })}
               </p>
@@ -102,7 +102,7 @@ export default async function SignInPage({
               <StatusHint
                 title={pickLocale(locale, { zh: "手动测试", en: "Manual testing" })}
                 description={pickLocale(locale, {
-                  zh: "如果你想测试 onboarding，而不是快速演示登录，就使用上面的创建/加入家庭链接。",
+                  zh: "如果你想完整测试家庭接入流程，而不是直接用演示账号登录，就使用上面的创建家庭和加入家庭入口。",
                   en: "Use the family create/join links above when you want to test onboarding instead of the fast demo sign-in."
                 })}
               />

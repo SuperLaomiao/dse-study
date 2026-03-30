@@ -15,8 +15,12 @@ describe("learner result pages", () => {
     const page = await AssessmentWelcomePage();
     render(page);
 
-    expect(screen.getByRole("heading", { name: /基线水平评估|Baseline Assessment/ })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /开始评估|Start Assessment/ })).toHaveAttribute(
+    expect(screen.getByRole("heading", { name: "基线水平评估" })).toBeInTheDocument();
+    expect(screen.getByText("评估信息")).toBeInTheDocument();
+    expect(
+      screen.getByText("本次结果会写入 Older Brother 的学习档案，并影响接下来两周的起始难度。")
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "开始评估" })).toHaveAttribute(
       "href",
       "/assessment/take"
     );

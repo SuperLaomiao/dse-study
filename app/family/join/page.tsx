@@ -24,7 +24,7 @@ export default async function FamilyJoinPage() {
               step={pickLocale(locale, { zh: "第 2 步（共 3 步）", en: "Step 2 of 3" })}
               title={pickLocale(locale, { zh: "用一个稳定身份把学习者接入现有家庭。", en: "Attach the learner to the existing family with one stable identity." })}
               description={pickLocale(locale, {
-                zh: "这一步应该像一次干净的交接，而不是第二条 onboarding 分支。使用未来要承接学习计划的那个邮箱，只加入一次家庭，然后直接进入学习者档案校准。",
+                zh: "这一步应该像一次干净的交接，而不是再开一条重复的注册分支。使用未来要承接学习计划的那个邮箱，只加入一次家庭，然后直接进入学习者档案校准。",
                 en: "This step should feel like a clean handoff, not a second onboarding fork. Use the learner email that should own the study plan, join the household once, then move straight to learner profile calibration."
               })}
               actions={

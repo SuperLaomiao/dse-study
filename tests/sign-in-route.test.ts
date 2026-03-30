@@ -17,7 +17,9 @@ describe("sign-in route", () => {
     const response = await POST(request);
 
     expect(response.status).toBe(307);
-    expect(response.headers.get("location")).toContain("/sign-in?error=");
+    expect(decodeURIComponent(response.headers.get("location") ?? "")).toContain(
+      "/sign-in?error=请先填写邮箱。"
+    );
   });
 
   it("redirects back to sign-in with an error when password is missing", async () => {
@@ -34,7 +36,27 @@ describe("sign-in route", () => {
     const response = await POST(request);
 
     expect(response.status).toBe(307);
-    expect(response.headers.get("location")).toContain("/sign-in?error=");
+    expect(decodeURIComponent(response.headers.get("location") ?? "")).toContain(
+      "/sign-in?error=请先填写密码。"
+    );
+  });
+
+  it("can redirect with english errors when locale cookie is english", async () => {
+    const request = new Request("http://localhost:3000/api/account/sign-in", {
+      method: "POST",
+      body: new URLSearchParams({
+        email: "mom@example.com"
+      }),
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        cookie: "dse-study-locale=en"
+      }
+    });
+
+    const response = await POST(request);
+
+    expect(response.status).toBe(307);
+    expect(response.headers.get("location")).toContain("/sign-in?error=Password+is+required.");
   });
 
   it("sets the session cookie and redirects admins to the family page", async () => {

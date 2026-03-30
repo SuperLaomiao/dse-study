@@ -1,12 +1,15 @@
 import { NextResponse } from 'next/server';
-import { getCurrentSession } from '@/lib/auth/server';
+import { resolveRouteUser } from '@/lib/api-auth';
 import { getVocabularyStats } from '@/lib/data/vocabulary';
 
 export async function GET(request: Request) {
-  const session = await getCurrentSession();
-  const userId = session?.userId || 'demo-user';
-
   try {
+    const routeUser = await resolveRouteUser(request);
+    if ("response" in routeUser) {
+      return routeUser.response;
+    }
+
+    const { userId } = routeUser;
     const stats = await getVocabularyStats(userId);
     return NextResponse.json(stats);
   } catch (error) {

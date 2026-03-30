@@ -46,6 +46,10 @@ model User {
   vocabularyProgress  UserVocabulary[]
   speakingProgress    UserSpeakingPractice[]
   speakingRecordings  SpeakingRecording[]
+  readingPractices    UserReadingPractice[]
+  listeningPractices  UserListeningPractice[]
+  writingPractices    UserWritingPractice[]
+  biweeklyReviews     BiWeeklyReview[]
 }
 
 model Family {
@@ -97,11 +101,14 @@ model LearnerProfile {
   targetReferenceLevel String
   targetInternalBand String
   isAdminViewOnly    Boolean      @default(false)
+  lastBiWeeklyReview DateTime?
+  nextBiWeeklyReview DateTime?
   createdAt          DateTime     @default(now())
   updatedAt          DateTime     @updatedAt
   user               User         @relation(fields: [userId], references: [id])
   family             Family       @relation(fields: [familyId], references: [id])
   assessments        AssessmentResult[]
+  biweeklyReviews     BiWeeklyReview[]
 }
 
 model AssessmentResult {
@@ -190,4 +197,113 @@ model SpeakingRecording {
   createdAt      DateTime  @default(now())
   userPractice   UserSpeakingPractice @relation(fields: [userPracticeId], references: [id])
   user           User      @relation(fields: [userId], references: [id])
+}
+
+model ReadingPassage {
+  id             String          @id @default(uuid())
+  title          String
+  content        String          // Reading passage text
+  difficultyLevel Int           // 1-5 corresponding to DSE levels (1=easy, 5=hard)
+  difficultyStar String         // "*" or "**" for DSE marking
+  questions      Json           // Array of questions with options and correct answers
+  explanation    String?         // General explanation for the passage
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  userPractices  UserReadingPractice[]
+}
+
+model UserReadingPractice {
+  id             String          @id @default(uuid())
+  userId         String
+  readingPassageId String
+  userAnswers    Json            // Array of user's answers
+  correctAnswers Int             // Number of correct answers
+  totalQuestions Int             // Total number of questions
+  percentageScore Float          // Score percentage
+  completedAt    DateTime        @default(now())
+  user           User             @relation(fields: [userId], references: [id])
+  readingPassage ReadingPassage   @relation(fields: [readingPassageId], references: [id])
+}
+
+model ListeningExercise {
+  id             String          @id @default(uuid())
+  title          String
+  description    String?         // Exercise description/context
+  audioUrl       String          // Audio file URL
+  difficultyLevel Int           // 1-5 corresponding to DSE levels (1=easy, 5=hard)
+  difficultyStar String         // "*" or "**" for DSE marking
+  questions      Json           // Array of questions with options and correct answers
+  explanation    String?         // General explanation
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  userPractices  UserListeningPractice[]
+}
+
+model UserListeningPractice {
+  id             String          @id @default(uuid())
+  userId         String
+  listeningExerciseId String
+  userAnswers    Json            // Array of user's answers
+  correctAnswers Int             // Number of correct answers
+  totalQuestions Int             // Total number of questions
+  percentageScore Float          // Score percentage
+  completedAt    DateTime        @default(now())
+  user           User             @relation(fields: [userId], references: [id])
+  listeningExercise ListeningExercise @relation(fields: [listeningExerciseId], references: [id])
+}
+
+model WritingPrompt {
+  id             String          @id @default(uuid())
+  title          String
+  content        String          // Writing prompt/question content
+  part           String          // "part1" or "part2" (DSE Part 1 / Part 2)
+  difficultyLevel Int           // 1-5 corresponding to DSE levels (1=easy, 5=hard)
+  wordCountMin   Int             // Minimum word count requirement
+  wordCountMax   Int             // Maximum word count requirement
+  description    String?         // Additional description/context
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  userPractices  UserWritingPractice[]
+}
+
+model UserWritingPractice {
+  id             String          @id @default(uuid())
+  userId         String
+  writingPromptId String
+  userEssay      String          // User's written essay
+  overallScore   Int             // DSE score 1-5
+  starRating      String          // "*" or "**" for DSE marking
+  vocabularyFeedback String      // Vocabulary feedback
+  grammarFeedback String        // Grammar feedback
+  structureFeedback String      // Structure feedback
+  contentFeedback String         // Content feedback
+  suggestions     String          // Improvement suggestions
+  corrections     Json           // Array of corrections: {original: string, correction: string, explanation: string}
+  feedbackJson    String?         // Full JSON feedback from AI
+  completedAt    DateTime        @default(now())
+  user           User             @relation(fields: [userId], references: [id])
+  writingPrompt  WritingPrompt    @relation(fields: [writingPromptId], references: [id])
+}
+
+model BiWeeklyReview {
+  id               String       @id @default(uuid())
+  userId           String
+  learnerProfileId String
+  startTime        DateTime     @default(now())
+  completedAt      DateTime?
+  totalQuestions   Int
+  correctAnswers   Int
+  percentageScore  Float?
+  vocabCount       Int          // Number of vocabulary items in this review
+  phraseCount      Int          // Number of speaking phrases in this review
+  readingCount     Int          // Number of reading questions in this review
+  vocabCorrect     Int          // Correct vocabulary answers
+  phraseCorrect    Int          // Correct phrase answers
+  readingCorrect   Int          // Correct reading answers
+  nextReviewDate   DateTime
+  reviewContent    Json         // Stores the actual review questions/items
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  user             User         @relation(fields: [userId], references: [id])
+  learnerProfile   LearnerProfile @relation(fields: [learnerProfileId], references: [id])
 }

@@ -2,17 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { baselineQuestions, type AssessmentQuestion } from "@/lib/assessment/questions";
-import { pickLocale, type Locale } from "@/lib/i18n/config";
+import { baselineQuestions } from "@/lib/assessment/questions";
 import { useI18n } from "@/lib/i18n/client";
 
 export default function AssessmentTakePage() {
   const router = useRouter();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
-  const [locale, setLocale] = useState<Locale>("en");
-
-  // Get locale from document html lang attribute
   const t = useI18n("assessment");
 
   const question = baselineQuestions[currentQuestion];

@@ -37,13 +37,13 @@ export default async function LearnPage() {
               <div className="mt-5 flex flex-wrap gap-3">
                 <a
                   href="/practice"
-                  className="inline-flex min-w-[168px] items-center justify-center rounded-full bg-[var(--cream)] px-5 py-3 text-sm font-semibold text-[var(--brand-strong)] shadow-[0_14px_28px_rgba(18,34,22,0.18)] transition hover:bg-white"
+                  className="inline-flex min-w-[168px] items-center justify-center rounded-full border border-[rgba(255,250,243,0.62)] bg-[var(--cream)] px-5 py-3 text-sm font-semibold text-[#183321] shadow-[0_14px_28px_rgba(18,34,22,0.24)] transition hover:-translate-y-[1px] hover:bg-white"
                 >
                   {pickLocale(locale, { zh: "打开练习中心", en: "Open practice hub" })}
                 </a>
                 <a
                   href="/progress"
-                  className="inline-flex min-w-[168px] items-center justify-center rounded-full border border-[rgba(255,250,243,0.28)] bg-[rgba(255,250,243,0.1)] px-5 py-3 text-sm font-semibold text-[var(--cream)] transition hover:bg-[rgba(255,250,243,0.18)]"
+                  className="inline-flex min-w-[168px] items-center justify-center rounded-full border border-[rgba(255,250,243,0.42)] bg-[rgba(255,250,243,0.18)] px-5 py-3 text-sm font-semibold text-[#fff8ef] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] transition hover:-translate-y-[1px] hover:bg-[rgba(255,250,243,0.28)]"
                 >
                   {pickLocale(locale, { zh: "查看进度", en: "Review progress" })}
                 </a>

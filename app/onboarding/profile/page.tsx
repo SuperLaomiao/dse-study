@@ -43,7 +43,7 @@ export default async function OnboardingProfilePage() {
                     href="/learn"
                     className="inline-flex items-center justify-center rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-[var(--cream)] transition hover:bg-[var(--brand-strong)]"
                   >
-                    {pickLocale(locale, { zh: "继续进入学习页", en: "Continue into learn" })}
+                    {pickLocale(locale, { zh: "继续进入学习", en: "Continue into learn" })}
                   </a>
                   <a
                     href="/sign-in"
@@ -108,7 +108,7 @@ export default async function OnboardingProfilePage() {
                     href="/assessment/welcome"
                     className="inline-flex items-center justify-center rounded-full bg-[#23402b] px-4 py-2 text-sm font-semibold text-[#f7f3ea] transition hover:bg-[#1f3626]"
                   >
-                    {pickLocale(locale, { zh: "开始基线评估", en: "Start Baseline Assessment" })}
+                    {pickLocale(locale, { zh: "开始基线评估", en: "Start baseline assessment" })}
                   </a>
                 ) : (
                   <a

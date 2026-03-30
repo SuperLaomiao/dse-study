@@ -87,7 +87,10 @@ export default async function FamilyCreatePage() {
           content: (
             <div className="rounded-[28px] border border-[rgba(35,64,43,0.08)] bg-[linear-gradient(145deg,rgba(248,243,234,0.96),rgba(233,244,237,0.92))] p-5">
               <p className="max-w-2xl text-sm leading-6 text-[#435443]">
-                If the family has already been created, jump straight into the learner join route instead of creating a second household.
+                {pickLocale(locale, {
+                  zh: "如果家庭已经创建好了，就直接进入学习者加入流程，不要再新建第二个家庭空间。",
+                  en: "If the family has already been created, jump straight into the learner join route instead of creating a second household."
+                })}
               </p>
               <div className="mt-4 flex flex-wrap gap-3">
                 <a

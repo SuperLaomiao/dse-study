@@ -104,8 +104,8 @@ export default function SpeakingAiStudio({ locale }: { locale: Locale }) {
                     key={item}
                     className={`rounded-[22px] border p-4 transition ${
                       mode === item
-                        ? "border-[rgba(35,64,43,0.24)] bg-[var(--surface-soft)] shadow-[0_12px_24px_rgba(35,64,43,0.08)]"
-                        : "border-[rgba(114,95,63,0.08)] bg-white"
+                        ? "border-[rgba(35,64,43,0.34)] bg-[rgba(233,244,237,0.92)] ring-2 ring-[rgba(35,64,43,0.18)] shadow-[0_14px_28px_rgba(35,64,43,0.12)]"
+                        : "border-[rgba(114,95,63,0.08)] bg-white hover:border-[rgba(35,64,43,0.16)]"
                     }`}
                   >
                     <div className="flex items-start gap-3">
@@ -120,7 +120,7 @@ export default function SpeakingAiStudio({ locale }: { locale: Locale }) {
                           setResult(null);
                         }}
                         aria-label={itemConfig.label}
-                        className="mt-1"
+                        className="mt-1 h-4 w-4 border-[rgba(35,64,43,0.3)] text-[var(--brand)] focus:ring-[var(--brand)]"
                       />
                       <div>
                         <p className="text-sm font-semibold text-[var(--foreground)]">{itemConfig.label}</p>

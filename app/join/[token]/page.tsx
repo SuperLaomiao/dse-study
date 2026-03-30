@@ -3,9 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
-import { pickLocale } from "@/lib/i18n/config";
-import { getRequestLocale } from "@/lib/i18n/server";
-import { getCurrentSession } from "@/lib/auth/server";
+import { resolveLocale, pickLocale, type Locale } from "@/lib/i18n/config";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -26,23 +24,25 @@ export default function JoinInvitePage() {
   const params = useParams();
   const router = useRouter();
   const token = params.token as string;
+  const [locale, setLocale] = useState<Locale>("zh");
 
   const [loading, setLoading] = useState(true);
   const [accepting, setAccepting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [invite, setInvite] = useState<InviteData | null>(null);
-  const [isSignedIn, setIsSignedIn] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  // We can't get server-side props in client component, so we need to detect locale differently
-  // For simplicity, we'll use browser language preference
-  const locale: "en" | "zh" = typeof navigator !== "undefined" && navigator.language.startsWith("zh") ? "zh" : "en";
+  useEffect(() => {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    setLocale(resolveLocale(document.documentElement.lang.split("-")[0]));
+  }, []);
 
   useEffect(() => {
     async function loadInvite() {
       try {
-        // Check if user is already signed in by checking if we can get session
-        // This is done via a simple API call or we just let the accept handle it
         const response = await fetch(`/api/invites/${token}`);
 
         if (!response.ok) {
@@ -62,11 +62,7 @@ export default function JoinInvitePage() {
 
         const data = await response.json();
         setInvite(data);
-
-        // Check if user is signed in
-        // We'll just attempt accept and see if we get 401
-        // This is simpler than checking session here
-      } catch (err) {
+      } catch {
         setError(pickLocale(locale, {
           zh: "网络错误，请检查连接后重试",
           en: "Network error, please check your connection and try again"
@@ -102,7 +98,7 @@ export default function JoinInvitePage() {
       setSuccess(true);
       // Redirect after short delay
       setTimeout(() => {
-        router.push("/admin/dashboard");
+        router.push(typeof data.redirectTo === "string" ? data.redirectTo : "/home");
       }, 2000);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
@@ -314,8 +310,8 @@ export default function JoinInvitePage() {
                 </a>
               </Button>
               <Button asChild className="flex-1">
-                <a href="/create-account">
-                  {pickLocale(locale, { zh: "注册", en: "Sign Up" })}
+                <a href="/family/create">
+                  {pickLocale(locale, { zh: "创建家庭", en: "Create Family" })}
                 </a>
               </Button>
             </div>

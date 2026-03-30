@@ -2,16 +2,15 @@ import PlaceholderPage from "@/components/placeholder-page";
 import { pickLocale } from "@/lib/i18n/config";
 import { getRequestLocale } from "@/lib/i18n/server";
 
-const sections = [
-  "Vocabulary snapshot",
-  "Reading check",
-  "Listening capture",
-  "Speaking confidence",
-  "Writing structure"
-];
-
 export default async function BaselineAssessmentPage() {
   const locale = await getRequestLocale();
+  const sections = [
+    pickLocale(locale, { zh: "词汇快照", en: "Vocabulary snapshot" }),
+    pickLocale(locale, { zh: "阅读检查", en: "Reading check" }),
+    pickLocale(locale, { zh: "听力捕捉", en: "Listening capture" }),
+    pickLocale(locale, { zh: "口语信心", en: "Speaking confidence" }),
+    pickLocale(locale, { zh: "写作结构", en: "Writing structure" })
+  ];
 
   return (
     <PlaceholderPage
@@ -25,7 +24,7 @@ export default async function BaselineAssessmentPage() {
       currentPath="/learn"
       sections={[
         {
-          title: "Diagnostic mix",
+          title: pickLocale(locale, { zh: "诊断组合", en: "Diagnostic mix" }),
           content: (
             <div className="space-y-4">
               <div className="grid gap-3 md:grid-cols-2">
@@ -36,7 +35,10 @@ export default async function BaselineAssessmentPage() {
                   >
                     <p className="font-medium text-[#1f2a1f]">{section}</p>
                     <p className="mt-1 text-sm text-[#435443]">
-                      Capture just enough signal to shape the first two-week plan.
+                      {pickLocale(locale, {
+                        zh: "先抓到足够清晰的信号，再决定最初两周该怎么排学习计划。",
+                        en: "Capture just enough signal to shape the first two-week plan."
+                      })}
                     </p>
                   </article>
                 ))}
@@ -45,7 +47,7 @@ export default async function BaselineAssessmentPage() {
                 href="/practice"
                 className="inline-flex items-center justify-center rounded-full bg-[#23402b] px-4 py-2 text-sm font-semibold text-[#f7f3ea] transition hover:bg-[#1f3626]"
               >
-                Continue to practice
+                {pickLocale(locale, { zh: "继续进入练习", en: "Continue to practice" })}
               </a>
             </div>
           )

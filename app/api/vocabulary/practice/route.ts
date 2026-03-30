@@ -1,18 +1,20 @@
 import { NextResponse } from 'next/server';
-import { getCurrentSession } from '@/lib/auth/server';
+import { resolveRouteUser } from '@/lib/api-auth';
 import { getDueToday, addWordToUser, getVocabularyByLevel, type VocabularyWithProgress } from '@/lib/data/vocabulary';
 import { getDefaultLearnerLevel } from '@/lib/data/learner';
 
 export async function GET(request: Request) {
-  const session = await getCurrentSession();
   const { searchParams } = new URL(request.url);
   const limit = parseInt(searchParams.get('limit') || '20', 10);
 
-  // In demo mode or no user, return demo data
-  const userId = session?.userId || 'demo-user';
-  const userLevel = getDefaultLearnerLevel();
-
   try {
+    const routeUser = await resolveRouteUser(request);
+    if ("response" in routeUser) {
+      return routeUser.response;
+    }
+
+    const { userId } = routeUser;
+    const userLevel = getDefaultLearnerLevel();
     // Get words due today
     const result: VocabularyWithProgress[] = await getDueToday(userId, limit);
 

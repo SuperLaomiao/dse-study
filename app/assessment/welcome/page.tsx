@@ -1,9 +1,9 @@
 import PlaceholderPage from "@/components/placeholder-page";
 import { requireServerRole } from "@/lib/auth/server";
 import { pickLocale } from "@/lib/i18n/config";
+import { t as translate } from "@/lib/i18n/client";
 import { getRequestLocale } from "@/lib/i18n/server";
 import { getLearnerProfileByUserId } from "@/lib/repositories/profile-repository";
-import fs from "fs";
 
 export default async function AssessmentWelcomePage() {
   const session = await requireServerRole("learner");
@@ -15,15 +15,7 @@ export default async function AssessmentWelcomePage() {
   const profile = await getLearnerProfileByUserId(session.userId);
   const locale = await getRequestLocale();
 
-  const en = JSON.parse(fs.readFileSync("i18n/en.json", "utf8"));
-  const zh = JSON.parse(fs.readFileSync("i18n/zh.json", "utf8"));
-
-  const t = (key: string) => {
-    return pickLocale(locale, {
-      zh: zh.assessment[key],
-      en: en.assessment[key]
-    });
-  };
+  const t = (key: string) => translate(locale, `assessment.${key}`);
 
   return (
     <PlaceholderPage
@@ -46,6 +38,14 @@ export default async function AssessmentWelcomePage() {
                     {t("whatNext")}
                   </p>
                 </div>
+                {profile?.profileName ? (
+                  <div className="mt-4 rounded-[20px] bg-white/70 px-4 py-3 text-sm leading-6 text-[#435443]">
+                    {pickLocale(locale, {
+                      zh: `本次结果会写入 ${profile.profileName} 的学习档案，并影响接下来两周的起始难度。`,
+                      en: `This result will be saved to ${profile.profileName}'s learning profile and shape the starting difficulty for the next two weeks.`
+                    })}
+                  </div>
+                ) : null}
               </div>
               <div className="flex justify-center pt-2">
                 <a

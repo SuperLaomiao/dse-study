@@ -5,7 +5,7 @@ export function getLearnerNavItems(locale: Locale) {
     { href: "/home", label: pickLocale(locale, { zh: "首页", en: "Home" }) },
     { href: "/learn", label: pickLocale(locale, { zh: "学习", en: "Learn" }) },
     { href: "/practice", label: pickLocale(locale, { zh: "练习", en: "Practice" }) },
-    { href: "/progress", label: pickLocale(locale, { zh: "进度", en: "Progress" }) }
+    { href: "/review", label: pickLocale(locale, { zh: "复习", en: "Review" }) }
   ];
 }
 

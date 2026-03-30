@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useI18n } from '@/lib/i18n/client';
+import { getDocumentLocale, useI18n } from '@/lib/i18n/client';
 import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -34,14 +34,7 @@ export default function VocabularyListPage() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Get current locale from document
-  const getCurrentLocale = (): 'zh' | 'en' => {
-    if (typeof document !== 'undefined') {
-      return (document.documentElement.lang === 'zh' ? 'zh' : 'en');
-    }
-    return 'en';
-  };
-  const locale = getCurrentLocale();
+  const locale = getDocumentLocale();
 
   useEffect(() => {
     async function fetchData() {

@@ -52,13 +52,13 @@ export default function PracticeModulePage({
               <div className="mt-4 flex flex-wrap gap-3">
                 <a
                   href={primaryLink.href}
-                  className="inline-flex items-center justify-center rounded-full bg-[#f8f5ed] px-4 py-2 text-sm font-semibold text-[#1f2a1f] transition hover:bg-white"
+                  className="inline-flex items-center justify-center rounded-full border border-[rgba(255,250,243,0.62)] bg-[#f8f5ed] px-4 py-2 text-sm font-semibold text-[#183321] shadow-[0_14px_28px_rgba(18,34,22,0.24)] transition hover:-translate-y-[1px] hover:bg-white"
                 >
                   {primaryLink.label}
                 </a>
                 <a
                   href={secondaryLink.href}
-                  className="inline-flex items-center justify-center rounded-full border border-[rgba(248,245,237,0.24)] px-4 py-2 text-sm font-semibold text-[#f8f5ed] transition hover:bg-[rgba(248,245,237,0.08)]"
+                  className="inline-flex items-center justify-center rounded-full border border-[rgba(255,250,243,0.42)] bg-[rgba(255,250,243,0.18)] px-4 py-2 text-sm font-semibold text-[#fff8ef] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] transition hover:-translate-y-[1px] hover:bg-[rgba(255,250,243,0.28)]"
                 >
                   {secondaryLink.label}
                 </a>

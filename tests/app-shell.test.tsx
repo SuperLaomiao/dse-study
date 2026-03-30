@@ -32,7 +32,7 @@ describe("phase 0 app shell", () => {
     expect(screen.getByRole("link", { name: "首页" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "学习" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "练习" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "进度" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "复习" })).toBeInTheDocument();
     expect(container.firstChild).toHaveClass("md:max-w-4xl");
     expect(container.firstChild).toHaveClass("md:px-6");
   });
