@@ -1,3 +1,5 @@
+import { pickLocale, type Locale } from "@/lib/i18n/config";
+
 export type SpeakingMode = "pattern" | "exam";
 
 export interface SpeakingModeConfig {
@@ -65,8 +67,59 @@ export function isSpeakingMode(value: string): value is SpeakingMode {
   return value === "pattern" || value === "exam";
 }
 
-export function getSpeakingModeConfig(mode: SpeakingMode): SpeakingModeConfig {
-  return SPEAKING_MODE_CONFIGS[mode];
+export function getSpeakingModeConfig(
+  mode: SpeakingMode,
+  locale: Locale = "en"
+): SpeakingModeConfig {
+  const config = SPEAKING_MODE_CONFIGS[mode];
+
+  if (locale === "en") {
+    return config;
+  }
+
+  return mode === "pattern"
+    ? {
+        ...config,
+        label: pickLocale(locale, { zh: "模式练习", en: config.label }),
+        shortLabel: pickLocale(locale, { zh: "模式", en: config.shortLabel }),
+        learnerGoal: pickLocale(locale, {
+          zh: "先建立常用句型、语流节奏和高频口语功能的控制力。",
+          en: config.learnerGoal
+        }),
+        promptTitle: pickLocale(locale, {
+          zh: "示范句型或转述目标",
+          en: config.promptTitle
+        }),
+        promptHint: pickLocale(locale, {
+          zh: "贴上学习者要跟读、模仿或转述的短句、短稿或目标内容。",
+          en: config.promptHint
+        }),
+        coachAngle: pickLocale(locale, {
+          zh: "优先奖励稳定句型、较干净的重音和可重复的回放纪律。",
+          en: config.coachAngle
+        })
+      }
+    : {
+        ...config,
+        label: pickLocale(locale, { zh: "考试模拟", en: config.label }),
+        shortLabel: pickLocale(locale, { zh: "考试", en: config.shortLabel }),
+        learnerGoal: pickLocale(locale, {
+          zh: "模拟短时 DSE 风格回答，判断学习者能否在压力下清楚作答。",
+          en: config.learnerGoal
+        }),
+        promptTitle: pickLocale(locale, {
+          zh: "DSE 风格题目",
+          en: config.promptTitle
+        }),
+        promptHint: pickLocale(locale, {
+          zh: "贴上学习者要自由回答的口语题目或话题卡。",
+          en: config.promptHint
+        }),
+        coachAngle: pickLocale(locale, {
+          zh: "重点判断任务回应、思路组织、流利度，以及答案是否达到可用的考试状态。",
+          en: config.coachAngle
+        })
+      };
 }
 
 export function buildSpeakingEvaluationPrompt({

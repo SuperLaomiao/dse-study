@@ -1,4 +1,6 @@
 import PlaceholderPage from "@/components/placeholder-page";
+import { pickLocale } from "@/lib/i18n/config";
+import { getRequestLocale } from "@/lib/i18n/server";
 
 const sections = [
   "Vocabulary snapshot",
@@ -8,12 +10,18 @@ const sections = [
   "Writing structure"
 ];
 
-export default function BaselineAssessmentPage() {
+export default async function BaselineAssessmentPage() {
+  const locale = await getRequestLocale();
+
   return (
     <PlaceholderPage
+      locale={locale}
       role="learner"
-      title="Baseline Assessment"
-      description="The first diagnostic assessment guides the next two study weeks with a visible section mix."
+      title={pickLocale(locale, { zh: "基线评估", en: "Baseline Assessment" })}
+      description={pickLocale(locale, {
+        zh: "第一次诊断评估会通过清晰的模块组合，决定接下来两周的学习方向。",
+        en: "The first diagnostic assessment guides the next two study weeks with a visible section mix."
+      })}
       currentPath="/learn"
       sections={[
         {

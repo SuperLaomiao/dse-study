@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
+import { getRequestLocale } from "@/lib/i18n/server";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,9 +25,11 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const locale = await getRequestLocale();
+
   return (
-    <html lang="en">
+    <html lang={locale === "zh" ? "zh-HK" : "en"}>
       <body>
         {children}
         <Analytics />

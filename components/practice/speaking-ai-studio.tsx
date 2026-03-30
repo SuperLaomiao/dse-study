@@ -9,24 +9,35 @@ import {
   type SpeakingEvaluationResult,
   type SpeakingMode
 } from "@/lib/speaking-ai";
+import { pickLocale, type Locale } from "@/lib/i18n/config";
 
-export default function SpeakingAiStudio() {
+export default function SpeakingAiStudio({ locale }: { locale: Locale }) {
   const [mode, setMode] = useState<SpeakingMode>("pattern");
-  const [promptText, setPromptText] = useState(getSpeakingModeConfig("pattern").defaultPrompt);
+  const [promptText, setPromptText] = useState(getSpeakingModeConfig("pattern", locale).defaultPrompt);
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [error, setError] = useState("");
   const [result, setResult] = useState<SpeakingEvaluationResult | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  const config = getSpeakingModeConfig(mode);
+  const config = getSpeakingModeConfig(mode, locale);
 
   return (
     <div className="space-y-4">
       <div className="rounded-[28px] border border-[rgba(35,64,43,0.08)] bg-[linear-gradient(145deg,rgba(35,64,43,0.95),rgba(76,110,67,0.9))] p-5 text-[var(--cream)]">
-        <p className="text-xs uppercase tracking-[0.22em] text-[rgba(248,245,237,0.72)]">AI feedback studio</p>
-        <h3 className="mt-3 text-2xl font-semibold tracking-[-0.02em]">Speak once, get examiner plus coach feedback.</h3>
+        <p className="text-xs uppercase tracking-[0.22em] text-[rgba(248,245,237,0.72)]">
+          {pickLocale(locale, { zh: "AI 反馈工作台", en: "AI feedback studio" })}
+        </p>
+        <h3 className="mt-3 text-2xl font-semibold tracking-[-0.02em]">
+          {pickLocale(locale, {
+            zh: "说一次，就拿到考官判断和教练建议。",
+            en: "Speak once, get examiner plus coach feedback."
+          })}
+        </h3>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-[rgba(248,245,237,0.82)]">
-          Use Pattern mode to stabilise useful sentence frames. Use Exam mode to simulate a short DSE-style response under pressure.
+          {pickLocale(locale, {
+            zh: "用 Pattern 模式先稳定常用句型，再用 Exam 模式模拟短时 DSE 风格回答。",
+            en: "Use Pattern mode to stabilise useful sentence frames. Use Exam mode to simulate a short DSE-style response under pressure."
+          })}
         </p>
       </div>
 
@@ -38,7 +49,12 @@ export default function SpeakingAiStudio() {
             setError("");
 
             if (!audioFile) {
-              setError("Upload speaking audio before requesting AI feedback.");
+              setError(
+                pickLocale(locale, {
+                  zh: "请先上传口语音频，再请求 AI 反馈。",
+                  en: "Upload speaking audio before requesting AI feedback."
+                })
+              );
               return;
             }
 
@@ -64,17 +80,24 @@ export default function SpeakingAiStudio() {
 
                 setResult(payload.result as SpeakingEvaluationResult);
               } catch {
-                setError("Speaking AI could not complete this run. Try again in a moment.");
+                setError(
+                  pickLocale(locale, {
+                    zh: "本次口语 AI 运行未完成，请稍后再试。",
+                    en: "Speaking AI could not complete this run. Try again in a moment."
+                  })
+                );
                 setResult(null);
               }
             });
           }}
         >
           <fieldset className="space-y-3">
-            <legend className="text-sm font-semibold text-[var(--foreground)]">Mode</legend>
+            <legend className="text-sm font-semibold text-[var(--foreground)]">
+              {pickLocale(locale, { zh: "模式", en: "Mode" })}
+            </legend>
             <div className="grid gap-3 md:grid-cols-2">
               {getSpeakingModes().map((item) => {
-                const itemConfig = getSpeakingModeConfig(item);
+                const itemConfig = getSpeakingModeConfig(item, locale);
 
                 return (
                   <label
@@ -123,7 +146,7 @@ export default function SpeakingAiStudio() {
 
           <div className="space-y-2">
             <label htmlFor="speaking-audio" className="block text-sm font-semibold text-[var(--foreground)]">
-              Upload speaking audio
+              {pickLocale(locale, { zh: "上传口语音频", en: "Upload speaking audio" })}
             </label>
             <input
               id="speaking-audio"
@@ -136,7 +159,10 @@ export default function SpeakingAiStudio() {
               className="w-full rounded-2xl border border-[rgba(35,64,43,0.12)] bg-[var(--cream)] px-4 py-3 text-sm text-[var(--foreground)]"
             />
             <span className="text-xs leading-5 text-[var(--text-muted)]">
-              Works best with one short response per file. On mobile, this can use the built-in microphone picker.
+              {pickLocale(locale, {
+                zh: "每个文件上传一段短回答效果最好。手机上可以直接使用内置麦克风选择器。",
+                en: "Works best with one short response per file. On mobile, this can use the built-in microphone picker."
+              })}
             </span>
           </div>
 
@@ -145,7 +171,9 @@ export default function SpeakingAiStudio() {
             disabled={isPending}
             className="w-full rounded-2xl bg-[var(--brand)] px-4 py-3 text-sm font-semibold text-[var(--cream)] shadow-[0_14px_24px_rgba(35,64,43,0.18)] transition hover:bg-[var(--brand-strong)] disabled:opacity-60"
           >
-            {isPending ? "Evaluating speaking..." : "Run AI speaking feedback"}
+            {isPending
+              ? pickLocale(locale, { zh: "口语评估中...", en: "Evaluating speaking..." })
+              : pickLocale(locale, { zh: "运行 AI 口语反馈", en: "Run AI speaking feedback" })}
           </button>
 
           {error ? (
@@ -155,17 +183,21 @@ export default function SpeakingAiStudio() {
 
         <aside className="space-y-4">
           <div className="rounded-[24px] border border-[rgba(35,64,43,0.08)] bg-[var(--surface-soft)] p-4">
-            <p className="text-xs uppercase tracking-[0.2em] text-[var(--text-soft)]">What AI checks</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-[var(--text-soft)]">
+              {pickLocale(locale, { zh: "AI 会检查什么", en: "What AI checks" })}
+            </p>
             <ul className="mt-3 space-y-2 text-sm leading-6 text-[var(--text-muted)]">
-              <li>Task response and whether the learner actually answers the prompt.</li>
-              <li>Fluency and whether the sentence length stays usable under pressure.</li>
-              <li>Language control and pronunciation clarity.</li>
-              <li>Parent-facing summary that explains whether to stay in drills or move into freer speaking.</li>
+              <li>{pickLocale(locale, { zh: "是否真正回答了题目，以及任务回应是否到位。", en: "Task response and whether the learner actually answers the prompt." })}</li>
+              <li>{pickLocale(locale, { zh: "流利度，以及在压力下句子长度是否仍然可用。", en: "Fluency and whether the sentence length stays usable under pressure." })}</li>
+              <li>{pickLocale(locale, { zh: "语言控制与发音清晰度。", en: "Language control and pronunciation clarity." })}</li>
+              <li>{pickLocale(locale, { zh: "给家长看的总结，帮助判断该继续 drill 还是转入更自由的表达。", en: "Parent-facing summary that explains whether to stay in drills or move into freer speaking." })}</li>
             </ul>
           </div>
 
           <div className="rounded-[24px] border border-[rgba(35,64,43,0.08)] bg-[rgba(255,255,255,0.9)] p-4 shadow-[0_16px_36px_rgba(66,51,27,0.05)]">
-            <p className="text-xs uppercase tracking-[0.2em] text-[var(--text-soft)]">Latest result</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-[var(--text-soft)]">
+              {pickLocale(locale, { zh: "最新结果", en: "Latest result" })}
+            </p>
             {result ? (
               <div className="mt-3 space-y-4">
                 <div>
@@ -174,24 +206,28 @@ export default function SpeakingAiStudio() {
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <ScoreCard label="Task response" value={result.rubric.taskResponse} />
-                  <ScoreCard label="Fluency" value={result.rubric.fluency} />
-                  <ScoreCard label="Language control" value={result.rubric.languageControl} />
-                  <ScoreCard label="Pronunciation" value={result.rubric.pronunciation} />
+                  <ScoreCard locale={locale} label="Task response" value={result.rubric.taskResponse} />
+                  <ScoreCard locale={locale} label="Fluency" value={result.rubric.fluency} />
+                  <ScoreCard locale={locale} label="Language control" value={result.rubric.languageControl} />
+                  <ScoreCard locale={locale} label="Pronunciation" value={result.rubric.pronunciation} />
                 </div>
 
                 <div>
-                  <p className="text-sm font-semibold text-[var(--foreground)]">Transcript</p>
+                  <p className="text-sm font-semibold text-[var(--foreground)]">
+                    {pickLocale(locale, { zh: "转写文本", en: "Transcript" })}
+                  </p>
                   <p className="mt-2 rounded-[20px] bg-[var(--surface-soft)] p-4 text-sm leading-6 text-[var(--text-muted)]">
                     {result.transcript}
                   </p>
                 </div>
 
-                <BulletList title="Examiner notes" items={result.examinerNotes} />
-                <BulletList title="Coach moves" items={result.coachMoves} />
+                <BulletList locale={locale} title="Examiner notes" items={result.examinerNotes} />
+                <BulletList locale={locale} title="Coach moves" items={result.coachMoves} />
 
                 <div>
-                  <p className="text-sm font-semibold text-[var(--foreground)]">Parent summary</p>
+                  <p className="text-sm font-semibold text-[var(--foreground)]">
+                    {pickLocale(locale, { zh: "家长摘要", en: "Parent summary" })}
+                  </p>
                   <p className="mt-2 rounded-[20px] bg-[var(--surface-soft)] p-4 text-sm leading-6 text-[var(--text-muted)]">
                     {result.parentSummary}
                   </p>
@@ -199,7 +235,10 @@ export default function SpeakingAiStudio() {
               </div>
             ) : (
               <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">
-                Upload one short speaking response to see transcript, examiner notes, coach moves, and the parent summary in one place.
+                {pickLocale(locale, {
+                  zh: "上传一段短口语回答，就能在同一处看到转写、考官备注、教练建议和家长摘要。",
+                  en: "Upload one short speaking response to see transcript, examiner notes, coach moves, and the parent summary in one place."
+                })}
               </p>
             )}
           </div>
@@ -209,19 +248,49 @@ export default function SpeakingAiStudio() {
   );
 }
 
-function ScoreCard({ label, value }: { label: string; value: number }) {
+function ScoreCard({
+  locale,
+  label,
+  value
+}: {
+  locale: Locale;
+  label: string;
+  value: number;
+}) {
+  const translatedLabel =
+    label === "Task response"
+      ? pickLocale(locale, { zh: "任务回应", en: "Task response" })
+      : label === "Fluency"
+        ? pickLocale(locale, { zh: "流利度", en: "Fluency" })
+        : label === "Language control"
+          ? pickLocale(locale, { zh: "语言控制", en: "Language control" })
+          : pickLocale(locale, { zh: "发音", en: "Pronunciation" });
+
   return (
     <div className="rounded-[20px] bg-[var(--surface-soft)] p-4">
-      <p className="text-xs uppercase tracking-[0.18em] text-[var(--text-soft)]">{label}</p>
+      <p className="text-xs uppercase tracking-[0.18em] text-[var(--text-soft)]">{translatedLabel}</p>
       <p className="mt-2 text-2xl font-semibold text-[var(--foreground)]">{value.toFixed(1)} / 5</p>
     </div>
   );
 }
 
-function BulletList({ title, items }: { title: string; items: string[] }) {
+function BulletList({
+  locale,
+  title,
+  items
+}: {
+  locale: Locale;
+  title: string;
+  items: string[];
+}) {
+  const translatedTitle =
+    title === "Examiner notes"
+      ? pickLocale(locale, { zh: "考官备注", en: "Examiner notes" })
+      : pickLocale(locale, { zh: "教练建议", en: "Coach moves" });
+
   return (
     <div>
-      <p className="text-sm font-semibold text-[var(--foreground)]">{title}</p>
+      <p className="text-sm font-semibold text-[var(--foreground)]">{translatedTitle}</p>
       <ul className="mt-2 space-y-2 text-sm leading-6 text-[var(--text-muted)]">
         {items.map((item) => (
           <li key={item} className="rounded-[18px] bg-[var(--surface-soft)] px-4 py-3">

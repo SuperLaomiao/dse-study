@@ -1,5 +1,13 @@
 import type { DemoAuthUser, SessionUser } from "@/lib/auth/session";
-import { findDemoUserByEmail, findDemoUserById } from "@/lib/auth/session";
+import {
+  findDemoUserByCredentials,
+  findDemoUserByEmail,
+  findDemoUserById
+} from "@/lib/auth/session";
+import {
+  comparePassword as comparePasswordValue,
+  hashPassword as hashPasswordValue
+} from "@/lib/auth/password";
 import { getDataAccessMode } from "@/lib/db";
 import { prisma } from "@/lib/prisma";
 
@@ -49,6 +57,14 @@ function mapDatabaseRole(role: "mom_admin" | "learner" | undefined): SessionUser
   }
 
   return null;
+}
+
+export async function hashPassword(password: string) {
+  return hashPasswordValue(password);
+}
+
+export async function comparePassword(password: string, passwordHash: string) {
+  return comparePasswordValue(password, passwordHash);
 }
 
 export async function findSignInUserByEmail(email: string): Promise<DemoAuthUser | null> {
@@ -135,11 +151,13 @@ export async function findSignInUserByEmail(email: string): Promise<DemoAuthUser
 export async function createFamilySetup(input: {
   familyName: string;
   parentName: string;
+  email: string;
+  passwordHash: string;
   session: SessionUser | null;
 }) {
   const inviteCode = normalizeInviteCode(input.familyName);
   const sessionDemoUser = input.session ? findDemoUserById(input.session.userId) : null;
-  const adminEmail = sessionDemoUser?.email ?? DEFAULT_ADMIN_EMAIL;
+  const adminEmail = normalizeEmail(input.email || sessionDemoUser?.email || DEFAULT_ADMIN_EMAIL);
   const adminId = sessionDemoUser?.userId;
   const inviteExpiry = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
 
@@ -149,12 +167,14 @@ export async function createFamilySetup(input: {
         email: adminEmail
       },
       update: {
-        displayName: input.parentName
+        displayName: input.parentName,
+        passwordHash: input.passwordHash
       },
       create: {
         ...(adminId ? { id: adminId } : {}),
         email: adminEmail,
-        displayName: input.parentName
+        displayName: input.parentName,
+        passwordHash: input.passwordHash
       }
     });
 
@@ -223,6 +243,76 @@ export async function createFamilySetup(input: {
     family,
     inviteCode
   };
+}
+
+export async function verifyUserCredentials(input: {
+  email: string;
+  password: string;
+}): Promise<(DemoAuthUser & { preferredUiLanguage: string }) | null> {
+  const normalizedEmail = normalizeEmail(input.email);
+
+  if (!normalizedEmail || !input.password.trim()) {
+    return null;
+  }
+
+  if (getDataAccessMode() !== "database") {
+    const user = findDemoUserByCredentials(normalizedEmail, input.password);
+    if (!user) return null;
+    // Demo users default to en
+    return { ...user, preferredUiLanguage: "en" };
+  }
+
+  const databaseUser = await prisma.user.findUnique({
+    where: {
+      email: normalizedEmail
+    },
+    include: {
+      memberships: {
+        where: {
+          status: "active"
+        },
+        orderBy: {
+          joinedAt: "asc"
+        }
+      }
+    }
+  });
+
+  if (!databaseUser?.passwordHash) {
+    return null;
+  }
+
+  const passwordMatches = await comparePassword(input.password, databaseUser.passwordHash);
+
+  if (!passwordMatches) {
+    return null;
+  }
+
+  const primaryMembership = databaseUser.memberships[0];
+  const mappedRole = mapDatabaseRole(primaryMembership?.role);
+  const demoUser = findDemoUserByEmail(normalizedEmail);
+
+  if (mappedRole) {
+    return {
+      userId: databaseUser.id,
+      role: mappedRole,
+      email: databaseUser.email,
+      name: databaseUser.displayName,
+      preferredUiLanguage: databaseUser.preferredUiLanguage
+    };
+  }
+
+  if (demoUser) {
+    return {
+      userId: databaseUser.id,
+      role: demoUser.role,
+      email: databaseUser.email,
+      name: databaseUser.displayName,
+      preferredUiLanguage: databaseUser.preferredUiLanguage
+    };
+  }
+
+  return null;
 }
 
 export async function joinFamilyMembership(input: {
@@ -300,7 +390,8 @@ export async function joinFamilyMembership(input: {
     });
 
     return {
-      familyName: invite.family.name
+      familyName: invite.family.name,
+      userId: user.id
     };
   });
 

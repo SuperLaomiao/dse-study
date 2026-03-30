@@ -24,19 +24,20 @@ describe("sign-in page", () => {
     render(await SignInPage({ searchParams: Promise.resolve({}) }));
 
     expect(
-      screen.getByText("Choose the fastest route into the demo or onboarding flow.")
+      screen.getByText("选择进入演示或 onboarding 流程的最快路径。")
     ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /Create a Family/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /创建家庭/i })).toHaveAttribute(
       "href",
       "/family/create"
     );
-    expect(screen.getByRole("link", { name: /Join a Family/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /加入家庭/i })).toHaveAttribute(
       "href",
       "/family/join"
     );
-    expect(screen.getByRole("link", { name: /Preview Learner Home/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /预览学习者首页/i })).toHaveAttribute(
       "href",
       "/home"
     );
+    expect(screen.getByLabelText("密码")).toHaveAttribute("type", "password");
   });
 });

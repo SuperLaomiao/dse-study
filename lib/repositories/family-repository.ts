@@ -2,9 +2,15 @@ import { getDataAccessMode } from "@/lib/db";
 import { getDemoAdminSnapshot } from "@/lib/data/admin";
 import { getDemoFamilySummary } from "@/lib/data/family";
 import { getDemoLearners } from "@/lib/data/learner";
+import type { Locale } from "@/lib/i18n/config";
+import {
+  formatFamilyOverviewLabel,
+  formatLearnerTrackLabel,
+  formatSchoolStageLabel
+} from "@/lib/profile-labels";
 import { prisma } from "@/lib/prisma";
 
-export async function getFamilyDashboardData() {
+export async function getFamilyDashboardData(locale: Locale = "en") {
   if (getDataAccessMode() === "database") {
     try {
       const family = await prisma.family.findFirst({
@@ -31,13 +37,8 @@ export async function getFamilyDashboardData() {
             return {
               id: membership.user.id as "older-brother" | "younger-sister",
               name: membership.user.displayName,
-              stage: profile.schoolStage.toUpperCase(),
-              track:
-                profile.track === "dse"
-                  ? "DSE Track"
-                  : profile.track === "foundation_to_dse"
-                    ? "Foundation to DSE"
-                    : "Companion",
+              stage: formatSchoolStageLabel(profile.schoolStage, locale),
+              track: formatLearnerTrackLabel(profile.track, locale),
               internalBand: profile.targetInternalBand,
               referenceLevel: profile.targetReferenceLevel,
               dailyPlan: [],
@@ -47,7 +48,7 @@ export async function getFamilyDashboardData() {
 
         return {
           snapshot: {
-            familyLabel: "Family Overview",
+            familyLabel: formatFamilyOverviewLabel(locale),
             adminName: family.createdByUser.displayName,
             alerts: []
           },
@@ -65,8 +66,8 @@ export async function getFamilyDashboardData() {
   }
 
   return {
-    snapshot: getDemoAdminSnapshot(),
-    family: getDemoFamilySummary(),
-    learners: getDemoLearners()
+    snapshot: getDemoAdminSnapshot(locale),
+    family: getDemoFamilySummary(locale),
+    learners: getDemoLearners(locale)
   };
 }

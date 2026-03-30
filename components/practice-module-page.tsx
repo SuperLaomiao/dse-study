@@ -1,6 +1,8 @@
 import PlaceholderPage from "@/components/placeholder-page";
+import type { Locale } from "@/lib/i18n/config";
 
 interface PracticeModulePageProps {
+  locale: Locale;
   title: string;
   description: string;
   leadLabel: string;
@@ -17,6 +19,7 @@ interface PracticeModulePageProps {
 }
 
 export default function PracticeModulePage({
+  locale,
   title,
   description,
   leadLabel,
@@ -29,6 +32,7 @@ export default function PracticeModulePage({
 }: PracticeModulePageProps) {
   return (
     <PlaceholderPage
+      locale={locale}
       role="learner"
       title={title}
       description={description}
@@ -39,7 +43,7 @@ export default function PracticeModulePage({
           content: (
             <div className="rounded-[28px] border border-[rgba(35,64,43,0.08)] bg-[linear-gradient(145deg,rgba(35,64,43,0.95),rgba(76,110,67,0.9))] p-5 text-[#f8f5ed]">
               <p className="text-xs uppercase tracking-[0.22em] text-[rgba(248,245,237,0.72)]">
-                Active module focus
+                {locale === "zh" ? "当前模块焦点" : "Active module focus"}
               </p>
               <p className="mt-3 text-2xl font-semibold tracking-[-0.02em]">{leadValue}</p>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-[rgba(248,245,237,0.82)]">
@@ -63,7 +67,7 @@ export default function PracticeModulePage({
           )
         },
         {
-          title: "Session board",
+          title: locale === "zh" ? "训练面板" : "Session board",
           content: (
             <div className="grid gap-3 md:grid-cols-3">
               {boardCards.length > 0 ? (
@@ -80,7 +84,9 @@ export default function PracticeModulePage({
               ) : (
                 <article className="rounded-[24px] bg-[rgba(246,241,231,0.76)] p-4 md:col-span-3">
                   <p className="text-sm leading-6 text-[#435443]">
-                    This module will surface its active board cards once the training slice is wired through.
+                    {locale === "zh"
+                      ? "等训练能力接通后，这个模块会在这里显示当前面板卡片。"
+                      : "This module will surface its active board cards once the training slice is wired through."}
                   </p>
                 </article>
               )}
@@ -88,7 +94,7 @@ export default function PracticeModulePage({
           )
         },
         {
-          title: "Checkpoint stack",
+          title: locale === "zh" ? "检查清单" : "Checkpoint stack",
           content: (
             <div className="grid gap-3 md:grid-cols-2">
               {checkpoints.map((item) => (

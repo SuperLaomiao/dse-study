@@ -6,7 +6,26 @@ describe("sign-in route", () => {
   it("redirects back to sign-in with an error when email is missing", async () => {
     const request = new Request("http://localhost:3000/api/account/sign-in", {
       method: "POST",
-      body: new URLSearchParams(),
+      body: new URLSearchParams({
+        password: "demo-admin-pass"
+      }),
+      headers: {
+        "content-type": "application/x-www-form-urlencoded"
+      }
+    });
+
+    const response = await POST(request);
+
+    expect(response.status).toBe(307);
+    expect(response.headers.get("location")).toContain("/sign-in?error=");
+  });
+
+  it("redirects back to sign-in with an error when password is missing", async () => {
+    const request = new Request("http://localhost:3000/api/account/sign-in", {
+      method: "POST",
+      body: new URLSearchParams({
+        email: "mom@example.com"
+      }),
       headers: {
         "content-type": "application/x-www-form-urlencoded"
       }
@@ -22,7 +41,8 @@ describe("sign-in route", () => {
     const request = new Request("http://localhost:3000/api/account/sign-in", {
       method: "POST",
       body: new URLSearchParams({
-        email: "mom@example.com"
+        email: "mom@example.com",
+        password: "demo-admin-pass"
       }),
       headers: {
         "content-type": "application/x-www-form-urlencoded"

@@ -3,20 +3,42 @@ import { describe, expect, it } from "vitest";
 import {
   validateCreateFamilyInput,
   validateJoinFamilyInput,
-  validateSignInEmail
+  validateSignInInput
 } from "@/lib/auth/account-flow";
 
 describe("account flow validation", () => {
-  it("accepts a known demo sign-in email", () => {
-    expect(validateSignInEmail("mom@example.com")).toEqual({
+  it("accepts a known demo sign-in with the matching password", () => {
+    expect(
+      validateSignInInput({
+        email: "mom@example.com",
+        password: "demo-admin-pass"
+      })
+    ).toEqual({
       ok: true
     });
   });
 
   it("rejects an unknown sign-in email", () => {
-    expect(validateSignInEmail("unknown@example.com")).toEqual({
+    expect(
+      validateSignInInput({
+        email: "unknown@example.com",
+        password: "demo-admin-pass"
+      })
+    ).toEqual({
       ok: false,
       message: "Use one of the current demo emails to sign in."
+    });
+  });
+
+  it("rejects a known demo email when the password is wrong", () => {
+    expect(
+      validateSignInInput({
+        email: "mom@example.com",
+        password: "wrong-password"
+      })
+    ).toEqual({
+      ok: false,
+      message: "Email or password is incorrect."
     });
   });
 
@@ -24,7 +46,9 @@ describe("account flow validation", () => {
     expect(
       validateCreateFamilyInput({
         familyName: "Chan Family",
-        parentName: "Mom Admin"
+        parentName: "Mom Admin",
+        email: "mom@example.com",
+        password: "ParentPass123"
       })
     ).toEqual({
       ok: true
@@ -35,11 +59,41 @@ describe("account flow validation", () => {
     expect(
       validateCreateFamilyInput({
         familyName: "",
-        parentName: "Mom Admin"
+        parentName: "Mom Admin",
+        email: "mom@example.com",
+        password: "ParentPass123"
       })
     ).toEqual({
       ok: false,
       message: "Family name is required."
+    });
+  });
+
+  it("rejects a blank create-family email", () => {
+    expect(
+      validateCreateFamilyInput({
+        familyName: "Chan Family",
+        parentName: "Mom Admin",
+        email: "",
+        password: "ParentPass123"
+      })
+    ).toEqual({
+      ok: false,
+      message: "Email is required."
+    });
+  });
+
+  it("rejects a blank create-family password", () => {
+    expect(
+      validateCreateFamilyInput({
+        familyName: "Chan Family",
+        parentName: "Mom Admin",
+        email: "mom@example.com",
+        password: ""
+      })
+    ).toEqual({
+      ok: false,
+      message: "Password is required."
     });
   });
 
@@ -63,6 +117,23 @@ describe("account flow validation", () => {
     ).toEqual({
       ok: false,
       message: "Invite code is not valid for the current demo family."
+    });
+  });
+
+  it("can return chinese validation feedback when requested", () => {
+    expect(
+      validateCreateFamilyInput(
+        {
+          familyName: "",
+          parentName: "Mom Admin",
+          email: "mom@example.com",
+          password: "ParentPass123"
+        },
+        "zh"
+      )
+    ).toEqual({
+      ok: false,
+      message: "请先填写家庭名称。"
     });
   });
 });

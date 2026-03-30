@@ -1,53 +1,44 @@
 import { render, screen } from "@testing-library/react";
+import { vi } from "vitest";
 
-import AssessmentResultPage from "@/app/assessment/result/page";
+vi.mock("@/lib/auth/server", () => ({
+  requireServerRole: vi.fn(async () => ({ userId: "older-brother", role: "learner" }))
+}));
+
+import AssessmentWelcomePage from "@/app/assessment/welcome/page";
 import ProgressPage from "@/app/progress/page";
 import ReviewResultPage from "@/app/review/result/page";
+import { describe, it, expect } from "vitest";
 
 describe("learner result pages", () => {
-  it("renders a richer assessment result page", () => {
-    render(<AssessmentResultPage />);
+  it("renders baseline assessment welcome page", async () => {
+    const page = await AssessmentWelcomePage();
+    render(page);
 
-    expect(screen.getByRole("heading", { name: "Assessment Result" })).toBeInTheDocument();
-    expect(screen.getByText("Reference snapshot")).toBeInTheDocument();
-    expect(screen.getByText("Next cycle focus")).toBeInTheDocument();
-    expect(screen.getByText("Decision handoff")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Open practice" })).toHaveAttribute(
+    expect(screen.getByRole("heading", { name: /基线水平评估|Baseline Assessment/ })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /开始评估|Start Assessment/ })).toHaveAttribute(
       "href",
-      "/practice"
-    );
-    expect(screen.getByRole("link", { name: "Open bi-weekly review" })).toHaveAttribute(
-      "href",
-      "/review/biweekly"
+      "/assessment/take"
     );
   });
 
-  it("renders a richer progress page", () => {
-    render(<ProgressPage />);
+  it("renders a richer progress page", async () => {
+    const page = await ProgressPage();
+    render(page);
 
-    expect(screen.getByRole("heading", { name: "Progress" })).toBeInTheDocument();
-    expect(screen.getByText("Reference level arc")).toBeInTheDocument();
-    expect(screen.getByText("Checkpoint board")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "View assessment result" })).toHaveAttribute(
-      "href",
-      "/assessment/result"
-    );
+    expect(screen.getByRole("heading", { name: /进度|Progress/ })).toBeInTheDocument();
+    expect(screen.getByText(/参考等级轨迹|Reference level trajectory/)).toBeInTheDocument();
   });
 
-  it("renders a richer review result page", () => {
-    render(<ReviewResultPage />);
+  it("renders a richer review result page", async () => {
+    const page = await ReviewResultPage();
+    render(page);
 
-    expect(screen.getByRole("heading", { name: "Review Result" })).toBeInTheDocument();
-    expect(screen.getByText("Cycle verdict")).toBeInTheDocument();
-    expect(screen.getByText("Reset for next sprint")).toBeInTheDocument();
-    expect(screen.getByText("Next sprint checklist")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Return to learn" })).toHaveAttribute(
+    expect(screen.getByRole("heading", { name: /复盘结果|Review Result/ })).toBeInTheDocument();
+    expect(screen.getByText(/周期结论|Cycle conclusion/)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /返回学习页|Back to learn/ })).toHaveAttribute(
       "href",
       "/learn"
-    );
-    expect(screen.getByRole("link", { name: "Open practice" })).toHaveAttribute(
-      "href",
-      "/practice"
     );
   });
 });

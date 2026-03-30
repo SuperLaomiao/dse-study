@@ -1,5 +1,6 @@
-import { demoFamilySummary } from "@/lib/demo-data";
+import type { Locale } from "@/lib/i18n/config";
+import { demoFamilySummary, localizeFamilySummary } from "@/lib/demo-data";
 
-export function getDemoFamilySummary() {
-  return demoFamilySummary;
+export function getDemoFamilySummary(locale: Locale = "en") {
+  return localizeFamilySummary(demoFamilySummary, locale);
 }

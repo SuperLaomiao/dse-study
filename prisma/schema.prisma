@@ -35,12 +35,17 @@ model User {
   id                  String             @id @default(uuid())
   email               String             @unique
   displayName         String
+  passwordHash        String?
   preferredUiLanguage String             @default("en")
   createdAt           DateTime           @default(now())
   updatedAt           DateTime           @updatedAt
   memberships         FamilyMembership[]
   createdFamilies     Family[]           @relation("FamilyCreator")
   learnerProfile      LearnerProfile?
+  assessments         AssessmentResult[]
+  vocabularyProgress  UserVocabulary[]
+  speakingProgress    UserSpeakingPractice[]
+  speakingRecordings  SpeakingRecording[]
 }
 
 model Family {
@@ -96,4 +101,93 @@ model LearnerProfile {
   updatedAt          DateTime     @updatedAt
   user               User         @relation(fields: [userId], references: [id])
   family             Family       @relation(fields: [familyId], references: [id])
+  assessments        AssessmentResult[]
+}
+
+model AssessmentResult {
+  id                 String       @id @default(uuid())
+  userId             String
+  learnerProfileId   String
+  correctAnswers     Int
+  totalQuestions     Int
+  calculatedLevel    Int
+  calculatedBand     String
+  createdAt          DateTime     @default(now())
+  learnerProfile     LearnerProfile @relation(fields: [learnerProfileId], references: [id])
+  user               User         @relation(fields: [userId], references: [id])
+}
+
+model Vocabulary {
+  id           String    @id @default(uuid())
+  word         String    @unique
+  definition   String
+  difficultyLevel Int   // 1-5 corresponding to DSE levels
+  exampleSentence String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  userProgress UserVocabulary[]
+}
+
+model UserVocabulary {
+  id             String    @id @default(uuid())
+  userId         String
+  vocabularyId   String
+  difficulty     Int       // 0=new, 1=known, 2=mastered
+  repetitionCount Int     @default(0)
+  easeFactor     Float     @default(2.5)  // SM-2 algorithm factor
+  interval       Int       @default(0)   // days until next review
+  nextReviewDate DateTime
+  lastReviewed   DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  user           User      @relation(fields: [userId], references: [id])
+  vocabulary     Vocabulary @relation(fields: [vocabularyId], references: [id])
+
+  @@unique([userId, vocabularyId])
+}
+
+model SpeakingPhrase {
+  id             String    @id @default(uuid())
+  phrase         String    @unique
+  translation    String
+  phonetic       String?   // IPA phonetic transcription
+  difficultyLevel Int      // 1-5 corresponding to DSE levels
+  exampleSentence String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  userProgress   UserSpeakingPractice[]
+}
+
+model UserSpeakingPractice {
+  id             String    @id @default(uuid())
+  userId         String
+  speakingPhraseId   String
+  masteryLevel   Int       // 0=new, 1=learning, 2=mastered
+  repetitionCount Int     @default(0)
+  easeFactor     Float     @default(2.5)  // SM-2 algorithm factor
+  interval       Int       @default(0)   // days until next review
+  nextReviewDate DateTime
+  lastReviewed   DateTime?
+  lastScore      Float?    // Last pronunciation score (0-100)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  user           User      @relation(fields: [userId], references: [id])
+  speakingPhrase SpeakingPhrase @relation(fields: [speakingPhraseId], references: [id])
+  recordings     SpeakingRecording[]
+
+  @@unique([userId, speakingPhraseId])
+}
+
+model SpeakingRecording {
+  id             String    @id @default(uuid())
+  userPracticeId String
+  userId         String
+  audioUrl       String
+  transcription  String?
+  accuracyScore  Float?    // Word accuracy percentage
+  stressScore    Float?    // Stress/intonation score
+  overallScore   Float?    // Overall score
+  createdAt      DateTime  @default(now())
+  userPractice   UserSpeakingPractice @relation(fields: [userPracticeId], references: [id])
+  user           User      @relation(fields: [userId], references: [id])
 }

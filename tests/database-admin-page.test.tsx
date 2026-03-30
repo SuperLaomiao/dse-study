@@ -24,31 +24,29 @@ describe("database admin page", () => {
   it("renders database status and controls", async () => {
     render(await AdminSystemPage());
 
-    expect(screen.getByRole("heading", { name: "Database Ops" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "数据库运维" })).toBeInTheDocument();
     expect(screen.getByText("Neon Postgres is reachable and seeded.")).toBeInTheDocument();
     expect(screen.getByText("Database is ready for the learner and admin flows.")).toBeInTheDocument();
     expect(screen.getByText("The runtime can query the shared Neon Postgres instance.")).toBeInTheDocument();
-    expect(screen.getByText("Connectivity")).toBeInTheDocument();
-    expect(screen.getByText("Connected")).toBeInTheDocument();
-    expect(screen.getByText("Issue")).toBeInTheDocument();
-    expect(screen.getByText("None")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Open Family Dashboard" })).toHaveAttribute(
+    expect(screen.getByText("连通性")).toBeInTheDocument();
+    expect(screen.getByText("已连接")).toBeInTheDocument();
+    expect(screen.getByText("问题")).toBeInTheDocument();
+    expect(screen.getByText("无")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "打开家庭看板" })).toHaveAttribute(
       "href",
       "/admin/family"
     );
-    expect(screen.getByRole("link", { name: "Open Alerts Board" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "打开提醒看板" })).toHaveAttribute(
       "href",
       "/admin/alerts"
     );
-    expect(screen.getByRole("button", { name: "Bootstrap Schema" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Seed Demo Data" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Open Health Check" })).toHaveAttribute(
+    expect(screen.getByRole("button", { name: "初始化 Schema" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "写入演示数据" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "打开健康检查" })).toHaveAttribute(
       "href",
       "/api/health"
     );
-    expect(screen.getByText("Run order")).toBeInTheDocument();
-    expect(
-      screen.getByText("1. Confirm health and connectivity before changing schema.")
-    ).toBeInTheDocument();
+    expect(screen.getByText("执行顺序")).toBeInTheDocument();
+    expect(screen.getByText("1. 改 schema 之前，先确认健康检查与数据库连通性。")).toBeInTheDocument();
   });
 });

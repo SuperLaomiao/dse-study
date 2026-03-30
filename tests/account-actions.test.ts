@@ -7,8 +7,72 @@ afterEach(() => {
 });
 
 describe("phase 1 account actions", () => {
+  it("creates an admin account with a hashed password in database mode", async () => {
+    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/dse_study");
+
+    const createFamilySetup = vi.fn(async () => ({
+      family: {
+        id: "family-1",
+        name: "Chan Family"
+      },
+      inviteCode: "CHAN-FAMILY"
+    }));
+    const hashPassword = vi.fn(async () => "hashed-password");
+
+    vi.doMock("@/lib/repositories/account-repository", () => ({
+      createFamilySetup,
+      verifyUserCredentials: vi.fn(),
+      joinFamilyMembership: vi.fn()
+    }));
+
+    vi.doMock("@/lib/auth/password", async () => {
+      const actual = await vi.importActual<typeof import("@/lib/auth/password")>("@/lib/auth/password");
+
+      return {
+        ...actual,
+        hashPassword
+      };
+    });
+
+    vi.doMock("@/lib/auth/server", async () => {
+      const actual = await vi.importActual<typeof import("@/lib/auth/server")>("@/lib/auth/server");
+
+      return {
+        ...actual,
+        getCurrentSession: vi.fn(async () => null)
+      };
+    });
+
+    const { createFamilyAction } = await import("@/app/actions/account");
+    const formData = new FormData();
+    formData.set("familyName", "Chan Family");
+    formData.set("parentName", "Mom Admin");
+    formData.set("email", "mom@example.com");
+    formData.set("password", "ParentPass123");
+
+    const result = await createFamilyAction(
+      { status: "idle", message: "" },
+      formData
+    );
+
+    expect(hashPassword).toHaveBeenCalledWith("ParentPass123");
+    expect(createFamilySetup).toHaveBeenCalledWith({
+      familyName: "Chan Family",
+      parentName: "Mom Admin",
+      email: "mom@example.com",
+      passwordHash: "hashed-password",
+      session: null
+    });
+    expect(result).toEqual({
+      status: "success",
+      message: "Chan Family 已保存，演示学习者邀请码已经可以使用。"
+    });
+  });
+
   it("persists family creation through Prisma in database mode", async () => {
     vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/dse_study");
+    vi.doUnmock("@/lib/repositories/account-repository");
+    vi.doUnmock("@/lib/prisma");
 
     const userUpsert = vi.fn(async () => ({
       id: "mom-admin",
@@ -41,26 +105,30 @@ describe("phase 1 account actions", () => {
       }
     }));
 
-    vi.doMock("@/lib/auth/server", async () => {
-      const actual = await vi.importActual<typeof import("@/lib/auth/server")>("@/lib/auth/server");
-
-      return {
-        ...actual,
-        getCurrentSession: vi.fn(async () => null)
-      };
+    const { createFamilySetup } = await import("@/lib/repositories/account-repository");
+    const result = await createFamilySetup({
+      familyName: "Chan Family",
+      parentName: "Mom Admin",
+      email: "mom@example.com",
+      passwordHash: "hashed-password",
+      session: null
     });
 
-    const { createFamilyAction } = await import("@/app/actions/account");
-    const formData = new FormData();
-    formData.set("familyName", "Chan Family");
-    formData.set("parentName", "Mom Admin");
-
-    const result = await createFamilyAction(
-      { status: "idle", message: "" },
-      formData
-    );
-
     expect(userUpsert).toHaveBeenCalled();
+    expect(userUpsert).toHaveBeenCalledWith({
+      where: {
+        email: "mom@example.com"
+      },
+      update: {
+        displayName: "Mom Admin",
+        passwordHash: "hashed-password"
+      },
+      create: {
+        email: "mom@example.com",
+        displayName: "Mom Admin",
+        passwordHash: "hashed-password"
+      }
+    });
     expect(familyFindFirst).toHaveBeenCalledWith({
       where: {
         createdByUserId: "mom-admin"
@@ -94,13 +162,19 @@ describe("phase 1 account actions", () => {
       ])
     });
     expect(result).toEqual({
-      status: "success",
-      message: "Chan Family saved. Demo learner invites are ready to join."
+      family: {
+        id: "family-1",
+        name: "Chan Family",
+        createdByUserId: "mom-admin"
+      },
+      inviteCode: "CHAN-FAMILY"
     });
   });
 
   it("persists family join through Prisma in database mode", async () => {
     vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/dse_study");
+    vi.doUnmock("@/lib/repositories/account-repository");
+    vi.doUnmock("@/lib/prisma");
 
     const inviteFindFirst = vi.fn(async () => ({
       id: "invite-1",
@@ -135,15 +209,11 @@ describe("phase 1 account actions", () => {
       }
     }));
 
-    const { joinFamilyAction } = await import("@/app/actions/account");
-    const formData = new FormData();
-    formData.set("email", "brother@example.com");
-    formData.set("inviteCode", "CHAN-FAMILY");
-
-    const result = await joinFamilyAction(
-      { status: "idle", message: "" },
-      formData
-    );
+    const { joinFamilyMembership } = await import("@/lib/repositories/account-repository");
+    const result = await joinFamilyMembership({
+      email: "brother@example.com",
+      inviteCode: "CHAN-FAMILY"
+    });
 
     expect(inviteFindFirst).toHaveBeenCalledWith({
       where: {
@@ -174,8 +244,67 @@ describe("phase 1 account actions", () => {
       }
     });
     expect(result).toEqual({
-      status: "success",
-      message: "Joined Chan Family. Your learner access is now active."
+      familyName: "Chan Family",
+      userId: "older-brother"
+    });
+  });
+
+  it("signs in through database mode only when the password matches", async () => {
+    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/dse_study");
+
+    const verifyUserCredentials = vi.fn(async () => ({
+      userId: "mom-admin",
+      role: "admin",
+      email: "mom@example.com",
+      name: "Mom Admin"
+    }));
+    const setSessionCookie = vi.fn(async () => undefined);
+    const redirect = vi.fn((path: string) => {
+      throw new Error(`REDIRECT:${path}`);
+    });
+
+    vi.doMock("@/lib/repositories/account-repository", () => ({
+      createFamilySetup: vi.fn(),
+      verifyUserCredentials,
+      joinFamilyMembership: vi.fn()
+    }));
+
+    vi.doMock("@/lib/auth/password", async () => ({
+      hashPassword: vi.fn(async () => "unused"),
+      comparePassword: vi.fn(async () => true)
+    }));
+
+    vi.doMock("next/navigation", () => ({
+      redirect
+    }));
+
+    vi.doMock("@/lib/auth/server", async () => {
+      const actual = await vi.importActual<typeof import("@/lib/auth/server")>("@/lib/auth/server");
+
+      return {
+        ...actual,
+        setSessionCookie
+      };
+    });
+
+    const { signInWithEmailAction } = await import("@/app/actions/account");
+    const formData = new FormData();
+    formData.set("email", "mom@example.com");
+    formData.set("password", "ParentPass123");
+
+    await expect(
+      signInWithEmailAction({ status: "idle", message: "" }, formData)
+    ).rejects.toThrow("REDIRECT:/admin/family");
+
+    expect(verifyUserCredentials).toHaveBeenCalledWith({
+      email: "mom@example.com",
+      password: "ParentPass123"
+    });
+    expect(setSessionCookie).toHaveBeenCalledWith({
+      userId: "mom-admin",
+      role: "admin",
+      email: "mom@example.com",
+      name: "Mom Admin"
     });
   });
 
@@ -278,7 +407,7 @@ describe("phase 1 account actions", () => {
     });
     expect(result).toEqual({
       status: "success",
-      message: "Older Brother profile saved."
+      message: "Older Brother 档案已保存。"
     });
   });
 });

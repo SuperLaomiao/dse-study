@@ -71,4 +71,24 @@ describe("learner profile flow", () => {
       message: "Study minutes per day must be between 15 and 120."
     });
   });
+
+  it("can return chinese learner profile validation feedback when requested", () => {
+    expect(
+      validateLearnerProfileInput(
+        {
+          profileName: "",
+          track: "dse",
+          schoolStage: "f3",
+          studyMinutesPerDay: "50",
+          studyDaysPerWeek: "6",
+          targetReferenceLevel: "B2",
+          targetInternalBand: "Band 5*"
+        },
+        "zh"
+      )
+    ).toEqual({
+      ok: false,
+      message: "请先填写档案名称。"
+    });
+  });
 });

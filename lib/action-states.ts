@@ -27,3 +27,13 @@ export const idleDatabaseActionState: DatabaseActionState = {
   status: "idle",
   message: ""
 };
+
+export interface AssessmentActionState {
+  status: "idle" | "error" | "success";
+  message: string;
+}
+
+export const idleAssessmentActionState: AssessmentActionState = {
+  status: "idle",
+  message: ""
+};

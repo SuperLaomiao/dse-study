@@ -11,6 +11,8 @@ describe("speaking ai helpers", () => {
     expect(getSpeakingModes()).toEqual(["pattern", "exam"]);
     expect(getSpeakingModeConfig("pattern").label).toBe("Pattern mode");
     expect(getSpeakingModeConfig("exam").label).toBe("Exam mode");
+    expect(getSpeakingModeConfig("pattern", "zh").label).toBe("模式练习");
+    expect(getSpeakingModeConfig("exam", "zh").label).toBe("考试模拟");
   });
 
   it("builds an evaluator prompt that includes task context and transcript", () => {

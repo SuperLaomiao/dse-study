@@ -1,6 +1,8 @@
 import { getDataAccessMode } from "@/lib/db";
 import { getDemoLearnerById } from "@/lib/data/learner";
 import { getDemoLearnerProfileByUserId, getDemoLearnerProfiles } from "@/lib/data/profiles";
+import type { Locale } from "@/lib/i18n/config";
+import { formatLearnerTrackLabel, formatSchoolStageLabel } from "@/lib/profile-labels";
 import { prisma } from "@/lib/prisma";
 import type { LearnerProfileRecord, SpeakingInsight } from "@/lib/types";
 
@@ -18,7 +20,7 @@ export interface AdminLearnerDetail {
   speakingInsight?: SpeakingInsight;
 }
 
-export async function getLearnerProfileByUserId(userId: string) {
+export async function getLearnerProfileByUserId(userId: string, locale: Locale = "en") {
   if (getDataAccessMode() === "database") {
     try {
       const profile = await prisma.learnerProfile.findUnique({
@@ -33,10 +35,10 @@ export async function getLearnerProfileByUserId(userId: string) {
     }
   }
 
-  return getDemoLearnerProfileByUserId(userId);
+  return getDemoLearnerProfileByUserId(userId, locale);
 }
 
-export async function listLearnerProfiles() {
+export async function listLearnerProfiles(locale: Locale = "en") {
   if (getDataAccessMode() === "database") {
     try {
       return await prisma.learnerProfile.findMany({
@@ -49,11 +51,14 @@ export async function listLearnerProfiles() {
     }
   }
 
-  return getDemoLearnerProfiles();
+  return getDemoLearnerProfiles(locale);
 }
 
-export async function getAdminLearnerDetailById(userId: string): Promise<AdminLearnerDetail | null> {
-  const demoLearner = getDemoLearnerById(userId);
+export async function getAdminLearnerDetailById(
+  userId: string,
+  locale: Locale = "en"
+): Promise<AdminLearnerDetail | null> {
+  const demoLearner = getDemoLearnerById(userId, locale);
 
   if (getDataAccessMode() === "database") {
     try {
@@ -70,13 +75,8 @@ export async function getAdminLearnerDetailById(userId: string): Promise<AdminLe
         return {
           id: profile.userId,
           name: profile.user.displayName,
-          stage: profile.schoolStage.toUpperCase(),
-          track:
-            profile.track === "dse"
-              ? "DSE Track"
-              : profile.track === "foundation_to_dse"
-                ? "Foundation to DSE"
-                : "Companion",
+          stage: formatSchoolStageLabel(profile.schoolStage, locale),
+          track: formatLearnerTrackLabel(profile.track, locale),
           internalBand: profile.targetInternalBand,
           referenceLevel: profile.targetReferenceLevel,
           studyMinutesPerDay: profile.studyMinutesPerDay,
@@ -91,7 +91,7 @@ export async function getAdminLearnerDetailById(userId: string): Promise<AdminLe
     }
   }
 
-  const profile = getDemoLearnerProfileByUserId(userId);
+  const profile = getDemoLearnerProfileByUserId(userId, locale);
 
   if (!demoLearner || !profile) {
     return null;
@@ -174,4 +174,30 @@ export async function saveLearnerProfile(input: {
       }
     });
   });
+}
+
+export async function updateLearnerProfileAssessment(
+  userId: string,
+  targetReferenceLevel: string,
+  targetInternalBand: string
+) {
+  if (getDataAccessMode() === "database") {
+    try {
+      return await prisma.learnerProfile.update({
+        where: {
+          userId
+        },
+        data: {
+          targetReferenceLevel,
+          targetInternalBand
+        }
+      });
+    } catch (error) {
+      console.error("Failed to update assessment result in database", error);
+      throw error;
+    }
+  }
+
+  // Demo mode: just return success (in-memory will be updated on next load)
+  return null;
 }

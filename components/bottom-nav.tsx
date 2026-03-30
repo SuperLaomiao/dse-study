@@ -1,9 +1,18 @@
-import { learnerNavItems } from "@/lib/routes";
+import type { Locale } from "@/lib/i18n/config";
+import { getLearnerNavItems } from "@/lib/routes";
 
-export default function BottomNav({ currentPath }: { currentPath: string }) {
+export default function BottomNav({
+  currentPath,
+  locale
+}: {
+  currentPath: string;
+  locale: Locale;
+}) {
+  const learnerNavItems = getLearnerNavItems(locale);
+
   return (
     <nav
-      aria-label="Primary"
+      aria-label={locale === "zh" ? "主要导航" : "Primary"}
       className="mt-auto border-t border-[var(--stroke-soft)] pt-4 md:border-t-0 md:pt-2"
     >
       <ul className="grid grid-cols-4 gap-2 rounded-[28px] border border-[var(--stroke-soft)] bg-[rgba(255,250,243,0.84)] p-2 shadow-[0_16px_30px_rgba(66,51,27,0.08)] md:grid-cols-4">

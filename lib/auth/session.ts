@@ -8,6 +8,7 @@ export interface SessionUser {
 export interface DemoAuthUser extends SessionUser {
   email: string;
   name: string;
+  password?: string;
 }
 
 const demoUsers: DemoAuthUser[] = [
@@ -15,19 +16,22 @@ const demoUsers: DemoAuthUser[] = [
     userId: "mom-admin",
     role: "admin",
     email: "mom@example.com",
-    name: "Mom Admin"
+    name: "Mom Admin",
+    password: "demo-admin-pass"
   },
   {
     userId: "older-brother",
     role: "learner",
     email: "brother@example.com",
-    name: "Older Brother"
+    name: "Older Brother",
+    password: "demo-brother-pass"
   },
   {
     userId: "younger-sister",
     role: "learner",
     email: "sister@example.com",
-    name: "Younger Sister"
+    name: "Younger Sister",
+    password: "demo-sister-pass"
   }
 ];
 
@@ -38,6 +42,16 @@ export function findDemoUserByEmail(email: string) {
 
 export function findDemoUserById(userId: string) {
   return demoUsers.find((user) => user.userId === userId) ?? null;
+}
+
+export function findDemoUserByCredentials(email: string, password: string) {
+  const user = findDemoUserByEmail(email);
+
+  if (!user || user.password !== password) {
+    return null;
+  }
+
+  return user;
 }
 
 export function parseSessionCookie(value: string | undefined | null): SessionUser | null {
