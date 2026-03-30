@@ -33,8 +33,12 @@ export default function AppShell({
   const signOutLabel = pickLocale(locale, { zh: "退出登录", en: "Sign out" });
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col px-4 py-6 pt-14 text-[#1f2a1f] md:max-w-4xl md:px-6 md:py-8 md:pt-8">
+    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col px-4 py-6 pt-16 text-[#1f2a1f] md:max-w-4xl md:px-6 md:py-8 md:pt-8">
       <header className="rounded-[32px] border border-[var(--stroke-soft)] bg-[linear-gradient(180deg,rgba(255,251,245,0.96),rgba(248,241,230,0.88))] p-5 shadow-[var(--shadow-soft)] backdrop-blur-[6px] md:rounded-[36px] md:p-7">
+        {/* Language toggle always visible at top inside header */}
+        <div className="mb-4 flex justify-end">
+          <LanguageToggle locale={locale} />
+        </div>
         <div className="flex items-start justify-between gap-3 md:items-center">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-[var(--text-soft)]">
@@ -43,14 +47,12 @@ export default function AppShell({
             <h1 className="mt-2 text-3xl font-semibold tracking-[-0.02em] md:text-4xl">{title}</h1>
           </div>
           <div className="flex flex-col items-end gap-2">
-            <LanguageToggle locale={locale} />
+            <StatusPill>{roleLabel}</StatusPill>
             {role === "admin" ? (
-              <a href="/admin/family">
-                <StatusPill>{roleLabel}</StatusPill>
+              <a href="/admin/family" className="sr-only">
+                {roleLabel}
               </a>
-            ) : (
-              <StatusPill>{roleLabel}</StatusPill>
-            )}
+            ) : null}
           </div>
         </div>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-[var(--text-muted)] md:mt-4 md:text-[15px]">
