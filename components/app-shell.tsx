@@ -33,8 +33,8 @@ export default function AppShell({
   const signOutLabel = pickLocale(locale, { zh: "退出登录", en: "Sign out" });
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col px-4 py-6 text-[#1f2a1f] md:max-w-4xl md:px-6 md:py-8">
-      <header className="rounded-[32px] border border-[var(--stroke-soft)] bg-[linear-gradient(180deg,rgba(255,251,245,0.96),rgba(248,241,230,0.88))] p-5 pt-8 shadow-[var(--shadow-soft)] backdrop-blur-[6px] md:rounded-[36px] md:p-7 md:pt-7">
+    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col px-4 py-6 pt-14 text-[#1f2a1f] md:max-w-4xl md:px-6 md:py-8 md:pt-8">
+      <header className="rounded-[32px] border border-[var(--stroke-soft)] bg-[linear-gradient(180deg,rgba(255,251,245,0.96),rgba(248,241,230,0.88))] p-5 shadow-[var(--shadow-soft)] backdrop-blur-[6px] md:rounded-[36px] md:p-7">
         <div className="flex items-start justify-between gap-3 md:items-center">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-[var(--text-soft)]">
