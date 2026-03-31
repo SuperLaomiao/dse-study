@@ -95,6 +95,9 @@ export default function ListeningPracticePage({ params }: PageProps) {
     );
   }
 
+  const embedWidth = Math.min(window.innerWidth || 800, 800);
+  const embedHeight = Math.round(embedWidth * 9 / 16);
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="mb-6">
@@ -112,20 +115,44 @@ export default function ListeningPracticePage({ params }: PageProps) {
           </p>
         )}
 
-        {/* Audio Player */}
-        <Card className="p-6 mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <Headphones className="h-5 w-5" />
-            <h3 className="font-semibold">{t("audioPlayer")}</h3>
-          </div>
-          <p className="text-sm text-muted-foreground mb-4">
-            {t("listenToAudio")}
-          </p>
-          <audio controls className="w-full">
-            <source src={exercise.audioUrl} type="audio/mpeg" />
-            {t("common.error")}: {t("audioPlayer")} {t("common.error")}
-          </audio>
-        </Card>
+        {/* Video Player - YouTube embed if youtubeId exists */}
+        {exercise.youtubeId ? (
+          <Card className="p-6 mb-8">
+            <div className="flex items-center gap-2 mb-4">
+              <Headphones className="h-5 w-5" />
+              <h3 className="font-semibold">{t("videoPlayer")}</h3>
+            </div>
+            <p className="text-sm text-muted-foreground mb-4">
+              {t("watchVideo")}
+            </p>
+            <div className="aspect-video w-full rounded-xl overflow-hidden border border-[rgba(35,64,43,0.1)]">
+              <iframe 
+                width="100%" 
+                height="100%" 
+                src={`https://www.youtube.com/embed/${exercise.youtubeId}?enablejsapi=1`}
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+                className="aspect-video w-full"
+                title={exercise.title}
+              />
+            </div>
+          </Card>
+        ) : exercise.audioUrl ? (
+          <Card className="p-6 mb-8">
+            <div className="flex items-center gap-2 mb-4">
+              <Headphones className="h-5 w-5" />
+              <h3 className="font-semibold">{t("audioPlayer")}</h3>
+            </div>
+            <p className="text-sm text-muted-foreground mb-4">
+              {t("listenToAudio")}
+            </p>
+            <audio controls className="w-full">
+              <source src={exercise.audioUrl} type="audio/mpeg" />
+              {t("common.error")}: {t("audioPlayer")} {t("common.error")}
+            </audio>
+          </Card>
+        ) : null}
 
         {/* Questions */}
         <div className="space-y-6 mb-8">

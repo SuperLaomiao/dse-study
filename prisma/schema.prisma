@@ -233,11 +233,13 @@ model ListeningExercise {
   id             String          @id @default(uuid())
   title          String
   description    String?         // Exercise description/context
-  audioUrl       String          // Audio file URL
+  audioUrl       String?         // Audio file URL (for older content)
+  youtubeId      String?         // YouTube video ID (embed directly)
   difficultyLevel Int           // 1-5 corresponding to DSE levels (1=easy, 5=hard)
   difficultyStar String         // "*" or "**" for DSE marking
   questions      Json           // Array of questions with options and correct answers
   explanation    String?         // General explanation
+  active         Boolean         @default(true)
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
   userPractices  UserListeningPractice[]
