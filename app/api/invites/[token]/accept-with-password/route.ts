@@ -9,6 +9,9 @@ import { getRequestLocaleFromRequest } from "@/lib/i18n/server";
 import { getInviteByToken, acceptInviteAfterCreateUser } from "@/lib/repositories/invite-repository";
 import { prisma } from "@/lib/prisma";
 import { buildFallbackDisplayName } from "@/lib/repositories/account-repository";
+// env is imported by prisma.ts already, but importing here doesn't hurt
+// it will still only validate at runtime when DATABASE_URL exists
+import "@/lib/env";
 
 export async function POST(
   request: Request,
