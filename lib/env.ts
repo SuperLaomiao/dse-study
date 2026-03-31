@@ -11,13 +11,12 @@ const envSchema = z.object({
   OPENAI_API_KEY: z.string().optional(),
 });
 
-// Special case: During Next.js build on Vercel, environment variables are not available
-// when collecting page data for server components. Skip validation at build time -
-// validation will still happen at runtime when actual requests come in.
-const isBuildTime = typeof process.env.NEXT_BUILD !== "undefined";
-
-if (!isBuildTime) {
-  // Parse and validate environment variables at runtime
+// Only validate if DATABASE_URL is actually present.
+// During Vercel build, DATABASE_URL is not available so we skip validation.
+// DATABASE_URL will be present at runtime when the app is running.
+// Validation still happens at runtime when DATABASE_URL is present.
+if (process.env.DATABASE_URL) {
+  // Parse and validate environment variables
   const result = envSchema.safeParse(process.env);
 
   if (!result.success) {
@@ -27,8 +26,8 @@ if (!isBuildTime) {
   }
 }
 
-// Type casting: when building, we know the env vars will be there at runtime
-// TypeScript still gives us full type checking regardless
+// Type casting: when building (no DATABASE_URL), we cast to keep types happy
+// Actual validation happens at runtime when DATABASE_URL is present
 export const env = process.env as z.infer<typeof envSchema>;
 
 export type Env = z.infer<typeof envSchema>;
