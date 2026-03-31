@@ -4,35 +4,40 @@ import { pickLocale } from "@/lib/i18n/config";
 import { getRequestLocale } from "@/lib/i18n/server";
 
 const practiceLinksZh = {
-  "词汇循环": "/vocabulary/practice",
+  "词汇": "/vocabulary/practice",
   "阅读": "/reading",
   "听力": "/listening",
-  "口语短语循环": "/speaking/practice",
+  "口语": "/speaking/practice",
+  "语法": "/grammar/practice",
   "写作": "/practice/writing"
 } as const;
 
 const practiceLinksEn = {
-  "Vocabulary Loop": "/vocabulary/practice",
+  "Vocabulary": "/vocabulary/practice",
   "Reading": "/reading",
   "Listening": "/listening",
-  "Speaking Phrase Loop": "/speaking/practice",
+  "Speaking": "/speaking/practice",
+  "Grammar": "/grammar/practice",
   "Writing": "/practice/writing"
 } as const;
 
 const practiceLabels = {
-  "词汇循环": "vocabulary",
-  "词汇循环en": "vocabulary",
+  "词汇": "vocabulary",
+  "词汇en": "vocabulary",
   "阅读": "reading",
   "阅读en": "reading",
   "听力": "listening",
   "听力en": "listening",
-  "口语短语循环": "speaking",
-  "口语短语循环en": "speaking",
+  "口语": "speaking",
+  "口语en": "speaking",
+  "语法": "grammar",
+  "语法en": "grammar",
   "写作": "writing",
-  "Vocabulary Loop": "vocabulary",
+  "Vocabulary": "vocabulary",
   "Reading": "reading",
   "Listening": "listening",
-  "Speaking Phrase Loop": "speaking",
+  "Speaking": "speaking",
+  "Grammar": "grammar",
   "Writing": "writing"
 } as const;
 

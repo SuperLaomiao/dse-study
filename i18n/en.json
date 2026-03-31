@@ -410,6 +410,26 @@
     },
     "description": "Description"
   },
+  "grammar": {
+    "title": "Grammar Practice",
+    "noQuestions": "No grammar questions available",
+    "startPractice": "Start Practice",
+    "common.loading": "Loading...",
+    "common.goBack": "Go Back",
+    "questionNotFound": "Grammar question not found",
+    "backToList": "Back to Grammar List",
+    "description": "Description",
+    "question": "Question",
+    "selectAnswer": "Select your answer",
+    "submitting": "Submitting...",
+    "submitAnswer": "Submit Answer",
+    "yourAnswer": "Your Answer",
+    "correct": "Correct",
+    "incorrect": "Incorrect",
+    "correctAnswer": "Correct Answer",
+    "noResult": "No result found",
+    "tryAgain": "Try Again"
+  },
   "writing": {
     "title": "Writing Practice",
     "writingList": "Writing Prompts",
