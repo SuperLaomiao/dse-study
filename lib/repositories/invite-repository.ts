@@ -155,6 +155,48 @@ export async function acceptInvite(token: string, userId: string): Promise<boole
   return true;
 }
 
+export async function acceptInviteAfterCreateUser(token: string, userId: string, familyId: string): Promise<boolean> {
+  if (getDataAccessMode() === "database") {
+    try {
+      const invite = await prisma.familyInvite.findUnique({
+        where: { inviteToken: token }
+      });
+
+      if (!invite) {
+        return false;
+      }
+
+      const now = new Date();
+
+      if (invite.acceptedAt || now > invite.expiresAt) {
+        return false;
+      }
+
+      await prisma.$transaction([
+        prisma.familyInvite.update({
+          where: { id: invite.id },
+          data: { acceptedAt: now }
+        }),
+        prisma.familyMembership.create({
+          data: {
+            familyId,
+            userId,
+            role: invite.role,
+            status: "active"
+          }
+        })
+      ]);
+
+      return true;
+    } catch (error) {
+      console.error("Failed to accept invite after create user", error);
+      return false;
+    }
+  }
+
+  return true;
+}
+
 export async function checkUserIsFamilyAdmin(familyId: string, userId: string): Promise<boolean> {
   if (getDataAccessMode() === "database") {
     try {

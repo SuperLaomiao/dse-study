@@ -88,8 +88,9 @@ export default function JoinInvitePage() {
 
       if (!response.ok) {
         if (response.status === 401) {
-          // Not signed in, redirect to sign in
-          router.push(`/sign-in?redirect=/join/${token}`);
+          // Not signed in - if this is an invite for an email that doesn't have an account,
+          // redirect to set password page to complete registration
+          router.push(`/join/${token}/set-password`);
           return;
         }
         throw new Error(data.error);
