@@ -10,10 +10,20 @@ import {
 } from "@/lib/profile-labels";
 import { prisma } from "@/lib/prisma";
 
+import { getCurrentSession } from "@/lib/auth/server";
+
 export async function getFamilyDashboardData(locale: Locale = "en") {
   if (getDataAccessMode() === "database") {
     try {
+      const session = await getCurrentSession();
+      if (!session) {
+        throw new Error("No session");
+      }
+      
       const family = await prisma.family.findFirst({
+        where: {
+          createdByUserId: session.userId,
+        },
         include: {
           createdByUser: true,
           memberships: {
