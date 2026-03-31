@@ -72,12 +72,19 @@ export default async function PracticeHubPage() {
                 }
               </p>
               <div className="mt-4 flex flex-wrap gap-3">
-                <a
-                  href={recommendedTask ? practiceLinks[recommendedTask.title as keyof typeof practiceLinks] ?? "/vocabulary/practice"}
-                  className="inline-flex items-center justify-center rounded-full border border-[rgba(255,250,243,0.62)] bg-[var(--cream)] px-5 py-3 text-sm font-semibold text-[#183321] shadow-[0_14px_28px_rgba(18,34,22,0.24)] transition hover:-translate-y-[1px] hover:bg-white"
-                >
-                  {pickLocale(locale, { zh: "开始推荐模块", en: "Start recommended block" })}
-                </a>
+                {(() => {
+                  const href = recommendedTask 
+                    ? practiceLinks[recommendedTask.title as keyof typeof practiceLinks] 
+                    : "/vocabulary/practice";
+                  return (
+                    <a
+                      href={href}
+                      className="inline-flex items-center justify-center rounded-full border border-[rgba(255,250,243,0.62)] bg-[var(--cream)] px-5 py-3 text-sm font-semibold text-[#183321] shadow-[0_14px_28px_rgba(18,34,22,0.24)] transition hover:-translate-y-[1px] hover:bg-white"
+                    >
+                      {pickLocale(locale, { zh: "开始推荐模块", en: "Start recommended block" })}
+                    </a>
+                  );
+                })()}
                 <a
                   href="/review/biweekly"
                   className="inline-flex items-center justify-center rounded-full border border-[rgba(255,250,243,0.42)] bg-[rgba(255,250,243,0.18)] px-5 py-3 text-sm font-semibold text-[#fff8ef] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] transition hover:-translate-y-[1px] hover:bg-[rgba(255,250,243,0.28)]"
