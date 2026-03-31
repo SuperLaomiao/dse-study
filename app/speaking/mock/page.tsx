@@ -458,7 +458,7 @@ export default function SpeakingMockExamPage() {
 
                 <div className="flex justify-end">
                   <Button size="lg" onClick={nextQuestion}>
-                    {currentIndex >= questions.length - 1 
+                    {currentQuestionIndex >= questions.length - 1 
                       ? t('speaking.mockExam.finishExam') 
                       : t('common.next')}
                   </Button>
