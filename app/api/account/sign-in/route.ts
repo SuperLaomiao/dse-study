@@ -39,8 +39,15 @@ export async function POST(request: Request) {
     );
   }
 
+  // Check for redirect parameter from invite
+  const url = new URL(request.url);
+  const redirectTo = url.searchParams.get("redirect");
+  const finalRedirect = redirectTo && redirectTo.startsWith("/") 
+    ? new URL(redirectTo, request.url).toString()
+    : getPostSignInRedirect(user.role);
+
   const response = NextResponse.redirect(
-    new URL(getPostSignInRedirect(user.role), request.url)
+    new URL(finalRedirect, request.url)
   );
 
   response.cookies.set(
