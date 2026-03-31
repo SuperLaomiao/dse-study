@@ -46,8 +46,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           : variant === "destructive"
             ? "bg-red-500 text-white hover:bg-red-600"
             : variant === "outline"
-              ? "border border-[rgba(114,95,63,0.08)] bg-background hover:bg-accent"
-              : "bg-transparent hover:bg-[rgba(35,64,43,0.08)]";
+              ? "border border-[rgba(114,95,63,0.08)] bg-background text-[var(--foreground)] hover:bg-accent"
+              : "bg-transparent hover:bg-[rgba(35,64,43,0.08)] text-[var(--foreground)]";
 
     const sizeClasses =
       size === "default"
