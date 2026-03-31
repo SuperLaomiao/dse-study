@@ -176,12 +176,13 @@
   },
   "speaking": {
     "title": "口语练习",
-    "practice": "短语练习",
+    "description": "先完成每日短语练习，再进行DSE模拟考试，循序渐进提升口语能力。",
     "phraseList": "我的短语",
     "practiceNow": "开始练习",
     "dueToday": "今日复习",
     "mastered": "已掌握",
     "totalPracticed": "总计练习",
+    "mockExamsCompleted": "完成模拟考",
     "phrase": "短语",
     "translation": "翻译",
     "level": "难度",
@@ -192,6 +193,7 @@
     "greatJob": "做得好！你已经完成了今天的口语练习。",
     "continueLearning": "继续学习",
     "backToList": "返回短语列表",
+    "backToSpeaking": "返回口语练习",
     "startRecording": "开始录音",
     "stopRecording": "停止录音",
     "playing": "播放中...",
@@ -225,7 +227,34 @@
     "progress": "学习进度",
     "noPhrasesYet": "短语列表中还没有短语，开始练习来添加短语吧。",
     "microphoneNotSupported": "你的浏览器不支持录音功能。",
-    "permissionDenied": "麦克风权限被拒绝，请允许访问以继续。"
+    "permissionDenied": "麦克风权限被拒绝，请允许访问以继续。",
+    "patternPractice": {
+      "title": "模式练习",
+      "description": "每日4个短语，通过反复练习掌握常用口语句型和发音。",
+      "point1": "每天练习4个核心口语短语",
+      "point2": "AI评估发音准确度",
+      "point3": "间隔重复帮助记忆和掌握",
+      "startFourPhrases": "开始今日4句练习",
+      "allDone": "今日练习已完成",
+      "comeBackTomorrow": "明天再来练习新短语"
+    },
+    "mockExam": {
+      "title": "DSE模拟考",
+      "description": "模拟真实DSE口语考试，完整流程包括准备时间和答题录音。",
+      "point1": "遵循真实考试时间分配",
+      "point2": "AI给出发音和流利度评估",
+      "point2_3": "考试完成后给出详细反馈",
+      "startExam": "开始模拟考",
+      "recommendedAfterPractice": "建议完成每日模式练习后再进行",
+      "question": "题目",
+      "preparationTime": "准备时间剩余",
+      "prepareYourAnswer": "准备你的回答",
+      "autoStartRecording": "准备时间结束后自动开始录音",
+      "completed": "模拟考试已完成",
+      "finishExam": "完成考试",
+      "noQuestions": "暂无模拟考题",
+      "overallScore": "总体得分"
+    }
   },
   "progress": {
     "learningProgress": "学习进度",

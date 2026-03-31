@@ -104,7 +104,7 @@ export async function getUserStats(userId: string) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const [totalCount, dueTodayCount, masteredCount] = await Promise.all([
+  const [totalCount, dueTodayCount, masteredCount, mockExamCount] = await Promise.all([
     prisma.userSpeakingPractice.count({ where: { userId } }),
     prisma.userSpeakingPractice.count({
       where: {
@@ -118,12 +118,19 @@ export async function getUserStats(userId: string) {
         masteryLevel: 2, // mastered
       },
     }),
+    prisma.speakingRecording.count({
+      where: {
+        userId,
+        questionId: { not: null }, // mock exam recordings
+      },
+    }),
   ]);
 
   return {
     totalPracticed: totalCount,
     dueToday: dueTodayCount,
     mastered: masteredCount,
+    mockExamCompleted: mockExamCount,
   };
 }
 

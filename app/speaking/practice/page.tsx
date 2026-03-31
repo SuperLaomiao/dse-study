@@ -55,7 +55,8 @@ export default function SpeakingPracticePage() {
   useEffect(() => {
     async function fetchPhrases() {
       try {
-        const response = await fetch('/api/speaking/practice?limit=10');
+        // Daily pattern practice: 4 phrases per day
+        const response = await fetch('/api/speaking/practice?limit=4');
         const data = await response.json();
         setPhrases(data.phrases || []);
       } catch (error) {

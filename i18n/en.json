@@ -176,12 +176,13 @@
   },
   "speaking": {
     "title": "Speaking Practice",
-    "practice": "Phrase Practice",
+    "description": "Complete daily pattern practice first, then take DSE mock exams to improve your speaking step by step.",
     "phraseList": "My Phrases",
     "practiceNow": "Start Practice",
     "dueToday": "Due Today",
     "mastered": "Mastered",
     "totalPracticed": "Total Practiced",
+    "mockExamsCompleted": "Mock Exams Completed",
     "phrase": "Phrase",
     "translation": "Translation",
     "level": "Level",
@@ -192,6 +193,7 @@
     "greatJob": "Great job! You've completed today's speaking practice.",
     "continueLearning": "Continue Learning",
     "backToList": "Back to Phrase List",
+    "backToSpeaking": "Back to Speaking",
     "startRecording": "Start Recording",
     "stopRecording": "Stop Recording",
     "playing": "Playing...",
@@ -225,7 +227,34 @@
     "progress": "Your Progress",
     "noPhrasesYet": "No phrases in your list yet. Start practicing to add phrases.",
     "microphoneNotSupported": "Microphone recording is not supported in your browser.",
-    "permissionDenied": "Microphone permission was denied. Please allow access to continue."
+    "permissionDenied": "Microphone permission was denied. Please allow access to continue.",
+    "patternPractice": {
+      "title": "Pattern Practice",
+      "description": "4 phrases per day, master common speaking patterns and pronunciation through repeated practice.",
+      "point1": "Practice 4 core speaking phrases daily",
+      "point2": "AI evaluates pronunciation accuracy",
+      "point3": "Spaced repetition builds long-term mastery",
+      "startFourPhrases": "Start Today's 4 Phrases",
+      "allDone": "Today's practice is complete",
+      "comeBackTomorrow": "Come back tomorrow for new phrases"
+    },
+    "mockExam": {
+      "title": "DSE Mock Exam",
+      "description": "Simulate the real DSE speaking exam with proper preparation time and response recording.",
+      "point1": "Follows real exam timing",
+      "point2": "AI evaluates pronunciation and fluency",
+      "point2_3": "Detailed feedback after completion",
+      "startExam": "Start Mock Exam",
+      "recommendedAfterPractice": "Recommended after completing your daily pattern practice",
+      "question": "Question",
+      "preparationTime": "Preparation time left",
+      "prepareYourAnswer": "Prepare your answer",
+      "autoStartRecording": "Recording starts automatically after preparation time ends",
+      "completed": "Mock Exam Completed",
+      "finishExam": "Finish Exam",
+      "noQuestions": "No mock questions available",
+      "overallScore": "Overall Score"
+    }
   },
   "progress": {
     "learningProgress": "Learning Progress",
