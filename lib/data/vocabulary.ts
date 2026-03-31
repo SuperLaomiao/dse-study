@@ -4,6 +4,44 @@ import type { Vocabulary, UserVocabulary } from '@prisma/client';
 import { isDemoMode } from '@/lib/demo-mode';
 import { demoVocabulary } from '@/lib/demo-vocabulary';
 
+// Additional metadata for vocabulary words that exists in demo-vocabulary
+export interface VocabularyMetadata {
+  partOfSpeech: string;
+  topic: string;
+}
+
+export const vocabularyMetadata: Record<string, VocabularyMetadata> = {
+  achieve: { partOfSpeech: "verb", topic: "goals" },
+  appear: { partOfSpeech: "verb", topic: "daily" },
+  benefit: { partOfSpeech: "verb", topic: "health" },
+  cause: { partOfSpeech: "verb", topic: "health" },
+  chance: { partOfSpeech: "noun", topic: "opportunity" },
+  change: { partOfSpeech: "noun", topic: "environment" },
+  choose: { partOfSpeech: "verb", topic: "decision" },
+  connect: { partOfSpeech: "verb", topic: "geography" },
+  consider: { partOfSpeech: "verb", topic: "problem-solving" },
+  continue: { partOfSpeech: "verb", topic: "sports" },
+  control: { partOfSpeech: "verb", topic: "behavior" },
+  develop: { partOfSpeech: "verb", topic: "technology" },
+  different: { partOfSpeech: "adjective", topic: "opinion" },
+  difficult: { partOfSpeech: "adjective", topic: "education" },
+  effect: { partOfSpeech: "noun", topic: "policy" },
+  environment: { partOfSpeech: "noun", topic: "protection" },
+  experience: { partOfSpeech: "noun", topic: "education" },
+  factor: { partOfSpeech: "noun", topic: "management" },
+  focus: { partOfSpeech: "verb", topic: "work" },
+  future: { partOfSpeech: "noun", topic: "planning" },
+  adequate: { partOfSpeech: "adjective", topic: "supply" },
+  analyze: { partOfSpeech: "verb", topic: "data" },
+  approach: { partOfSpeech: "noun", topic: "problem-solving" },
+  assess: { partOfSpeech: "verb", topic: "progress" },
+  available: { partOfSpeech: "adjective", topic: "information" },
+  avoid: { partOfSpeech: "verb", topic: "mistakes" },
+  challenge: { partOfSpeech: "noun", topic: "personal" },
+  concept: { partOfSpeech: "noun", topic: "thinking" },
+};
+};
+
 const prisma = new PrismaClient();
 
 export interface VocabularyWithProgress extends Vocabulary {

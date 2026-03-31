@@ -81,17 +81,6 @@ export default function VocabularyPracticePage() {
     setActiveStream(null);
   }
 
-  function moveToNextWord() {
-    const nextIndex = currentIndex + 1;
-    if (nextIndex >= words.length) {
-      setFinished(true);
-      return;
-    }
-
-    setCurrentIndex(nextIndex);
-    resetPronunciationGate();
-  }
-
   function handleListenPronunciation() {
     setHasHeardPronunciation(true);
 
@@ -194,6 +183,17 @@ export default function VocabularyPracticePage() {
     } finally {
       setProcessing(false);
     }
+  }
+
+  function moveToNextWord() {
+    const nextIndex = currentIndex + 1;
+    if (nextIndex >= words.length) {
+      setFinished(true);
+      return;
+    }
+
+    setCurrentIndex(nextIndex);
+    resetPronunciationGate();
   }
 
   function getDifficultyLabel(level: number): string {
