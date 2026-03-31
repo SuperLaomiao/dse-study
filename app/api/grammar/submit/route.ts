@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     // Save the practice result to database
     await prisma.userGrammarPractice.upsert({
       where: {
-        userId_questionId: {
+        userId_grammarQuestionId: {
           userId: session.userId,
           grammarQuestionId: questionId,
         },

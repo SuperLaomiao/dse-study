@@ -13,12 +13,21 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { promptId, userEssay } = body;
 
-    // Save the user's writing practice
+     // Save the user's writing practice
+    // AI grading will populate the feedback fields after submission
     await prisma.userWritingPractice.create({
       data: {
         userId: session.userId,
         writingPromptId: promptId,
         userEssay,
+        overallScore: 0,
+        starRating: "*",
+        vocabularyFeedback: "",
+        grammarFeedback: "",
+        structureFeedback: "",
+        contentFeedback: "",
+        suggestions: "",
+        corrections: [],
       }
     });
 

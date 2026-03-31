@@ -9,7 +9,6 @@ export async function getAllWritingPrompts() {
 
   try {
     const prompts = await prisma.writingPrompt.findMany({
-      where: { active: true },
       orderBy: { difficultyLevel: "asc" }
     });
 
