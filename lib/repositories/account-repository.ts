@@ -38,7 +38,7 @@ function buildInviteToken(inviteCode: string, email: string) {
   return `${inviteCode}-${learnerCode || "LEARNER"}`;
 }
 
-function buildFallbackDisplayName(email: string) {
+export function buildFallbackDisplayName(email: string) {
   const localPart = normalizeEmail(email).split("@")[0] ?? "Learner";
   return localPart
     .split(/[._-]+/)

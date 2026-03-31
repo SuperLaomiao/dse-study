@@ -9,7 +9,7 @@ async function main() {
   const listeningCount = await prisma.listeningExercise.count()
   console.log('Listening exercises:', listeningCount)
   
-  const vocabCount = await prisma.vocabularyItem.count()
+  const vocabCount = await prisma.vocabulary.count()
   console.log('Vocabulary items:', vocabCount)
 }
 

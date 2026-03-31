@@ -89,7 +89,7 @@ export async function POST(
       role: invite.role === "learner" ? "learner" : "admin",
       email: user.email,
       name: user.displayName
-    }, response);
+    });
 
     return response;
   } catch (error) {
