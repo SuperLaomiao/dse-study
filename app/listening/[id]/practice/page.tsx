@@ -125,18 +125,19 @@ export default function ListeningPracticePage({ params }: PageProps) {
             <p className="text-sm text-muted-foreground mb-4">
               {t("watchVideo")}
             </p>
-            <div className="aspect-video w-full rounded-xl overflow-hidden border border-[rgba(35,64,43,0.1)]">
-              <iframe 
-                width="100%" 
-                height="100%" 
-                src={`https://www.youtube.com/embed/${exercise.youtubeId}?enablejsapi=1`}
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowFullScreen
-                className="aspect-video w-full"
-                title={exercise.title}
-              />
-            </div>
+             <div className="aspect-video w-full rounded-xl overflow-hidden border border-[rgba(35,64,43,0.1)]">
+               <iframe 
+                 width="100%" 
+                 height="100%" 
+                 src={`https://www.youtube-nocookie.com/embed/${exercise.youtubeId}?enablejsapi=1`}
+                 frameBorder="0" 
+                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                 allowFullScreen
+                 loading="lazy"
+                 className="aspect-video w-full"
+                 title={exercise.title}
+               />
+             </div>
           </Card>
         ) : exercise.audioUrl ? (
           <Card className="p-6 mb-8">

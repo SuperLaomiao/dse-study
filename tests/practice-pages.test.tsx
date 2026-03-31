@@ -52,15 +52,14 @@ describe("practice module pages", () => {
   });
 
   it("renders a richer writing training page", async () => {
-    render(await PracticeWritingPage());
+    // WritingListPage is a client component (not async), render directly
+    render(<PracticeWritingPage />);
 
-    expect(screen.getByRole("heading", { name: "写作" })).toBeInTheDocument();
-    expect(screen.getByText("训练面板")).toBeInTheDocument();
-    expect(screen.getByText("先结构，后草稿")).toBeInTheDocument();
-    expect(screen.getByText("草稿克制")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "查看复盘节奏" })).toHaveAttribute(
+    // Since it client-fetches prompts, we just check the heading and link
+    expect(await screen.findByRole("heading", { name: "写作练习" })).toBeInTheDocument();
+    expect(await screen.findByRole("link", { name: "返回" })).toHaveAttribute(
       "href",
-      "/review/biweekly"
+      "/practice"
     );
   });
 });

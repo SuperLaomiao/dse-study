@@ -1,9 +1,10 @@
 import OpenAI from "openai";
 import { getDataAccessMode } from "@/lib/db";
+import { env } from "@/lib/env";
 import type { WritingPrompt } from "@prisma/client";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || "",
+  apiKey: env.OPENAI_API_KEY || "",
   dangerouslyAllowBrowser: true,
 });
 
@@ -52,7 +53,7 @@ export async function gradeEssayWithAI(
   prompt: WritingPrompt,
   essay: string
 ): Promise<WritingGradingResult> {
-  if (getDataAccessMode() === "demo" || !process.env.OPENAI_API_KEY) {
+  if (getDataAccessMode() === "demo" || !env.OPENAI_API_KEY) {
     return getDemoGradingResult(essay);
   }
 

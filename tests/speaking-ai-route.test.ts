@@ -1,11 +1,17 @@
 import { describe, expect, it, vi } from "vitest";
 
+// Must stub environment variables before importing modules that use env validation
+vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost/db");
+vi.stubEnv("NODE_ENV", "test");
+vi.stubEnv("OPENAI_API_KEY", "");
+
 vi.mock("@/lib/speaking-ai", async () => {
   const actual = await vi.importActual<typeof import("@/lib/speaking-ai")>("@/lib/speaking-ai");
   return actual;
 });
 
-import { POST } from "@/app/api/ai/speaking-evaluate/route";
+// Dynamic import after stubbing
+const { POST } = await import("@/app/api/ai/speaking-evaluate/route");
 
 describe("speaking ai route", () => {
   it("returns a friendly configuration error when OPENAI_API_KEY is missing", async () => {

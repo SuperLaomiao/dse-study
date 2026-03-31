@@ -1,10 +1,11 @@
 import { getSpeakingApiUnavailableMessage, getSpeakingModeConfig, getSpeakingEvaluationSchema, isSpeakingMode, buildSpeakingEvaluationPrompt } from "@/lib/speaking-ai";
+import { env } from "@/lib/env";
 
 const TRANSCRIPTION_MODEL = "gpt-4o-mini-transcribe";
 const EVALUATION_MODEL = "gpt-4o-mini";
 
 export async function POST(request: Request) {
-  const apiKey = process.env.OPENAI_API_KEY?.trim();
+  const apiKey = env.OPENAI_API_KEY?.trim();
 
   if (!apiKey) {
     return Response.json(

@@ -1,6 +1,12 @@
-import { describe, it, expect } from "vitest";
-import { getDemoWritingPrompts, getDemoWritingPrompt } from "@/lib/data/writing";
-import { getDemoGradingResult } from "@/lib/services/writing-grading";
+import { describe, it, expect, vi } from "vitest";
+
+// Stub environment before importing any modules that use env validation
+vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost/db");
+vi.stubEnv("NODE_ENV", "test");
+
+// Dynamic import after stubbing
+const { getDemoWritingPrompts, getDemoWritingPrompt } = await import("@/lib/data/writing");
+const { getDemoGradingResult } = await import("@/lib/services/writing-grading");
 
 describe("writing data", () => {
   it("should return an expanded set of seeded writing prompts", () => {

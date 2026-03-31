@@ -53,11 +53,29 @@ export default function GrammarPracticePage() {
       return;
     }
 
-    // Store result and go to result
+    const isCorrect = userAnswer === question?.correctAnswer;
+
+    // Store result locally and save to database
     sessionStorage.setItem(`grammar-${questionId}-result`, JSON.stringify({
       userAnswer,
       correctAnswer: question?.correctAnswer,
     }));
+
+    // Submit to server for persistent storage
+    try {
+      await fetch("/api/grammar/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          questionId,
+          userAnswer,
+          isCorrect,
+        }),
+      });
+    } catch (err) {
+      console.error("Failed to save grammar practice result:", err);
+      // Don't block navigation - still go to result even if save fails
+    }
 
     router.push(`/grammar/${questionId}/result`);
   };

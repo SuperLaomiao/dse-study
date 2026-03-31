@@ -4,5 +4,9 @@ coverage
 *.log
 .DS_Store
 .superpowers
-.env.local
+.env
+.env*.local
 tsconfig.tsbuildinfo
+*.tmp
+tmp/
+output/

@@ -79,15 +79,17 @@ model FamilyMembership {
 }
 
 model FamilyInvite {
-  id          String     @id @default(uuid())
+  id          String    @id @default(uuid())
   familyId    String
   email       String
   role        FamilyRole @default(learner)
-  inviteToken String     @unique
+  inviteToken String    @unique
   expiresAt   DateTime
   acceptedAt  DateTime?
-  createdAt   DateTime   @default(now())
-  family      Family     @relation(fields: [familyId], references: [id])
+  createdAt   DateTime  @default(now())
+  family      Family   @relation(fields: [familyId], references: [id])
+
+  @@unique([familyId, email])
 }
 
 model LearnerProfile {
@@ -350,4 +352,6 @@ model UserGrammarPractice {
   completedAt       DateTime        @default(now())
   user              User            @relation(fields: [userId], references: [id])
   grammarQuestion   GrammarQuestion @relation(fields: [grammarQuestionId], references: [id])
+
+  @@unique([userId, grammarQuestionId])
 }

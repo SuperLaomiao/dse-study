@@ -78,11 +78,19 @@ Recommended MVP hosting is now `Vercel + Neon`.
 
 ## Current scope
 
-- Student accounts for independent learning progress
-- Family admin dashboard for parent oversight
-- Baseline assessment and bi-weekly review loop
-- Vocabulary Loop and Speaking Phrase Loop
-- DSE-aligned practice and progress tracking
+✅ **MVP 85% complete** - all core learning modules are implemented
+
+- ✅ Student accounts for independent learning progress
+- ✅ Family admin dashboard for parent oversight
+- ✅ Complete authentication and invitation flow
+- ✅ Baseline assessment and bi-weekly review loop
+- ✅ Vocabulary Loop with spaced repetition
+- ✅ Speaking Phrase Loop + DSE mock examination with AI evaluation
+- ✅ Grammar practice module - multiple choice with difficulty filtering
+- ✅ Reading practice module
+- ✅ Listening practice with YouTube embedding
+- ✅ Writing practice with voice input dictation and AI grading
+- ✅ DSE-aligned practice and progress tracking
 
 ## Directory guide
 

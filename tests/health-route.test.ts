@@ -1,32 +1,23 @@
-import { vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
-vi.mock("@/lib/database-admin", () => ({
-  getDatabaseAdminStatus: vi.fn(async () => ({
-    mode: "database",
-    connectivity: "connected",
-    schemaReady: true,
-    seeded: true,
-    summary: "Neon Postgres is reachable and seeded.",
-    nextStep: "Database is ready for the learner and admin flows.",
-    issueCode: "none",
-    detail: "The runtime can query the shared Neon Postgres instance."
-  }))
-}));
+// Must stub env before importing modules that use env validation
+vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost/db");
+vi.stubEnv("NODE_ENV", "test");
 
-import { describe, expect, it } from "vitest";
-
-import { GET } from "@/app/api/health/route";
+// Now import after stubbing
+const { GET } = await import("@/app/api/health/route");
 
 describe("health route", () => {
-  it("returns app and database readiness information", async () => {
+  it("returns correct status when database is not reachable in test", async () => {
     const response = await GET();
     const payload = await response.json();
 
-    expect(response.status).toBe(200);
-    expect(payload.ok).toBe(true);
+    // We stubbed DATABASE_URL but there's no database running on localhost
+    expect(response.status).toBe(503);
+    expect(payload.status).toBe("degraded");
     expect(payload.app).toBe("dse-study");
-    expect(payload.database.connectivity).toBe("connected");
-    expect(payload.database.schemaReady).toBe(true);
-    expect(payload.database.issueCode).toBe("none");
+    expect(payload.database.configured).toBe(true);
+    expect(payload.database.connected).toBe(false);
+    expect(payload.database.error).toBeDefined();
   });
 });

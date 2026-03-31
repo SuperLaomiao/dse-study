@@ -1,5 +1,15 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+// Mock getCurrentSession to avoid cookies() outside request scope error
+vi.mock('@/lib/auth/server', () => ({
+  getCurrentSession: () => ({
+    userId: 'demo-admin',
+    role: 'admin',
+    email: 'mom@example.com',
+    name: 'Mom Admin'
+  })
+}));
+
 afterEach(() => {
   vi.unstubAllEnvs();
   vi.resetModules();
@@ -182,9 +192,9 @@ describe("database-backed repositories", () => {
     const { getFamilyDashboardData } = await import("@/lib/repositories/family-repository");
     const data = await getFamilyDashboardData("zh");
 
-    expect(data.snapshot.familyLabel).toBe("家庭总览");
-    expect(data.learners[0]?.stage).toBe("中三");
-    expect(data.learners[0]?.track).toBe("基础衔接 DSE");
+     expect(data.snapshot.familyLabel).toBe("家庭总览");
+     expect(data.learners[0]?.stage).toBe("中三");
+     expect(data.learners[0]?.track).toBe("基础衔接 DSE");
   });
 
   it("localizes database-backed admin learner detail labels for chinese locale", async () => {
