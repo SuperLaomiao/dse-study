@@ -40,13 +40,13 @@ export default async function AdminSystemPage() {
                   </a>
                   <a
                     href="/admin/alerts"
-                    className="inline-flex items-center justify-center rounded-full border border-[rgba(255,250,243,0.42)] bg-[rgba(255,250,243,0.18)] px-4 py-2 text-sm font-semibold text-[#fff8ef] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] transition hover:-translate-y-[1px] hover:bg-[rgba(255,250,243,0.28)]"
+                    className="inline-flex items-center justify-center rounded-full border border-[rgba(255,250,243,0.7)] bg-[rgba(255,250,243,0.28)] px-4 py-2 text-sm font-semibold text-[var(--cream)] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] transition hover:-translate-y-[1px] hover:bg-[rgba(255,250,243,0.4)]"
                   >
                     {pickLocale(locale, { zh: "打开提醒看板", en: "Open Alerts Board" })}
                   </a>
                   <a
                     href="/api/health"
-                    className="inline-flex items-center justify-center rounded-full border border-[rgba(255,250,243,0.42)] bg-[rgba(255,250,243,0.18)] px-4 py-2 text-sm font-semibold text-[#fff8ef] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] transition hover:-translate-y-[1px] hover:bg-[rgba(255,250,243,0.28)]"
+                    className="inline-flex items-center justify-center rounded-full border border-[rgba(255,250,243,0.7)] bg-[rgba(255,250,243,0.28)] px-4 py-2 text-sm font-semibold text-[var(--cream)] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] transition hover:-translate-y-[1px] hover:bg-[rgba(255,250,243,0.4)]"
                   >
                     {pickLocale(locale, { zh: "打开健康检查", en: "Open Health Check" })}
                   </a>

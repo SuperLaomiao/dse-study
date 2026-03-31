@@ -87,7 +87,7 @@ export default async function PracticeHubPage() {
                 })()}
                 <a
                   href="/review/biweekly"
-                  className="inline-flex items-center justify-center rounded-full border border-[rgba(255,250,243,0.42)] bg-[rgba(255,250,243,0.18)] px-5 py-3 text-sm font-semibold text-[#fff8ef] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] transition hover:-translate-y-[1px] hover:bg-[rgba(255,250,243,0.28)]"
+                  className="inline-flex items-center justify-center rounded-full border border-[rgba(255,250,243,0.7)] bg-[rgba(255,250,243,0.28)] px-5 py-3 text-sm font-semibold text-[var(--cream)] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] transition hover:-translate-y-[1px] hover:bg-[rgba(255,250,243,0.4)]"
                 >
                   {pickLocale(locale, { zh: "查看复盘节奏", en: "See review rhythm" })}
                 </a>
