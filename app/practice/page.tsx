@@ -3,34 +3,44 @@ import { getDefaultLearner } from "@/lib/data/learner";
 import { pickLocale } from "@/lib/i18n/config";
 import { getRequestLocale } from "@/lib/i18n/server";
 
-const practiceLinks = {
+const practiceLinksZh = {
+  "词汇循环": "/vocabulary/practice",
+  "阅读": "/reading",
+  "听力": "/listening",
+  "口语短语循环": "/speaking/practice",
+  "写作": "/practice/writing"
+} as const;
+
+const practiceLinksEn = {
   "Vocabulary Loop": "/vocabulary/practice",
-  词汇循环: "/vocabulary/practice",
-  Reading: "/reading",
-  阅读: "/reading",
-  Listening: "/listening",
-  听力: "/listening",
+  "Reading": "/reading",
+  "Listening": "/listening",
   "Speaking Phrase Loop": "/speaking/practice",
-  口语短语循环: "/speaking/practice",
-  Writing: "/practice/writing"
+  "Writing": "/practice/writing"
 } as const;
 
 const practiceLabels = {
+  "词汇循环": "vocabulary",
+  "词汇循环en": "vocabulary",
+  "阅读": "reading",
+  "阅读en": "reading",
+  "听力": "listening",
+  "听力en": "listening",
+  "口语短语循环": "speaking",
+  "口语短语循环en": "speaking",
+  "写作": "writing",
   "Vocabulary Loop": "vocabulary",
-  词汇循环: "vocabulary",
-  Reading: "reading",
-  阅读: "reading",
-  Listening: "listening",
-  听力: "listening",
+  "Reading": "reading",
+  "Listening": "listening",
   "Speaking Phrase Loop": "speaking",
-  口语短语循环: "speaking",
-  Writing: "writing"
+  "Writing": "writing"
 } as const;
 
 export default async function PracticeHubPage() {
   const locale = await getRequestLocale();
   const learner = getDefaultLearner(locale);
   const recommendedTask = learner.dailyPlan[0];
+  const practiceLinks = locale === "zh" ? practiceLinksZh : practiceLinksEn;
 
   return (
     <PlaceholderPage
@@ -51,7 +61,7 @@ export default async function PracticeHubPage() {
                 {pickLocale(locale, { zh: "从今日队列继续", en: "Continue from today's queue" })}
               </p>
               <p className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
-                {recommendedTask?.title ?? "Vocabulary Loop"}
+                {recommendedTask?.title ?? (locale === "zh" ? "词汇循环" : "Vocabulary Loop"}
               </p>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-[rgba(255,250,243,0.84)]">
                 {recommendedTask?.detail ??
@@ -62,7 +72,7 @@ export default async function PracticeHubPage() {
               </p>
               <div className="mt-4 flex flex-wrap gap-3">
                 <a
-                  href={practiceLinks[recommendedTask?.title as keyof typeof practiceLinks] ?? "/practice/vocabulary"}
+                  href={recommendedTask ? practiceLinks[recommendedTask.title as keyof typeof practiceLinks] ?? "/vocabulary/practice"}
                   className="inline-flex items-center justify-center rounded-full border border-[rgba(255,250,243,0.62)] bg-[var(--cream)] px-5 py-3 text-sm font-semibold text-[#183321] shadow-[0_14px_28px_rgba(18,34,22,0.24)] transition hover:-translate-y-[1px] hover:bg-white"
                 >
                   {pickLocale(locale, { zh: "开始推荐模块", en: "Start recommended block" })}

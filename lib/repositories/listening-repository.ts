@@ -160,3 +160,8 @@ export async function groupExercisesByDifficulty(exercises: ListeningExerciseWit
 
   return grouped;
 }
+
+export function getDefaultLearnerLevel(): number {
+  // Get from learner profile in DB later, for now use 3 (intermediate) as default
+  return 3;
+}
