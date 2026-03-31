@@ -61,7 +61,7 @@ export default async function PracticeHubPage() {
                 {pickLocale(locale, { zh: "从今日队列继续", en: "Continue from today's queue" })}
               </p>
               <p className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
-                {recommendedTask?.title ?? (locale === "zh" ? "词汇循环" : "Vocabulary Loop"}
+                {recommendedTask?.title ?? (locale === "zh" ? "词汇循环" : "Vocabulary Loop")}
               </p>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-[rgba(255,250,243,0.84)]">
                 {recommendedTask?.detail ??
