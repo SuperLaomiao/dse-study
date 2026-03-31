@@ -256,6 +256,28 @@
       "overallScore": "总体得分"
     }
   },
+  "writing": {
+    "title": "写作练习",
+    "noPrompts": "暂无可用写作题目",
+    "startPractice": "开始练习",
+    "common.loading": "加载中...",
+    "common.goBack": "返回",
+    "yourEssay": "你的作文",
+    "permissionDenied": "麦克风权限被拒绝，请允许访问以继续",
+    "microphoneNotSupported": "你的浏览器不支持录音功能",
+    "startRecording": "开始录音",
+    "stopRecording": "停止录音",
+    "playing": "播放中...",
+    "playRecording": "播放录音",
+    "reRecord": "重新录音",
+    "transcribing": "转写文字中...",
+    "transcribe": "转写成文字",
+    "transcriptionFailed": "转写失败，请重试",
+    "backToList": "返回写作题目列表",
+    "submitEssay": "提交作文",
+    "submitting": "提交中...",
+    "submitted": "提交成功"
+  },
   "progress": {
     "learningProgress": "学习进度",
     "progressDetails": "进度详情",

@@ -256,6 +256,28 @@
       "overallScore": "Overall Score"
     }
   },
+  "writing": {
+    "title": "Writing Practice",
+    "noPrompts": "No writing prompts available",
+    "startPractice": "Start Practice",
+    "common.loading": "Loading...",
+    "common.goBack": "Go Back",
+    "yourEssay": "Your Essay",
+    "permissionDenied": "Microphone permission was denied. Please allow access to continue.",
+    "microphoneNotSupported": "Microphone recording is not supported in your browser.",
+    "startRecording": "Start Recording",
+    "stopRecording": "Stop Recording",
+    "playing": "Playing...",
+    "playRecording": "Play Recording",
+    "reRecord": "Record Again",
+    "transcribing": "Transcribing...",
+    "transcribe": "Transcribe to Text",
+    "transcriptionFailed": "Transcription failed, please try again",
+    "backToList": "Back to Prompt List",
+    "submitEssay": "Submit Essay",
+    "submitting": "Submitting...",
+    "submitted": "Submitted Successfully"
+  },
   "progress": {
     "learningProgress": "Learning Progress",
     "progressDetails": "Progress Details",

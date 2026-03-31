@@ -1,221 +1,384 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
+import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getDocumentLocale, useI18n } from "@/lib/i18n/client";
-import { WritingPrompt } from "@prisma/client";
+import { transcribeAudio } from "@/lib/speaking/openai-whisper";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
+import { Mic, Square, Play, Pause } from "lucide-react";
 
 export default function WritingPracticePage() {
-  const t = useI18n("writing");
-  const router = useRouter();
   const params = useParams();
   const promptId = params.id as string;
-  const locale = getDocumentLocale();
-
-  const [prompt, setPrompt] = useState<WritingPrompt | null>(null);
-  const [essay, setEssay] = useState("");
+  const t = useI18n("writing");
+  const [prompt, setPrompt] = useState<{
+    id: string;
+    title: string;
+    content: string;
+    difficultyLevel: number;
+    wordCountMin: number;
+    wordCountMax: number;
+    description: string | null;
+  } | null>(null);
+  const [userText, setUserText] = useState("");
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [finished, setFinished] = useState(false);
+  const locale = getDocumentLocale();
+  
+  // Recording state
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [transcribing, setTranscribing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
 
   useEffect(() => {
     async function loadPrompt() {
       try {
-        const res = await fetch("/api/writing/list");
-        const data = await res.json();
-        if (data.prompts) {
-          const found = data.prompts.find((p: WritingPrompt) => p.id === promptId);
-          setPrompt(found || null);
-        }
+        const response = await fetch(`/api/writing/prompt/${promptId}`);
+        const data = await response.json();
+        setPrompt(data.prompt);
       } catch (err) {
-        console.error("Error loading prompt:", err);
-        setError(t("promptNotFound"));
+        console.error("Failed to load prompt:", err);
+        setError("Failed to load writing prompt");
       } finally {
         setLoading(false);
       }
     }
-
     loadPrompt();
-  }, [promptId, t]);
+  }, [promptId]);
 
-  const countWords = (text: string): number => {
-    return text.trim().split(/\s+/).filter(word => word.length > 0).length;
-  };
-
-  const wordCount = countWords(essay);
-  const isWordCountValid = prompt 
-    ? wordCount >= prompt.wordCountMin && wordCount <= prompt.wordCountMax
-    : false;
-
-  const getWordCountColor = () => {
-    if (!prompt) return "text-[var(--text-muted)]";
-    if (wordCount < prompt.wordCountMin) return "text-orange-600";
-    if (wordCount > prompt.wordCountMax) return "text-orange-600";
-    return "text-green-600";
-  };
-
-  const getWordCountMessage = () => {
-    if (!prompt) return "";
-    if (wordCount < prompt.wordCountMin) {
-      return `${t("pleaseWriteAtLeast")} ${prompt.wordCountMin} ${t("words")}`;
+  function stopStream() {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
     }
-    if (wordCount > prompt.wordCountMax) {
-      return `${t("pleaseWriteAtMost")} ${prompt.wordCountMax} ${t("words")}`;
-    }
-    return t("withinRange");
-  };
+  }
 
-  const handleSubmit = async () => {
-    if (!prompt) return;
-    if (wordCount === 0) {
-      setError(t("yourEssayIsEmpty"));
-      return;
+  async function startRecording() {
+    setError(null);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      streamRef.current = stream;
+      
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      
+      const chunks: BlobPart[] = [];
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          chunks.push(e.data);
+        }
+      };
+      
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunks, { type: mediaRecorder.mimeType || 'audio/wav' });
+        setRecordedBlob(blob);
+      };
+      
+      mediaRecorder.start();
+      setIsRecording(true);
+    } catch (err: any) {
+      console.error("Error starting recording:", err);
+      if (err.name === "NotAllowedError") {
+        setError(t("permissionDenied"));
+      } else {
+        setError(t("microphoneNotSupported"));
+      }
     }
+  }
 
-    setSubmitting(true);
+  function stopRecording() {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+      stopStream();
+    }
+  }
+
+  function playRecording() {
+    if (!recordedBlob || !audioRef.current) return;
+    
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      const audioUrl = URL.createObjectURL(recordedBlob);
+      audioRef.current.src = audioUrl;
+      audioRef.current.play();
+      setIsPlaying(true);
+      
+      audioRef.current.onended = () => {
+        setIsPlaying(false);
+      };
+    }
+  }
+
+  async function processRecording() {
+    if (!recordedBlob) return;
+
+    setTranscribing(true);
     setError(null);
 
     try {
-      const res = await fetch("/api/writing/grade", {
+      // Send to API for transcription
+      const formData = new FormData();
+      const fileName = `recording-${Date.now()}.wav`;
+      formData.append('audio', recordedBlob, fileName);
+
+      const response = await fetch('/api/speaking/transcribe', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (result.success && result.text) {
+        // Append transcribed text to user text
+        setUserText(prev => {
+          if (prev) {
+            return prev + "\n\n" + result.text;
+          }
+          return result.text;
+        });
+        setRecordedBlob(null);
+      } else {
+        setError(result.error || t("transcriptionFailed"));
+      }
+    } catch (err) {
+      console.error("Transcription error:", err);
+      setError(t("transcriptionFailed"));
+    } finally {
+      setTranscribing(false);
+    }
+  }
+
+  async function submitEssay() {
+    if (!prompt || !userText.trim()) return;
+
+    setSubmitting(true);
+    try {
+      const response = await fetch("/api/writing/submit", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          promptId,
-          essay
+          promptId: prompt.id,
+          userEssay: userText
         })
       });
 
-      const data = await res.json();
-      if (data.success) {
-        // Store result in session storage for display on result page
-        sessionStorage.setItem(`writing_result_${promptId}`, JSON.stringify({
-          essay,
-          result: data.result
-        }));
-        router.push(`/writing/${promptId}/result`);
-      } else {
-        setError(data.error || "An error occurred");
-        setSubmitting(false);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Submission failed");
       }
+
+      setFinished(true);
     } catch (err) {
-      console.error("Error submitting essay:", err);
-      setError("Failed to submit essay. Please try again.");
+      console.error("Submission error:", err);
+      setError(err instanceof Error ? err.message : "Submission failed");
       setSubmitting(false);
     }
-  };
+  }
 
   if (loading) {
     return (
-      <div className="container max-w-4xl mx-auto px-4 py-8">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/2 mb-4"></div>
-          <div className="h-4 bg-gray-200 rounded w-3/4 mb-8"></div>
-          <div className="h-64 bg-gray-200 rounded mb-4"></div>
-        </div>
+      <div className="container mx-auto px-4 py-16 text-center">
+        <p className="text-muted-foreground">{t("common.loading")}</p>
       </div>
     );
   }
 
-  if (!prompt) {
+  if (error && !prompt) {
     return (
-      <div className="container max-w-4xl mx-auto px-4 py-8">
-        <div className="text-center py-12">
-          <h1 className="text-2xl font-semibold mb-2">{t("promptNotFound")}</h1>
-          <Link
-            href="/writing"
-            className="inline-flex items-center justify-center rounded-full bg-[var(--brand)] px-5 py-3 text-sm font-semibold text-[var(--cream)] mt-4"
-          >
-            {t("backToList")}
-          </Link>
-        </div>
+      <div className="container mx-auto px-4 py-16 max-w-2xl text-center">
+        <h2 className="text-xl font-semibold mb-4 text-destructive">{error}</h2>
+        <Button variant="outline" asChild>
+          <Link href="/practice/writing">{t("common.goBack")}</Link>
+        </Button>
+      </div>
+    );
+  }
+
+  if (finished) {
+    return (
+      <div className="container mx-auto px-4 py-16 max-w-3xl">
+        <Card className="p-8 text-center">
+          <h2 className="text-2xl font-bold mb-4">{t("submitted")}</h2>
+          <p className="text-muted-foreground mb-6">
+            {locale === "zh"
+              ? "你的作文已经提交，会在双周复盘时给出详细评分反馈。"
+              : "Your essay has been submitted. Detailed feedback will be given during bi-weekly review."
+            }
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Button variant="outline" asChild>
+              <Link href="/practice/writing">{t("backToList")}</Link>
+            </Button>
+            <Button asChild>
+              <Link href="/practice">{t("common.goBack")}</Link>
+            </Button>
+          </div>
+        </Card>
       </div>
     );
   }
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-8">
-      <header className="mb-6">
-        <div className="flex items-center gap-2 mb-2">
-          <Link
-            href="/writing"
-            className="text-sm text-[var(--text-muted)] hover:text-[var(--brand)]"
-          >
-            ← {t("backToList")}
-          </Link>
-        </div>
-        <h1 className="text-3xl font-bold tracking-tight text-[var(--foreground)] mb-2">
-          {prompt.title}
-        </h1>
-        <div className="flex flex-wrap gap-2 mt-3">
-          <span className="inline-block px-3 py-1 rounded-full bg-[var(--brand-soft)] text-[var(--brand-strong)] text-xs font-semibold">
-            {t(`part.${prompt.part}`)}
-          </span>
-          <span className="inline-block px-3 py-1 rounded-full bg-[var(--surface-soft)] text-[var(--text-muted)] text-xs font-semibold">
-            {t(`difficulty.${prompt.difficultyLevel}`)}
-          </span>
-          <span className="inline-block px-3 py-1 rounded-full bg-[var(--surface-soft)] text-[var(--text-muted)] text-xs font-semibold">
-            {t("wordCount")}: {prompt.wordCountMin}-{prompt.wordCountMax}
-          </span>
-        </div>
-      </header>
+    <div className="container mx-auto px-4 py-8 max-w-4xl">
+      {/* Hidden audio element for playback */}
+      <audio ref={audioRef} className="hidden" />
 
-      <section className="mb-6">
-        <div className="rounded-[24px] bg-[rgba(246,241,231,0.5)] p-6 border border-[rgba(114,95,63,0.08)]">
-          <h2 className="text-lg font-semibold mb-3 text-[var(--foreground)]">
-            {t("writingPrompt")}
-          </h2>
-          <p className="text-[var(--foreground)] whitespace-pre-line">
-            {prompt.content}
+      <Card className="p-8 mb-8">
+        <div className="mb-4 flex items-start justify-between">
+          <h1 className="text-3xl font-bold">{prompt?.title}</h1>
+          <Badge variant="secondary">
+            {prompt?.difficultyLevel}*
+          </Badge>
+        </div>
+
+        {prompt?.description && (
+          <div className="mb-6 p-4 bg-muted rounded-lg">
+            <p className="text-muted-foreground">{prompt.description}</p>
+          </div>
+        )}
+
+        <div className="mb-6">
+          <p className="font-medium mb-2">{locale === "zh" ? "题目要求" : "Prompt"}:</p>
+          <div className="p-6 bg-muted rounded-lg text-base leading-relaxed">
+            {prompt?.content}
+          </div>
+        </div>
+
+        <div className="mb-2 text-sm text-muted-foreground">
+          {locale === "zh"
+            ? `字数要求: ${prompt?.wordCountMin} - ${prompt?.wordCountMax} 词`
+            : `Word count: ${prompt?.wordCountMin} - ${prompt?.wordCountMax} words`
+          }
+        </div>
+      </Card>
+
+      <Card className="p-8 mb-8">
+        <h3 className="text-xl font-semibold mb-4">{t("yourEssay")}</h3>
+        
+        {/* Voice Recording */}
+        <div className="mb-6">
+          <p className="text-sm text-muted-foreground mb-4">
+            {locale === "zh"
+              ? "你可以直接录音口述作文，系统会自动转成文字。也可以直接在下面文本框输入。"
+              : "You can record your voice to automatically transcribe to text, or type directly in the textarea below."
+            }
           </p>
-          {prompt.description && (
-            <p className="mt-3 text-sm text-[var(--text-muted)] italic">
-              {prompt.description}
-            </p>
+
+          {error && (
+            <div className="mb-4 p-3 bg-destructive/10 text-destructive rounded-lg">
+              {error}
+            </div>
           )}
-        </div>
-      </section>
 
-      <section className="mb-6">
-        <div className="flex justify-between items-center mb-2">
-          <label className="text-lg font-semibold text-[var(--foreground)]">
-            {t("writeYourEssay")}
-          </label>
-          <span className={`text-sm font-medium ${getWordCountColor()}`}>
-            {t("current")}: {wordCount} {t("words")}
-            {wordCount > 0 && ` (${getWordCountMessage()})`}
-          </span>
+          <div className="flex flex-col gap-4 items-center">
+            {!isRecording && !recordedBlob && (
+              <Button
+                size="lg"
+                onClick={startRecording}
+                className="gap-2"
+              >
+                <Mic className="h-5 w-5" />
+                {t("startRecording")}
+              </Button>
+            )}
+
+            {isRecording && (
+              <Button
+                size="lg"
+                variant="destructive"
+                onClick={stopRecording}
+                className="gap-2 animate-pulse"
+              >
+                <Square className="h-5 w-5 fill-current" />
+                {t("stopRecording")}
+              </Button>
+            )}
+
+            {recordedBlob && (
+              <div className="flex gap-3 w-full justify-center">
+                <Button
+                  variant="secondary"
+                  onClick={playRecording}
+                  className="gap-2"
+                >
+                  {isPlaying ? (
+                    <>
+                      <Pause className="h-4 w-4" />
+                      {t("playing")}
+                    </>
+                  ) : (
+                    <>
+                      <Play className="h-4 w-4" />
+                      {t("playRecording")}
+                    </>
+                  )}
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setRecordedBlob(null);
+                    startRecording();
+                  }}
+                >
+                  {t("reRecord")}
+                </Button>
+              </div>
+            )}
+
+            {recordedBlob && !transcribing && (
+              <Button
+                size="lg"
+                onClick={processRecording}
+                disabled={transcribing}
+              >
+                {transcribing ? t("transcribing") : t("transcribe")}
+              </Button>
+            )}
+
+            {transcribing && (
+              <p className="text-sm text-muted-foreground animate-pulse">
+                {t("transcribing")}...
+              </p>
+            )}
+          </div>
         </div>
-        <textarea
-          value={essay}
-          onChange={(e) => setEssay(e.target.value)}
-          placeholder={t("writeYourEssay")}
-          className="w-full min-h-[400px] p-4 rounded-[20px] border border-[rgba(114,95,63,0.15)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand)] text-[var(--foreground)] resize-vertical"
+
+        <Textarea
+          value={userText}
+          onChange={(e) => setUserText(e.target.value)}
+          placeholder={locale === "zh"
+            ? "在这里输入你的作文，或者使用上方录音语音输入..."
+            : "Type your essay here, or use voice recording above..."
+          }
+          className="min-h-[300px] text-base leading-relaxed"
         />
-      </section>
+      </Card>
 
-      {error && (
-        <div className="mb-6 p-4 rounded-[16px] bg-red-50 border border-red-200 text-red-700">
-          {error}
-        </div>
-      )}
-
-      <div className="flex gap-4">
-        <Link
-          href="/writing"
-          className="inline-flex items-center justify-center rounded-full border border-[rgba(35,64,43,0.16)] bg-white/75 px-6 py-3 text-sm font-semibold text-[var(--brand-strong)] transition hover:bg-white"
+      <div className="flex justify-between">
+        <Button variant="outline" asChild>
+          <Link href="/practice/writing">{t("backToList")}</Link>
+        </Button>
+        <Button
+          onClick={submitEssay}
+          disabled={submitting || !userText.trim()}
+          size="lg"
         >
-          {locale === "zh" ? "取消" : "Cancel"}
-        </Link>
-        <button
-          onClick={handleSubmit}
-          disabled={submitting || !isWordCountValid}
-          className="inline-flex items-center justify-center rounded-full bg-[var(--brand)] px-8 py-3 text-sm font-semibold text-[var(--cream)] transition hover:bg-[var(--brand-strong)] disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {submitting ? t("submitting") : t("submitForGrading")}
-        </button>
+          {submitting ? t("submitting") : t("submitEssay")}
+        </Button>
       </div>
     </div>
   );
