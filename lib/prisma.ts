@@ -1,3 +1,7 @@
+// Import env first to ensure environment validation happens correctly
+// Only validates when DATABASE_URL exists
+import "@/lib/env";
+
 import { PrismaClient } from "@prisma/client";
 
 declare global {
