@@ -42,16 +42,16 @@ export default async function HomePage() {
                         })}
                     </p>
                   </div>
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
                     <a
                       href="/practice"
-                      className="inline-flex items-center justify-center rounded-full border border-[rgba(255,250,243,0.62)] bg-[var(--cream)] px-5 py-3 text-sm font-semibold text-[#183321] shadow-[0_14px_28px_rgba(18,34,22,0.24)] transition hover:-translate-y-[1px] hover:bg-white"
+                      className="inline-flex min-w-[148px] items-center justify-center rounded-full border border-[rgba(255,250,243,0.88)] bg-[var(--cream)] px-5 py-3 text-sm font-semibold text-[#173321] shadow-[0_16px_32px_rgba(18,34,22,0.28)] ring-1 ring-[rgba(23,51,33,0.08)] transition hover:-translate-y-[1px] hover:bg-[#fffdf9]"
                     >
                       {pickLocale(locale, { zh: "开始练习", en: "Start practice" })}
                     </a>
                     <a
                       href="/progress"
-                      className="inline-flex items-center justify-center rounded-full border border-[rgba(255,250,243,0.42)] bg-[rgba(255,250,243,0.18)] px-5 py-3 text-sm font-semibold text-[#fff8ef] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] transition hover:-translate-y-[1px] hover:bg-[rgba(255,250,243,0.28)]"
+                      className="inline-flex min-w-[148px] items-center justify-center rounded-full border border-[rgba(255,250,243,0.3)] bg-[rgba(14,30,18,0.26)] px-5 py-3 text-sm font-semibold text-[#fffaf3] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-sm transition hover:-translate-y-[1px] hover:bg-[rgba(14,30,18,0.36)]"
                     >
                       {pickLocale(locale, { zh: "查看进度", en: "Review progress" })}
                     </a>

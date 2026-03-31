@@ -64,13 +64,20 @@ describe("phase 0 app shell", () => {
   it("shows a richer learner learning snapshot on the home page", async () => {
     render(await HomePage());
 
+    const startPracticeLink = screen.getByRole("link", { name: "开始练习" });
+    const reviewProgressLink = screen.getByRole("link", { name: "查看进度" });
+
     expect(screen.getByRole("heading", { name: "哥哥" })).toBeInTheDocument();
     expect(screen.getByText("学习快照")).toBeInTheDocument();
     expect(screen.getByText("今天")).toBeInTheDocument();
     expect(screen.getByText("当前重点")).toBeInTheDocument();
     expect(screen.getByText("推断")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "开始练习" })).toHaveAttribute("href", "/practice");
-    expect(screen.getByRole("link", { name: "查看进度" })).toHaveAttribute("href", "/progress");
+    expect(startPracticeLink).toHaveAttribute("href", "/practice");
+    expect(reviewProgressLink).toHaveAttribute("href", "/progress");
+    expect(startPracticeLink.className).toContain("min-w-[148px]");
+    expect(startPracticeLink.className).toContain("text-[#173321]");
+    expect(reviewProgressLink.className).toContain("min-w-[148px]");
+    expect(reviewProgressLink.className).toContain("text-[#fffaf3]");
   });
 
   it("turns the practice hub into a real action surface", async () => {
