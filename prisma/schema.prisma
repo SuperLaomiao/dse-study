@@ -311,3 +311,15 @@ model BiWeeklyReview {
   user             User         @relation(fields: [userId], references: [id])
   learnerProfile   LearnerProfile @relation(fields: [learnerProfileId], references: [id])
 }
+
+model SpeakingMockQuestion {
+  id             String    @id @default(uuid())
+  questionNumber Int       // Question number in exam
+  prompt         String    // The question prompt/text
+  topic          String    // Topic category (e.g. "Education", "Environment")
+  preparationTime Int     // Preparation time in seconds
+  responseTime   Int       // Response time in seconds
+  active         Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
