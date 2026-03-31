@@ -68,7 +68,8 @@ export default async function PracticeHubPage() {
                   pickLocale(locale, {
                     zh: "把练习控制在一个窄而稳的循环里，这样下次复盘才能看到真实提升。",
                     en: "Stay inside one narrow practice loop so the next review can measure real lift."
-                  })}
+                  })
+                }
               </p>
               <div className="mt-4 flex flex-wrap gap-3">
                 <a
