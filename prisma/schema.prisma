@@ -187,15 +187,19 @@ model UserSpeakingPractice {
 
 model SpeakingRecording {
   id             String    @id @default(uuid())
-  userPracticeId String
+  userPracticeId String?   // For pattern practice recordings
+  questionId     String?   // For mock exam question recordings
   userId         String
-  audioUrl       String
+  audioData      Bytes?    // Raw audio data (for storage)
+  audioUrl       String?   // Optional URL if stored externally
   transcription  String?
   accuracyScore  Float?    // Word accuracy percentage
   stressScore    Float?    // Stress/intonation score
   overallScore   Float?    // Overall score
+  feedback       String?   // AI feedback text
+  prompt         String?   // Question prompt for mock exams
   createdAt      DateTime  @default(now())
-  userPractice   UserSpeakingPractice @relation(fields: [userPracticeId], references: [id])
+  userPractice   UserSpeakingPractice? @relation(fields: [userPracticeId], references: [id])
   user           User      @relation(fields: [userId], references: [id])
 }
 

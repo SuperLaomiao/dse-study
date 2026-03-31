@@ -1,10 +1,13 @@
 
 import { NextResponse } from "next/server";
-import { requireServerRole } from "@/lib/auth/server";
+import { getCurrentSession, requireServerRole } from "@/lib/auth/server";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(request: Request) {
-  await requireServerRole("learner");
+  const session = await getCurrentSession();
+  if (!session?.userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   try {
     const formData = await request.formData();
@@ -24,22 +27,19 @@ export async function POST(request: Request) {
     };
 
     // Save the recording to database
-    const session = await requireServerRole("learner");
-    if (session?.userId) {
-      const arrayBuffer = await audio.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-      
-      await prisma.speakingRecording.create({
-        data: {
-          userId: session.userId,
-          questionId,
-          prompt,
-          audioData: buffer,
-          overallScore: evaluation.overall,
-          feedback: evaluation.feedback
-        }
-      });
-    }
+    const arrayBuffer = await audio.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    
+    await prisma.speakingRecording.create({
+      data: {
+        userId: session.userId,
+        questionId,
+        prompt,
+        audioData: buffer,
+        overallScore: evaluation.overall,
+        feedback: evaluation.feedback
+      }
+    });
 
     return NextResponse.json({
       success: true,
