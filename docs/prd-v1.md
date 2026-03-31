@@ -87,7 +87,7 @@ It is a structured English growth system built around:
 ## 5. Product Principles
 
 - mobile-first by default
-- English-first UI
+- bilingual UI with simple Chinese/English switching
 - clear, calm, growth-oriented experience
 - DSE-specific where it matters most
 - modular systems over hard-coded flows
@@ -215,7 +215,9 @@ The vocabulary system includes:
 - listen
 - shadow
 - replay
+- pronunciation self-check gate before memory rating
 - meaning in context
+- bilingual example support with Chinese sentence translation
 - active recall
 - quick test
 - use-it task

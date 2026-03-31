@@ -11,6 +11,43 @@ export interface DemoVocabulary {
   updatedAt: Date;
 }
 
+const demoExampleSentenceTranslations: Record<string, string> = {
+  achieve: "他努力工作去实现自己的目标。",
+  appear: "太阳从云层后面出现了。",
+  benefit: "运动有益于你的健康。",
+  cause: "吸烟会导致严重的健康问题。",
+  chance: "这是你成功的大好机会。",
+  change: "气候变化影响着每一个人。",
+  choose: "你可以选择任何你喜欢的主题。",
+  connect: "这座桥连接着两座岛屿。",
+  consider: "请考虑一下我的建议。",
+  continue: "比赛将在雨停后继续进行。",
+  control: "你需要控制自己的脾气。",
+  develop: "我们需要开发新的技术。",
+  different: "我们对这个问题有不同的看法。",
+  difficult: "期末考试非常困难。",
+  effect: "这项新法律带来了积极影响。",
+  environment: "我们必须保护我们的环境。",
+  experience: "她有多年的教学经验。",
+  factor: "时间管理是一个重要因素。",
+  focus: "请专注于你的工作。",
+  future: "我们需要为未来做规划。",
+  adequate: "这项供应不足以满足需求。",
+  analyze: "我们需要认真分析这些数据。",
+  approach: "我们需要用新的方法处理这个问题。",
+  assess: "我们需要先评估一下情况。",
+  available: "这些资讯可以在网上找到。",
+  avoid: "你应该避免再犯同样的错误。",
+  challenge: "要勇敢面对你的挑战。",
+  concept: "这个概念很难理解。",
+  acquire: "他通过阅读获得了很多知识。",
+  alternative: "我们需要找到另一个替代方案。",
+};
+
+export function getDemoExampleSentenceTranslation(word: string): string | null {
+  return demoExampleSentenceTranslations[word.toLowerCase()] ?? null;
+}
+
 export const demoVocabulary: DemoVocabulary[] = [
   {
     id: "demo-1",

@@ -97,6 +97,8 @@ Tasks:
 - build vocabulary session UI
 - support audio play
 - support audio record and replay
+- gate rating actions until the learner has heard the model, recorded, replayed, and confirmed pronunciation
+- show Chinese translation under the example sentence
 - support recall and quick test interactions
 - store vocabulary mastery changes
 - generate spaced review schedule

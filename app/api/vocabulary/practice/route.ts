@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { resolveRouteUser } from '@/lib/api-auth';
 import { getDueToday, addWordToUser, getVocabularyByLevel, type VocabularyWithProgress } from '@/lib/data/vocabulary';
 import { getDefaultLearnerLevel } from '@/lib/data/learner';
+import { getDemoExampleSentenceTranslation } from '@/lib/demo-vocabulary';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -34,7 +35,12 @@ export async function GET(request: Request) {
       }
     }
 
-    return NextResponse.json({ words: result });
+    const words = result.map((word) => ({
+      ...word,
+      exampleSentenceTranslation: getDemoExampleSentenceTranslation(word.word),
+    }));
+
+    return NextResponse.json({ words });
   } catch (error) {
     console.error('Error getting practice words:', error);
     return NextResponse.json({ error: 'Failed to get practice words' }, { status: 500 });
