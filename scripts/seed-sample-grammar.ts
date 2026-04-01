@@ -127,7 +127,7 @@ async function main() {
         difficultyLevel: q.difficultyLevel,
         topic: q.topic,
       },
-    });
+    } as any);
   }
 
   console.log(`Seeded ${sampleGrammarQuestions.length} sample grammar questions`);
