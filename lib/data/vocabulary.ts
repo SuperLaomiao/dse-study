@@ -40,7 +40,6 @@ export const vocabularyMetadata: Record<string, VocabularyMetadata> = {
   challenge: { partOfSpeech: "noun", topic: "personal" },
   concept: { partOfSpeech: "noun", topic: "thinking" },
 };
-};
 
 const prisma = new PrismaClient();
 
